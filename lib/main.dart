@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
 
+import 'package:slowotok/screens/home_screen/home_screen.dart';
+
 void main() {
   runApp(
     MaterialApp(
-      title: 'Flutter App',
-      theme: ThemeData(
-        primaryColor: Colors.blue,
-      ),
-      home: const HomePage(),
+      title: 'Słowotok',
+      theme: ThemeData.dark().copyWith(
+          primaryColor: Colors.purple.shade700,
+          backgroundColor: Colors.purple.shade900,
+          textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+          ))),
+      home: const HomeScreen(),
     ),
   );
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-      ),
-      body: Container(),
-    );
-  }
 }
