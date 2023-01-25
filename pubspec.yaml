@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
@@ -26,3 +27,4 @@ flutter:
   assets:
     - assets/4_letter_words.txt
     - assets/5_letter_words.txt
+    - assets/6_letter_words.txt

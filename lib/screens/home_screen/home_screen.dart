@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import 'package:slowotok/screens/home_screen/widgets/word_length_picker.dart';
+import 'widgets/word_length_picker.dart';
+import 'widgets/menu_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -40,12 +42,16 @@ class HomeScreen extends StatelessWidget {
           body: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.purple.shade700, Colors.purple.shade900],
+                colors: [
+                  Colors.purple.shade700,
+                  Colors.purple.shade900,
+                ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -58,7 +64,24 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const WordLengthPicker()
+                const WordLengthPicker(),
+                const SizedBox(
+                  height: 40,
+                ),
+                MenuButton(
+                  text: 'Jak grać?',
+                  onPressed: () {},
+                ),
+                const Spacer(),
+                MenuButton(
+                  text: 'Wyjdź z aplikacji',
+                  onPressed: () {
+                    SystemNavigator.pop();
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                )
               ],
             ),
           ),

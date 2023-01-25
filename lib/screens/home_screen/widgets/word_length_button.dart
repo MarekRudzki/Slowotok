@@ -14,16 +14,12 @@ class WordLengthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: const ButtonStyle().copyWith(
-        backgroundColor: MaterialStateProperty.all(
-          Colors.green,
-        ),
+        backgroundColor: MaterialStateProperty.all(Colors.green),
       ),
       onPressed: onPressed,
       child: Text(
         length,
-        style: const TextStyle(
-          fontSize: 20,
-        ),
+        style: const TextStyle(fontSize: 20),
       ),
     );
   }

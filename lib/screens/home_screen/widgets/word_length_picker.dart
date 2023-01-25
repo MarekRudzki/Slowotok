@@ -1,10 +1,9 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:slowotok/screens/home_screen/widgets/word_length_button.dart';
-import 'package:slowotok/wordly_screen/wordly_screen.dart';
+import 'package:slowotok/services/words_provider.dart';
+import 'package:slowotok/screens/wordle_screen/wordle_screen.dart';
 
 class WordLengthPicker extends StatelessWidget {
   const WordLengthPicker({
@@ -13,19 +12,6 @@ class WordLengthPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<String> getRandomWord({required String wordLength}) async {
-      final lettersList = await DefaultAssetBundle.of(context)
-          .loadString('assets/${wordLength}_letter_words.txt');
-
-      final LineSplitter ls = const LineSplitter();
-      final List<String> convertedList = ls.convert(lettersList);
-
-      final random = Random();
-      final randomWord = convertedList[random.nextInt(convertedList.length)];
-
-      return randomWord;
-    }
-
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -62,12 +48,19 @@ class WordLengthPicker extends StatelessWidget {
                   WordLengthButton(
                     length: '4',
                     onPressed: () async {
-                      await getRandomWord(wordLength: '4').then(
+                      await Provider.of<WordsProvider>(context, listen: false)
+                          .getRandomWord(
+                        wordLength: '4',
+                        context: context,
+                      )
+                          .then(
                         (value) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  WordlyScreen(wordToGuess: value),
+                              builder: (context) => WordleScreen(
+                                wordToGuess: value,
+                                wordLength: 4,
+                              ),
                             ),
                           );
                         },
@@ -77,12 +70,19 @@ class WordLengthPicker extends StatelessWidget {
                   WordLengthButton(
                     length: '5',
                     onPressed: () async {
-                      await getRandomWord(wordLength: '5').then(
+                      await Provider.of<WordsProvider>(context, listen: false)
+                          .getRandomWord(
+                        wordLength: '5',
+                        context: context,
+                      )
+                          .then(
                         (value) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  WordlyScreen(wordToGuess: value),
+                              builder: (context) => WordleScreen(
+                                wordToGuess: value,
+                                wordLength: 5,
+                              ),
                             ),
                           );
                         },
@@ -91,11 +91,31 @@ class WordLengthPicker extends StatelessWidget {
                   ),
                   WordLengthButton(
                     length: '6',
-                    onPressed: () {},
+                    onPressed: () async {
+                      await Provider.of<WordsProvider>(context, listen: false)
+                          .getRandomWord(
+                        wordLength: '6',
+                        context: context,
+                      )
+                          .then(
+                        (value) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => WordleScreen(
+                                wordToGuess: value,
+                                wordLength: 6,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                   WordLengthButton(
                     length: '7',
-                    onPressed: () {},
+                    onPressed: () {
+                      //TODO finish 7-letter words
+                    },
                   ),
                 ],
               ),

@@ -58,7 +58,7 @@ linter:
     #
     # Dart SDK: >= 2.10.0-10.0.dev • (Linter v0.1.118)
     # http://dart-lang.github.io/linter/lints/always_use_package_imports.html
-    - always_use_package_imports
+    # - always_use_package_imports
 
     # Since dart 2.0 dart is a sound language, specifying types is not required anymore.
     # `var foo = 10;` is enough information for the compiler to make foo an int.
