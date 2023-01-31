@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slowotok/services/constants.dart';
 
 class WordLengthButton extends StatelessWidget {
   const WordLengthButton({
@@ -12,14 +13,24 @@ class WordLengthButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: const ButtonStyle().copyWith(
-        backgroundColor: MaterialStateProperty.all(Colors.green),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        length,
-        style: const TextStyle(fontSize: 20),
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        width: 44,
+        height: 54,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Constants.noLetterInWordColor,
+        ),
+        child: Center(
+          child: Text(
+            length,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }

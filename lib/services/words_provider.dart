@@ -70,7 +70,6 @@ class WordsProvider with ChangeNotifier {
 
     final random = Random();
     final randomWord = convertedList[random.nextInt(convertedList.length)];
-
     setCorrectWord(randomWord);
 
     return randomWord;

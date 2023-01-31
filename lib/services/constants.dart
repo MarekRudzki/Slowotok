@@ -6,4 +6,9 @@ class Constants {
   static const Color correctLetterColor = Color.fromARGB(255, 74, 222, 79);
   static const Color wrongLetterColor = Color.fromARGB(255, 225, 193, 51);
   static const Color noLetterInWordColor = Color.fromARGB(255, 97, 97, 97);
+
+  static const Color gradientBackgroundLighter =
+      Color.fromARGB(255, 92, 134, 193);
+  static const Color gradientBackgroundDarker =
+      Color.fromARGB(255, 59, 85, 129);
 }

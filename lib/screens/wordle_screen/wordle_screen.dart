@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../services/constants.dart';
 import '/services/words_provider.dart';
 import 'widgets/letters_grid.dart';
 import 'widgets/keyboard.dart';
@@ -84,9 +85,12 @@ class WordleScreen extends StatelessWidget {
           ),
           body: Container(
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.purple.shade700, Colors.purple.shade900],
+                colors: [
+                  Constants.gradientBackgroundLighter,
+                  Constants.gradientBackgroundDarker,
+                ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),

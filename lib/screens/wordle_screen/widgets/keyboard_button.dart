@@ -34,7 +34,7 @@ class KeyboardButton extends StatelessWidget {
                 ),
               ),
         content: isWinner
-            ? const Text('Udało Ci się odgadnąć słowo')
+            ? const Text('Udało Ci się odgadnąć hasło')
             : Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

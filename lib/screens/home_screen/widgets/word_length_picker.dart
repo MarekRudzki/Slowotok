@@ -16,132 +16,120 @@ class WordLengthPicker extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
       ),
-      child: Container(
-        padding: const EdgeInsets.all(
-          15,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: Colors.green,
-            width: 5,
+      child: Column(
+        children: [
+          const Center(
+            child: Text(
+              'Wybierz długość słowa',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            const Center(
-              child: Text(
-                'Wybierz długość słowa',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 10,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                WordLengthButton(
+                  length: '4',
+                  onPressed: () async {
+                    Provider.of<WordsProvider>(context, listen: false)
+                        .setWordLength(4);
+                    await Provider.of<WordsProvider>(context, listen: false)
+                        .getRandomWord(
+                      context: context,
+                    )
+                        .then(
+                      (value) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => WordleScreen(
+                              wordToGuess: value,
+                              wordLength: 4,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
-              ),
+                WordLengthButton(
+                  length: '5',
+                  onPressed: () async {
+                    Provider.of<WordsProvider>(context, listen: false)
+                        .setWordLength(5);
+                    await Provider.of<WordsProvider>(context, listen: false)
+                        .getRandomWord(
+                      context: context,
+                    )
+                        .then(
+                      (value) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => WordleScreen(
+                              wordToGuess: value,
+                              wordLength: 5,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                WordLengthButton(
+                  length: '6',
+                  onPressed: () async {
+                    Provider.of<WordsProvider>(context, listen: false)
+                        .setWordLength(6);
+                    await Provider.of<WordsProvider>(context, listen: false)
+                        .getRandomWord(
+                      context: context,
+                    )
+                        .then(
+                      (value) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => WordleScreen(
+                              wordToGuess: value,
+                              wordLength: 6,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                WordLengthButton(
+                  length: '7',
+                  onPressed: () async {
+                    Provider.of<WordsProvider>(context, listen: false)
+                        .setWordLength(7);
+                    await Provider.of<WordsProvider>(context, listen: false)
+                        .getRandomWord(
+                      context: context,
+                    )
+                        .then(
+                      (value) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => WordleScreen(
+                              wordToGuess: value,
+                              wordLength: 7,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  WordLengthButton(
-                    length: '4',
-                    onPressed: () async {
-                      Provider.of<WordsProvider>(context, listen: false)
-                          .setWordLength(4);
-                      await Provider.of<WordsProvider>(context, listen: false)
-                          .getRandomWord(
-                        context: context,
-                      )
-                          .then(
-                        (value) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => WordleScreen(
-                                wordToGuess: value,
-                                wordLength: 4,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  WordLengthButton(
-                    length: '5',
-                    onPressed: () async {
-                      Provider.of<WordsProvider>(context, listen: false)
-                          .setWordLength(5);
-                      await Provider.of<WordsProvider>(context, listen: false)
-                          .getRandomWord(
-                        context: context,
-                      )
-                          .then(
-                        (value) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => WordleScreen(
-                                wordToGuess: value,
-                                wordLength: 5,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  WordLengthButton(
-                    length: '6',
-                    onPressed: () async {
-                      Provider.of<WordsProvider>(context, listen: false)
-                          .setWordLength(6);
-                      await Provider.of<WordsProvider>(context, listen: false)
-                          .getRandomWord(
-                        context: context,
-                      )
-                          .then(
-                        (value) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => WordleScreen(
-                                wordToGuess: value,
-                                wordLength: 6,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  WordLengthButton(
-                    length: '7',
-                    onPressed: () async {
-                      Provider.of<WordsProvider>(context, listen: false)
-                          .setWordLength(7);
-                      await Provider.of<WordsProvider>(context, listen: false)
-                          .getRandomWord(
-                        context: context,
-                      )
-                          .then(
-                        (value) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => WordleScreen(
-                                wordToGuess: value,
-                                wordLength: 7,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

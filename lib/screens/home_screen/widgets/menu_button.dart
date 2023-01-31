@@ -14,7 +14,7 @@ class MenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
           color: Colors.green,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:slowotok/screens/home_screen/widgets/word_total_tries.dart';
+import 'package:slowotok/services/constants.dart';
 
 import 'widgets/word_length_picker.dart';
 import 'widgets/menu_button.dart';
@@ -40,11 +42,11 @@ class HomeScreen extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.purple.shade700,
-                  Colors.purple.shade900,
+                  Constants.gradientBackgroundLighter,
+                  Constants.gradientBackgroundDarker,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -55,33 +57,53 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Center(
-                    child: Placeholder(
-                      //TODO add app icon
-                      fallbackHeight: MediaQuery.of(context).size.height * 0.25,
-                      fallbackWidth: double.infinity,
-                      color: Colors.red,
+                  child: Material(
+                    color: Colors.transparent,
+                    elevation: 25,
+                    child: Center(
+                      child: Image.asset(
+                        'assets/icon.png',
+                      ),
                     ),
                   ),
                 ),
-                const WordLengthPicker(),
-                const SizedBox(
-                  height: 40,
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Container(
+                    padding: const EdgeInsets.all(
+                      15,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(
+                        color: Colors.green,
+                        width: 5,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        const WordLengthPicker(),
+                        const SizedBox(height: 15),
+                        const WordTotalTries(),
+                        const SizedBox(height: 20),
+                        MenuButton(
+                          text: 'Graj',
+                          onPressed: () {},
+                        )
+                      ],
+                    ),
+                  ),
                 ),
                 MenuButton(
                   text: 'Jak grać?',
                   onPressed: () {},
                 ),
-                const Spacer(),
                 MenuButton(
                   text: 'Wyjdź z aplikacji',
                   onPressed: () {
                     SystemNavigator.pop();
                   },
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                )
               ],
             ),
           ),
