@@ -48,9 +48,10 @@ class WordLengthPicker extends StatelessWidget {
                   WordLengthButton(
                     length: '4',
                     onPressed: () async {
+                      Provider.of<WordsProvider>(context, listen: false)
+                          .setWordLength(4);
                       await Provider.of<WordsProvider>(context, listen: false)
                           .getRandomWord(
-                        wordLength: '4',
                         context: context,
                       )
                           .then(
@@ -70,9 +71,10 @@ class WordLengthPicker extends StatelessWidget {
                   WordLengthButton(
                     length: '5',
                     onPressed: () async {
+                      Provider.of<WordsProvider>(context, listen: false)
+                          .setWordLength(5);
                       await Provider.of<WordsProvider>(context, listen: false)
                           .getRandomWord(
-                        wordLength: '5',
                         context: context,
                       )
                           .then(
@@ -92,9 +94,10 @@ class WordLengthPicker extends StatelessWidget {
                   WordLengthButton(
                     length: '6',
                     onPressed: () async {
+                      Provider.of<WordsProvider>(context, listen: false)
+                          .setWordLength(6);
                       await Provider.of<WordsProvider>(context, listen: false)
                           .getRandomWord(
-                        wordLength: '6',
                         context: context,
                       )
                           .then(
@@ -113,8 +116,25 @@ class WordLengthPicker extends StatelessWidget {
                   ),
                   WordLengthButton(
                     length: '7',
-                    onPressed: () {
-                      //TODO finish 7-letter words
+                    onPressed: () async {
+                      Provider.of<WordsProvider>(context, listen: false)
+                          .setWordLength(7);
+                      await Provider.of<WordsProvider>(context, listen: false)
+                          .getRandomWord(
+                        context: context,
+                      )
+                          .then(
+                        (value) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => WordleScreen(
+                                wordToGuess: value,
+                                wordLength: 7,
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     },
                   ),
                 ],

@@ -66,11 +66,11 @@ class KeyboardButton extends StatelessWidget {
               Provider.of<WordsProvider>(context, listen: false).restartWord();
               await Provider.of<WordsProvider>(context, listen: false)
                   .getRandomWord(
-                wordLength: '5', //TODO adjust this to other words length
-                context: context,
-              );
-
-              Navigator.of(context).pop();
+                    context: context,
+                  )
+                  .then(
+                    (_) => Navigator.of(context).pop(),
+                  );
             },
             child: const Text('Jeszcze raz!'),
           ),

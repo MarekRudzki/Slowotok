@@ -7,7 +7,7 @@ class WordsProvider with ChangeNotifier {
   List<bool> status = [false, false, false, false, false, false];
   List<String> guesses = ["", "", "", "", "", "", ""];
   String correctWord = '';
-  int wordLength = 5;
+  int wordLength = 0;
   bool completed = false;
   int index = 0;
 
@@ -49,13 +49,17 @@ class WordsProvider with ChangeNotifier {
     "Ł": 0,
   };
 
+  void setWordLength(int length) {
+    wordLength = length;
+    notifyListeners();
+  }
+
   void setCorrectWord(String word) {
     correctWord = word.toUpperCase();
     notifyListeners();
   }
 
   Future<String> getRandomWord({
-    required String wordLength,
     required BuildContext context,
   }) async {
     final lettersList = await DefaultAssetBundle.of(context)
@@ -116,12 +120,44 @@ class WordsProvider with ChangeNotifier {
         return 1;
       }
 
-      if (index == wordLength) {
-        letterController();
-        completed = true;
-        notifyListeners();
+      if (wordLength == 4) {
+        if (index == wordLength + 1) {
+          letterController();
+          completed = true;
+          notifyListeners();
 
-        return 3;
+          return 3;
+        }
+      }
+
+      if (wordLength == 5) {
+        if (index == wordLength) {
+          letterController();
+          completed = true;
+          notifyListeners();
+
+          return 3;
+        }
+      }
+
+      if (wordLength == 6) {
+        if (index == wordLength - 1) {
+          letterController();
+          completed = true;
+          notifyListeners();
+
+          return 3;
+        }
+      }
+
+      if (wordLength == 7) {
+        if (index == wordLength - 2) {
+          letterController();
+          completed = true;
+          notifyListeners();
+
+          return 3;
+        }
       }
       letterController();
       index++;

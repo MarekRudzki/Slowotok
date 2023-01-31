@@ -26,8 +26,11 @@ class LettersGrid extends StatelessWidget {
             const SingleLetter(index: 0, letterIndex: 3),
             if (wordLength == 4)
               const SizedBox.shrink()
-            else //TODO add 6 and 7 letter words handling
+            else
               const SingleLetter(index: 0, letterIndex: 4),
+            if (wordLength == 6 || wordLength == 7)
+              const SingleLetter(index: 0, letterIndex: 5),
+            if (wordLength == 7) const SingleLetter(index: 0, letterIndex: 6),
           ],
         ),
         Row(
@@ -42,6 +45,9 @@ class LettersGrid extends StatelessWidget {
               const SizedBox.shrink()
             else
               const SingleLetter(index: 1, letterIndex: 4),
+            if (wordLength == 6 || wordLength == 7)
+              const SingleLetter(index: 1, letterIndex: 5),
+            if (wordLength == 7) const SingleLetter(index: 1, letterIndex: 6),
           ],
         ),
         Row(
@@ -56,6 +62,9 @@ class LettersGrid extends StatelessWidget {
               const SizedBox.shrink()
             else
               const SingleLetter(index: 2, letterIndex: 4),
+            if (wordLength == 6 || wordLength == 7)
+              const SingleLetter(index: 2, letterIndex: 5),
+            if (wordLength == 7) const SingleLetter(index: 2, letterIndex: 6),
           ],
         ),
         Row(
@@ -70,6 +79,9 @@ class LettersGrid extends StatelessWidget {
               const SizedBox.shrink()
             else
               const SingleLetter(index: 3, letterIndex: 4),
+            if (wordLength == 6 || wordLength == 7)
+              const SingleLetter(index: 3, letterIndex: 5),
+            if (wordLength == 7) const SingleLetter(index: 3, letterIndex: 6),
           ],
         ),
         Row(
@@ -84,6 +96,9 @@ class LettersGrid extends StatelessWidget {
               const SizedBox.shrink()
             else
               const SingleLetter(index: 4, letterIndex: 4),
+            if (wordLength == 6 || wordLength == 7)
+              const SingleLetter(index: 4, letterIndex: 5),
+            if (wordLength == 7) const SingleLetter(index: 4, letterIndex: 6),
           ],
         ),
         Row(
@@ -98,6 +113,9 @@ class LettersGrid extends StatelessWidget {
               const SizedBox.shrink()
             else
               const SingleLetter(index: 5, letterIndex: 4),
+            if (wordLength == 6 || wordLength == 7)
+              const SingleLetter(index: 5, letterIndex: 5),
+            if (wordLength == 7) const SingleLetter(index: 5, letterIndex: 6),
           ],
         ),
       ],

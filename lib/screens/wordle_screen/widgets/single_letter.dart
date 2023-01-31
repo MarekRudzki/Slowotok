@@ -22,7 +22,7 @@ class SingleLetter extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 700),
         curve: Curves.easeIn,
-        width: 54,
+        width: 44,
         height: 54,
         child: Align(
           child: Text(
