@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../common_widgets/game_instructions.dart';
 import '../../services/constants.dart';
-import '/services/words_provider.dart';
+import '../../services/words_provider.dart';
 import 'widgets/letters_grid.dart';
 import 'widgets/keyboard.dart';
 
@@ -76,7 +77,12 @@ class WordleScreen extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                onPressed: () {}, //TODO showDialog with instructions
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const GameInstructions(),
+                  );
+                },
                 icon: const Icon(
                   Icons.info_outline,
                 ),

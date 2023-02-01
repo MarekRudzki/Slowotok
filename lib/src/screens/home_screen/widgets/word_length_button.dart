@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:slowotok/services/constants.dart';
+import 'package:slowotok/src/services/constants.dart';
 
 class WordLengthButton extends StatelessWidget {
   const WordLengthButton({

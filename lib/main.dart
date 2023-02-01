@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'screens/home_screen/home_screen.dart';
-import 'services/words_provider.dart';
+import 'src/screens/home_screen/home_screen.dart';
+import 'src/services/words_provider.dart';
 
 void main() {
   runApp(

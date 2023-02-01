@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slowotok/src/services/constants.dart';
 
 class MenuButton extends StatelessWidget {
   const MenuButton({
@@ -17,7 +18,7 @@ class MenuButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
-          color: Colors.green,
+          color: Constants.correctLetterColor,
         ),
         child: Text(
           text,

@@ -30,3 +30,6 @@ flutter:
     - assets/6_letter_words.txt
     - assets/7_letter_words.txt
     - assets/icon.png
+    - assets/letter_correct_place.png
+    - assets/letter_incorrect_place.png
+    - assets/no_letter_in_word.png

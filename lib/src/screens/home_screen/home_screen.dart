@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:slowotok/screens/home_screen/widgets/word_total_tries.dart';
-import 'package:slowotok/services/constants.dart';
+import 'package:slowotok/src/screens/home_screen/widgets/word_total_tries.dart';
+import 'package:slowotok/src/services/constants.dart';
 
+import '../../common_widgets/game_instructions.dart';
 import 'widgets/word_length_picker.dart';
 import 'widgets/menu_button.dart';
 
@@ -96,7 +97,12 @@ class HomeScreen extends StatelessWidget {
                 ),
                 MenuButton(
                   text: 'Jak grać?',
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const GameInstructions(),
+                    );
+                  },
                 ),
                 MenuButton(
                   text: 'Wyjdź z aplikacji',

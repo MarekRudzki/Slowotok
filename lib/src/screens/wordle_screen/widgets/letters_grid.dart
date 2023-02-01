@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:slowotok/screens/wordle_screen/widgets/single_letter.dart';
+import 'package:slowotok/src/screens/wordle_screen/widgets/single_letter.dart';
 
 class LettersGrid extends StatelessWidget {
   const LettersGrid({

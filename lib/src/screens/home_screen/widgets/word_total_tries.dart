@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:slowotok/screens/home_screen/widgets/word_length_button.dart';
+import 'package:slowotok/src/screens/home_screen/widgets/word_length_button.dart';
 
 class WordTotalTries extends StatelessWidget {
   const WordTotalTries({

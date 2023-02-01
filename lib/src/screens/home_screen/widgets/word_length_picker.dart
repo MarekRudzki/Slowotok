@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:slowotok/screens/home_screen/widgets/word_length_button.dart';
-import 'package:slowotok/services/words_provider.dart';
-import 'package:slowotok/screens/wordle_screen/wordle_screen.dart';
+import 'package:slowotok/src/screens/home_screen/widgets/word_length_button.dart';
+import 'package:slowotok/src/services/words_provider.dart';
+import 'package:slowotok/src/screens/wordle_screen/wordle_screen.dart';
 
 class WordLengthPicker extends StatelessWidget {
   const WordLengthPicker({
