@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:slowotok/src/screens/home_screen/widgets/word_total_tries.dart';
+import 'package:slowotok/src/screens/home_screen/widgets/start_game_button.dart';
+import 'package:slowotok/src/screens/home_screen/widgets/word_total_tries_picker.dart';
 import 'package:slowotok/src/services/constants.dart';
 
 import '../../common_widgets/game_instructions.dart';
@@ -20,8 +21,8 @@ class HomeScreen extends StatelessWidget {
 
   AlertDialog _buildExitDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Proszę potwierdź'),
-      content: const Text('Na pewno chcesz wyjść z aplikacji?'),
+      title: const Text('Na pewno?'),
+      content: const Text('Chcesz wyjść z aplikacji?'),
       backgroundColor: Theme.of(context).backgroundColor,
       actions: <Widget>[
         TextButton(
@@ -85,12 +86,9 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         const WordLengthPicker(),
                         const SizedBox(height: 15),
-                        const WordTotalTries(),
+                        const WordTotalTriesPicker(),
                         const SizedBox(height: 20),
-                        MenuButton(
-                          text: 'Graj',
-                          onPressed: () {},
-                        )
+                        const StartGameButton(),
                       ],
                     ),
                   ),

@@ -3,20 +3,20 @@ import 'package:provider/provider.dart';
 import 'package:slowotok/src/services/constants.dart';
 import 'package:slowotok/src/services/words_provider.dart';
 
-class WordLengthButton extends StatelessWidget {
-  const WordLengthButton({
+class WordTotalTriesButton extends StatelessWidget {
+  const WordTotalTriesButton({
     super.key,
-    required this.length,
+    required this.tries,
     required this.onPressed,
   });
 
-  final String length;
+  final String tries;
   final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
     final String selectedWordLength =
-        context.watch<WordsProvider>().wordLength.toString();
+        context.watch<WordsProvider>().selectedTotalTries.toString();
     return InkWell(
       onTap: onPressed,
       child: AnimatedContainer(
@@ -25,13 +25,13 @@ class WordLengthButton extends StatelessWidget {
         height: 54,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: selectedWordLength == length
+          color: selectedWordLength == tries
               ? Constants.correctLetterColor
               : Constants.noLetterInWordColor,
         ),
         child: Center(
           child: Text(
-            length,
+            tries,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

@@ -10,6 +10,7 @@ class WordsProvider with ChangeNotifier {
   int wordLength = 0;
   bool completed = false;
   int index = 0;
+  int selectedTotalTries = 0;
 
   Map<String, int> letters = {
     "Q": 0,
@@ -51,6 +52,11 @@ class WordsProvider with ChangeNotifier {
 
   void setWordLength(int length) {
     wordLength = length;
+    notifyListeners();
+  }
+
+  void setTotalTries(int tries) {
+    selectedTotalTries = tries;
     notifyListeners();
   }
 

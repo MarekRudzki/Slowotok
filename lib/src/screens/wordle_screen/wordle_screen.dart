@@ -22,8 +22,8 @@ class WordleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     AlertDialog _buildExitDialog(BuildContext context) {
       return AlertDialog(
-        title: const Text('Proszę potwierdź'),
-        content: const Text('Na pewno chcesz wyjść i opuścić te hasło?'),
+        title: const Text('Na pewno?'),
+        content: const Text('Chcesz wyjść i opuścić te hasło?'),
         backgroundColor: Theme.of(context).backgroundColor,
         actions: <Widget>[
           TextButton(

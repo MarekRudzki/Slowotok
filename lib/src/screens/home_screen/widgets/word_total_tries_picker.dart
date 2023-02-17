@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:slowotok/src/screens/home_screen/widgets/word_length_button.dart';
+import 'package:slowotok/src/screens/home_screen/widgets/word_total_tries_button.dart';
 import 'package:slowotok/src/services/words_provider.dart';
 
-class WordLengthPicker extends StatelessWidget {
-  const WordLengthPicker({
+class WordTotalTriesPicker extends StatelessWidget {
+  const WordTotalTriesPicker({
     super.key,
   });
 
@@ -19,7 +19,7 @@ class WordLengthPicker extends StatelessWidget {
         children: [
           const Center(
             child: Text(
-              'Wybierz długość słowa',
+              'Wybierz liczbę prób',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -33,32 +33,25 @@ class WordLengthPicker extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                WordLengthButton(
-                  length: '4',
+                WordTotalTriesButton(
+                  tries: '4',
                   onPressed: () async {
                     Provider.of<WordsProvider>(context, listen: false)
-                        .setWordLength(4);
+                        .setTotalTries(4);
                   },
                 ),
-                WordLengthButton(
-                  length: '5',
+                WordTotalTriesButton(
+                  tries: '5',
                   onPressed: () async {
                     Provider.of<WordsProvider>(context, listen: false)
-                        .setWordLength(5);
+                        .setTotalTries(5);
                   },
                 ),
-                WordLengthButton(
-                  length: '6',
+                WordTotalTriesButton(
+                  tries: '6',
                   onPressed: () async {
                     Provider.of<WordsProvider>(context, listen: false)
-                        .setWordLength(6);
-                  },
-                ),
-                WordLengthButton(
-                  length: '7',
-                  onPressed: () async {
-                    Provider.of<WordsProvider>(context, listen: false)
-                        .setWordLength(7);
+                        .setTotalTries(6);
                   },
                 ),
               ],
