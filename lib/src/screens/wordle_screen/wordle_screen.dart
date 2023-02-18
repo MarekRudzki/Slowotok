@@ -1,3 +1,4 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -8,7 +9,7 @@ import '../../services/words_provider.dart';
 import 'widgets/letters_grid.dart';
 import 'widgets/keyboard.dart';
 
-class WordleScreen extends StatelessWidget {
+class WordleScreen extends StatefulWidget {
   const WordleScreen({
     super.key,
     required this.wordToGuess,
@@ -19,7 +20,27 @@ class WordleScreen extends StatelessWidget {
   final int wordLength;
 
   @override
+  State<WordleScreen> createState() => _WordleScreenState();
+}
+
+class _WordleScreenState extends State<WordleScreen> {
+  bool isPlaying = false;
+  final controller = ConfettiController(
+    duration: const Duration(seconds: 2),
+  );
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final provider = context.watch<WordsProvider>();
+    if (provider.gameWon) {
+      controller.play();
+    }
     AlertDialog _buildExitDialog(BuildContext context) {
       return AlertDialog(
         title: const Text('Na pewno?'),
@@ -52,66 +73,80 @@ class WordleScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () => _onWillPop(context),
       child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).backgroundColor,
-            title: Text('Słowoku na $wordLength'),
-            centerTitle: true,
-            leading: IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => _buildExitDialog(context),
-                ).then((exit) => {
-                      if (exit as bool)
-                        {
-                          Provider.of<WordsProvider>(context, listen: false)
-                              .restartWord(),
-                          Navigator.of(context).pop(),
-                        }
-                    });
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => const GameInstructions(),
-                  );
-                },
-                icon: const Icon(
-                  Icons.info_outline,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Scaffold(
+              appBar: AppBar(
+                backgroundColor: Theme.of(context).backgroundColor,
+                title: Text('Słowoku na ${widget.wordLength}'),
+                centerTitle: true,
+                leading: IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => _buildExitDialog(context),
+                    ).then((exit) => {
+                          if (exit as bool)
+                            {
+                              Provider.of<WordsProvider>(context, listen: false)
+                                  .restartWord(),
+                              Navigator.of(context).pop(),
+                            }
+                        });
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          body: Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Constants.gradientBackgroundLighter,
-                  Constants.gradientBackgroundDarker,
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const GameInstructions(),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.info_outline,
+                    ),
+                  ),
                 ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+              ),
+              body: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Constants.gradientBackgroundLighter,
+                      Constants.gradientBackgroundDarker,
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    LettersGrid(
+                      wordLength: widget.wordLength,
+                    ),
+                    const Spacer(),
+                    const Keyboard(),
+                    const SizedBox(
+                      height: 30,
+                    )
+                  ],
+                ),
               ),
             ),
-            child: Column(
-              children: [
-                LettersGrid(
-                  wordLength: wordLength,
-                ),
-                const Spacer(),
-                const Keyboard(),
-                const Spacer(),
-              ],
-            ),
-          ),
+            ConfettiWidget(
+              confettiController: controller,
+              blastDirectionality: BlastDirectionality.explosive,
+              numberOfParticles: 30,
+              gravity: 0.15,
+              emissionFrequency: 0.1,
+            )
+          ],
         ),
       ),
     );

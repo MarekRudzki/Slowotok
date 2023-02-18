@@ -43,25 +43,20 @@ class SingleLetter extends StatelessWidget {
   }
 
   Color buildBackgroundColor(BuildContext context) {
-    if (context.watch<WordsProvider>().status[index] == false) {
+    final provider = context.watch<WordsProvider>();
+    final correctWord = context.watch<WordsProvider>().correctWord;
+
+    if (provider.status[index] == false) {
       return Constants.backgroundColor;
     } else {
-      if (context.watch<WordsProvider>().guesses[index][letterIndex] ==
-          context.watch<WordsProvider>().correctWord[letterIndex]) {
+      if (provider.guesses[index][letterIndex] == correctWord[letterIndex]) {
         return Constants.correctLetterColor;
       } else {
-        if (context.watch<WordsProvider>().correctWord.contains(
-            context.watch<WordsProvider>().guesses[index][letterIndex])) {
-          if (context.watch<WordsProvider>().correctWord[context
-                  .watch<WordsProvider>()
-                  .correctWord
-                  .indexOf(context.watch<WordsProvider>().guesses[index]
-                      [letterIndex])] ==
-              context.watch<WordsProvider>().guesses[index][context
-                  .watch<WordsProvider>()
-                  .correctWord
-                  .indexOf(context.watch<WordsProvider>().guesses[index]
-                      [letterIndex])]) {
+        if (correctWord.contains(provider.guesses[index][letterIndex])) {
+          if (correctWord[
+                  correctWord.indexOf(provider.guesses[index][letterIndex])] ==
+              provider.guesses[index]
+                  [correctWord.indexOf(provider.guesses[index][letterIndex])]) {
             return Constants.noLetterInWordColor;
           } else {
             return Constants.wrongLetterColor;

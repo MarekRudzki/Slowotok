@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:slowotok/src/screens/wordle_screen/widgets/single_letter.dart';
+import 'package:slowotok/src/services/words_provider.dart';
 
 class LettersGrid extends StatelessWidget {
   const LettersGrid({
@@ -11,6 +13,8 @@ class LettersGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int totalTries =
+        Provider.of<WordsProvider>(context, listen: false).selectedTotalTries;
     return Column(
       children: [
         const SizedBox(
@@ -84,40 +88,46 @@ class LettersGrid extends StatelessWidget {
             if (wordLength == 7) const SingleLetter(index: 3, letterIndex: 6),
           ],
         ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const SingleLetter(index: 4, letterIndex: 0),
-            const SingleLetter(index: 4, letterIndex: 1),
-            const SingleLetter(index: 4, letterIndex: 2),
-            const SingleLetter(index: 4, letterIndex: 3),
-            if (wordLength == 4)
-              const SizedBox.shrink()
-            else
-              const SingleLetter(index: 4, letterIndex: 4),
-            if (wordLength == 6 || wordLength == 7)
-              const SingleLetter(index: 4, letterIndex: 5),
-            if (wordLength == 7) const SingleLetter(index: 4, letterIndex: 6),
-          ],
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const SingleLetter(index: 5, letterIndex: 0),
-            const SingleLetter(index: 5, letterIndex: 1),
-            const SingleLetter(index: 5, letterIndex: 2),
-            const SingleLetter(index: 5, letterIndex: 3),
-            if (wordLength == 4)
-              const SizedBox.shrink()
-            else
-              const SingleLetter(index: 5, letterIndex: 4),
-            if (wordLength == 6 || wordLength == 7)
-              const SingleLetter(index: 5, letterIndex: 5),
-            if (wordLength == 7) const SingleLetter(index: 5, letterIndex: 6),
-          ],
-        ),
+        if (totalTries == 5 || totalTries == 6)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const SingleLetter(index: 4, letterIndex: 0),
+              const SingleLetter(index: 4, letterIndex: 1),
+              const SingleLetter(index: 4, letterIndex: 2),
+              const SingleLetter(index: 4, letterIndex: 3),
+              if (wordLength == 4)
+                const SizedBox.shrink()
+              else
+                const SingleLetter(index: 4, letterIndex: 4),
+              if (wordLength == 6 || wordLength == 7)
+                const SingleLetter(index: 4, letterIndex: 5),
+              if (wordLength == 7) const SingleLetter(index: 4, letterIndex: 6),
+            ],
+          )
+        else
+          const SizedBox.shrink(),
+        if (totalTries == 6)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const SingleLetter(index: 5, letterIndex: 0),
+              const SingleLetter(index: 5, letterIndex: 1),
+              const SingleLetter(index: 5, letterIndex: 2),
+              const SingleLetter(index: 5, letterIndex: 3),
+              if (wordLength == 4)
+                const SizedBox.shrink()
+              else
+                const SingleLetter(index: 5, letterIndex: 4),
+              if (wordLength == 6 || wordLength == 7)
+                const SingleLetter(index: 5, letterIndex: 5),
+              if (wordLength == 7) const SingleLetter(index: 5, letterIndex: 6),
+            ],
+          )
+        else
+          const SizedBox.shrink()
       ],
     );
   }

@@ -80,7 +80,7 @@ class KeyboardButton extends StatelessWidget {
 
     Future<void> showEndDialogWithDelay({required bool isWinner}) async {
       await Future.delayed(
-        const Duration(milliseconds: 1300),
+        const Duration(seconds: 2),
       );
       showDialog(
           barrierDismissible: false,

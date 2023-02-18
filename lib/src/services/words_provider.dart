@@ -9,6 +9,7 @@ class WordsProvider with ChangeNotifier {
   String correctWord = '';
   int wordLength = 0;
   bool completed = false;
+  bool gameWon = false;
   int index = 0;
   int selectedTotalTries = 0;
 
@@ -112,6 +113,7 @@ class WordsProvider with ChangeNotifier {
         letters[guesses[index][i]] = 1;
       }
     }
+
     notifyListeners();
   }
 
@@ -120,13 +122,14 @@ class WordsProvider with ChangeNotifier {
       status[index] = true;
       if (guesses[index] == correctWord) {
         completed = true;
+        gameWon = true;
         letterController();
         notifyListeners();
         return 1;
       }
 
       if (wordLength == 4) {
-        if (index == wordLength + 1) {
+        if (index == selectedTotalTries - 1) {
           letterController();
           completed = true;
           notifyListeners();
@@ -136,7 +139,7 @@ class WordsProvider with ChangeNotifier {
       }
 
       if (wordLength == 5) {
-        if (index == wordLength) {
+        if (index == selectedTotalTries - 1) {
           letterController();
           completed = true;
           notifyListeners();
@@ -146,7 +149,7 @@ class WordsProvider with ChangeNotifier {
       }
 
       if (wordLength == 6) {
-        if (index == wordLength - 1) {
+        if (index == selectedTotalTries - 1) {
           letterController();
           completed = true;
           notifyListeners();
@@ -156,7 +159,7 @@ class WordsProvider with ChangeNotifier {
       }
 
       if (wordLength == 7) {
-        if (index == wordLength - 2) {
+        if (index == selectedTotalTries - 1) {
           letterController();
           completed = true;
           notifyListeners();
@@ -178,6 +181,7 @@ class WordsProvider with ChangeNotifier {
     status = [false, false, false, false, false, false];
     guesses = ["", "", "", "", "", "", ""];
     completed = false;
+    gameWon = false;
     index = 0;
 
     letters = {
