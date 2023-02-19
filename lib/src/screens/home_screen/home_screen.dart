@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:slowotok/src/screens/home_screen/widgets/start_game_button.dart';
 import 'package:slowotok/src/screens/home_screen/widgets/word_total_tries_picker.dart';
+import 'package:slowotok/src/screens/stats_screen/stats_screen.dart';
 import 'package:slowotok/src/services/constants.dart';
 
 import '../../common_widgets/game_instructions.dart';
@@ -99,6 +100,16 @@ class HomeScreen extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) => const GameInstructions(),
+                    );
+                  },
+                ),
+                MenuButton(
+                  text: 'Statystyki',
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const StatsScreen(),
+                      ),
                     );
                   },
                 ),

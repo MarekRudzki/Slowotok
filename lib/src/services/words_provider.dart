@@ -2,16 +2,19 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class WordsProvider with ChangeNotifier {
+  final statsBox = Hive.box('statsBox');
+
   List<bool> status = [false, false, false, false, false, false];
   List<String> guesses = ["", "", "", "", "", "", ""];
+  int index = 0;
   String correctWord = '';
-  int wordLength = 0;
   bool completed = false;
   bool gameWon = false;
-  int index = 0;
   int selectedTotalTries = 0;
+  int wordLength = 0;
 
   Map<String, int> letters = {
     "Q": 0,

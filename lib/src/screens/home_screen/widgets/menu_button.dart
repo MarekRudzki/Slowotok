@@ -18,7 +18,7 @@ class MenuButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
-          color: Constants.correctLetterColor,
+          color: Constants.correctLetterColor.withOpacity(0.75),
         ),
         child: Text(
           text,

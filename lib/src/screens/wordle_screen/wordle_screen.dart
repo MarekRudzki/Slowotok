@@ -35,6 +35,7 @@ class _WordleScreenState extends State<WordleScreen> {
     super.dispose();
   }
 
+//TODO adjust alert dialog on game won and overall app appearance
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<WordsProvider>();
