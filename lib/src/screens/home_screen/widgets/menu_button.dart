@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:slowotok/src/services/constants.dart';
+
+import '../../../services/constants.dart';
 
 class MenuButton extends StatelessWidget {
   const MenuButton({

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:slowotok/src/services/constants.dart';
+
+import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../services/constants.dart';
 
 class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});

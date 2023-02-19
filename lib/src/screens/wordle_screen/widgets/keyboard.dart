@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:slowotok/src/screens/wordle_screen/widgets/keyboard_button.dart';
+import 'keyboard_button.dart';
 
 class Keyboard extends StatelessWidget {
   const Keyboard({super.key});

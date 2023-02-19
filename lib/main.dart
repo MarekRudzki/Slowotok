@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'src/screens/home_screen/home_screen.dart';
@@ -14,7 +14,7 @@ void main() async {
     ChangeNotifierProvider(
       create: (context) => WordsProvider(),
       child: MaterialApp(
-        title: 'Słowotok',
+        title: 'Słowoku',
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark().copyWith(
           primaryColor: Colors.purple.shade700,

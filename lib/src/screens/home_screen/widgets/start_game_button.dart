@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
-import 'package:slowotok/src/screens/wordle_screen/wordle_screen.dart';
-import 'package:slowotok/src/services/constants.dart';
-import 'package:slowotok/src/services/words_provider.dart';
+
+import '../../../services/words_provider.dart';
+import '../../../services/constants.dart';
+import '../../wordle_screen/wordle_screen.dart';
 
 class StartGameButton extends StatelessWidget {
   const StartGameButton({super.key});
@@ -10,9 +12,9 @@ class StartGameButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int wordLength = context.watch<WordsProvider>().wordLength;
-
     final int wordTotalTries =
         context.watch<WordsProvider>().selectedTotalTries;
+
     return InkWell(
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 800),

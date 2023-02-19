@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
-import 'package:slowotok/src/screens/home_screen/widgets/word_total_tries_button.dart';
-import 'package:slowotok/src/services/words_provider.dart';
+import '../../../services/words_provider.dart';
+import 'word_total_tries_button.dart';
 
 class WordTotalTriesPicker extends StatelessWidget {
   const WordTotalTriesPicker({

@@ -12,7 +12,10 @@ class GameInstructions extends StatelessWidget {
     return Dialog(
       backgroundColor: Constants.gradientBackgroundLighter,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15))),
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(13),
@@ -39,10 +42,11 @@ class GameInstructions extends StatelessWidget {
                     WidgetSpan(
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Constants.correctLetterColor,
-                            borderRadius: BorderRadius.circular(
-                              5,
-                            )),
+                          color: Constants.correctLetterColor,
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                        ),
                         child: const Icon(
                           Icons.keyboard_return_rounded,
                           color: Colors.white,

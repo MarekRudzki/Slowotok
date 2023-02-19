@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
-import 'package:slowotok/src/screens/wordle_screen/widgets/single_letter.dart';
-import 'package:slowotok/src/services/words_provider.dart';
+
+import '../../../services/words_provider.dart';
+import 'single_letter.dart';
 
 class LettersGrid extends StatelessWidget {
   const LettersGrid({
@@ -15,6 +17,7 @@ class LettersGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final int totalTries =
         Provider.of<WordsProvider>(context, listen: false).selectedTotalTries;
+
     return Column(
       children: [
         const SizedBox(

@@ -16,6 +16,8 @@ class KeyboardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<WordsProvider>(context, listen: false);
+
     AlertDialog showEndGameAlertDialog({
       required bool isWinner,
     }) {
@@ -41,7 +43,7 @@ class KeyboardButton extends StatelessWidget {
                   const Text('Niestety tym razem się nie udało.'),
                   const Text('Poszukiwane hasło to:'),
                   Text(
-                    Provider.of<WordsProvider>(context).correctWord,
+                    provider.correctWord,
                     style: const TextStyle(
                       color: Colors.green,
                     ),
@@ -51,7 +53,7 @@ class KeyboardButton extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              Provider.of<WordsProvider>(context, listen: false).restartWord();
+              provider.restartWord();
               Navigator.of(context).pop();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
@@ -63,8 +65,8 @@ class KeyboardButton extends StatelessWidget {
           ),
           TextButton(
             onPressed: () async {
-              Provider.of<WordsProvider>(context, listen: false).restartWord();
-              await Provider.of<WordsProvider>(context, listen: false)
+              provider.restartWord();
+              await provider
                   .getRandomWord(
                     context: context,
                   )
@@ -108,18 +110,16 @@ class KeyboardButton extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           if (buttonText == "ENTER") {
-            final int status =
-                await Provider.of<WordsProvider>(context, listen: false)
-                    .saveWord();
+            final int status = await provider.saveWord();
             if (status == 1) {
               await showEndDialogWithDelay(isWinner: true);
             } else if (status == 3) {
               await showEndDialogWithDelay(isWinner: false);
             }
           } else if (buttonText == "BACKSPACE") {
-            Provider.of<WordsProvider>(context, listen: false).deleteLetter();
+            provider.deleteLetter();
           } else {
-            Provider.of<WordsProvider>(context, listen: false).addLetter(
+            provider.addLetter(
               buttonText,
             );
           }

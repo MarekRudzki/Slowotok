@@ -1,7 +1,7 @@
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:confetti/confetti.dart';
 
 import '../../common_widgets/game_instructions.dart';
 import '../../services/constants.dart';
@@ -35,7 +35,7 @@ class _WordleScreenState extends State<WordleScreen> {
     super.dispose();
   }
 
-//TODO adjust alert dialog on game won and overall app appearance
+//TODO adjust alert dialog on game won and overall app UI appearance
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<WordsProvider>();
