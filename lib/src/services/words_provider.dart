@@ -86,6 +86,22 @@ class WordsProvider with ChangeNotifier {
     return randomWord;
   }
 
+  Future<bool> checkIfWordExists({
+    required String word,
+    required BuildContext context,
+  }) async {
+    final allWordsList =
+        await DefaultAssetBundle.of(context).loadString('assets/all_words.txt');
+
+    final LineSplitter ls = const LineSplitter();
+    final List<String> allWordsConvertedList = ls.convert(allWordsList);
+    if (allWordsConvertedList.contains(word)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   String getItem(int index, int letterIndex) {
     return guesses[index].length <= letterIndex
         ? ""
@@ -121,7 +137,25 @@ class WordsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<int> saveWord() async {
+  Future<int> saveWord({required BuildContext context}) async {
+    // word too short = status 1
+    // no word in dictionary = status 2
+    // game won = status 3
+    // game lost = status 4
+
+    if (guesses[index].length < correctWord.length) {
+      return 1;
+    }
+
+    final bool isWordCorrect = await checkIfWordExists(
+      word: guesses[index],
+      context: context,
+    );
+
+    if (!isWordCorrect) {
+      return 2;
+    }
+
     if (guesses[index].length == wordLength) {
       status[index] = true;
       if (guesses[index] == correctWord) {
@@ -129,7 +163,7 @@ class WordsProvider with ChangeNotifier {
         gameWon = true;
         letterController();
         notifyListeners();
-        return 1;
+        return 3;
       }
 
       if (wordLength == 4) {
@@ -138,7 +172,7 @@ class WordsProvider with ChangeNotifier {
           completed = true;
           notifyListeners();
 
-          return 3;
+          return 4;
         }
       }
 
@@ -148,7 +182,7 @@ class WordsProvider with ChangeNotifier {
           completed = true;
           notifyListeners();
 
-          return 3;
+          return 4;
         }
       }
 
@@ -158,7 +192,7 @@ class WordsProvider with ChangeNotifier {
           completed = true;
           notifyListeners();
 
-          return 3;
+          return 4;
         }
       }
 
@@ -168,7 +202,7 @@ class WordsProvider with ChangeNotifier {
           completed = true;
           notifyListeners();
 
-          return 3;
+          return 4;
         }
       }
       letterController();

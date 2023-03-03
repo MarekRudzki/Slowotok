@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../services/words_provider.dart';
 import '../../../services/constants.dart';
-import '../../home_screen/home_screen.dart';
+import 'end_game_alert_dialog.dart';
 
 class KeyboardButton extends StatelessWidget {
   const KeyboardButton({
@@ -18,76 +18,20 @@ class KeyboardButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<WordsProvider>(context, listen: false);
 
-    AlertDialog showEndGameAlertDialog({
-      required bool isWinner,
-    }) {
-      return AlertDialog(
-        title: isWinner
-            ? const Text(
-                'Gratulacje!',
-                style: TextStyle(
-                  color: Colors.green,
-                ),
-              )
-            : const Text(
-                'Próbuj dalej!',
-                style: TextStyle(
-                  color: Colors.yellow,
-                ),
-              ),
-        content: isWinner
-            ? const Text('Udało Ci się odgadnąć hasło')
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Niestety tym razem się nie udało.'),
-                  const Text('Poszukiwane hasło to:'),
-                  Text(
-                    provider.correctWord,
-                    style: const TextStyle(
-                      color: Colors.green,
-                    ),
-                  ),
-                ],
-              ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              provider.restartWord();
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
-                ),
-              );
-            },
-            child: const Text('Wyjdź do menu'),
-          ),
-          TextButton(
-            onPressed: () async {
-              provider.restartWord();
-              await provider
-                  .getRandomWord(
-                    context: context,
-                  )
-                  .then(
-                    (_) => Navigator.of(context).pop(),
-                  );
-            },
-            child: const Text('Jeszcze raz!'),
-          ),
-        ],
-      );
-    }
-
     Future<void> showEndDialogWithDelay({required bool isWinner}) async {
       await Future.delayed(
         const Duration(seconds: 2),
       );
-      showDialog(
+      if (context.mounted) {
+        showDialog(
           barrierDismissible: false,
           context: context,
-          builder: (context) => showEndGameAlertDialog(isWinner: isWinner));
+          builder: (context) => EndGameAlertDialog(
+            provider: provider,
+            isWinner: isWinner,
+          ),
+        );
+      }
     }
 
     return Container(
@@ -110,11 +54,41 @@ class KeyboardButton extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           if (buttonText == "ENTER") {
-            final int status = await provider.saveWord();
-            if (status == 1) {
+            final int status = await provider.saveWord(context: context);
+            if (status == 3) {
               await showEndDialogWithDelay(isWinner: true);
-            } else if (status == 3) {
+            } else if (status == 4) {
               await showEndDialogWithDelay(isWinner: false);
+            } else if (status == 1 || status == 2) {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red.shade400,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.30,
+                      right: MediaQuery.of(context).size.height * 0.10,
+                      left: MediaQuery.of(context).size.height * 0.10,
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    duration: const Duration(
+                      milliseconds: 1200,
+                    ),
+                    content: Text(
+                      status == 1 ? 'Niekompletne słowo' : 'Brak słowa w bazie',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                );
+              }
             }
           } else if (buttonText == "BACKSPACE") {
             provider.deleteLetter();

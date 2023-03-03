@@ -16,6 +16,7 @@ dependencies:
   confetti: ^0.7.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  another_flushbar: ^1.12.29
 
 dev_dependencies:
   flutter_test:
@@ -32,6 +33,7 @@ flutter:
     - assets/5_letter_words.txt
     - assets/6_letter_words.txt
     - assets/7_letter_words.txt
+    - assets/all_words.txt
     - assets/icon.png
     - assets/letter_correct_place.png
     - assets/letter_incorrect_place.png

@@ -35,7 +35,6 @@ class _WordleScreenState extends State<WordleScreen> {
     super.dispose();
   }
 
-//TODO adjust alert dialog on game won and overall app UI appearance
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<WordsProvider>();
@@ -46,7 +45,6 @@ class _WordleScreenState extends State<WordleScreen> {
       return AlertDialog(
         title: const Text('Na pewno?'),
         content: const Text('Chcesz wyjść i opuścić te hasło?'),
-        backgroundColor: Theme.of(context).backgroundColor,
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -79,7 +77,6 @@ class _WordleScreenState extends State<WordleScreen> {
           children: [
             Scaffold(
               appBar: AppBar(
-                backgroundColor: Theme.of(context).backgroundColor,
                 title: Text('Słowoku na ${widget.wordLength}'),
                 centerTitle: true,
                 leading: IconButton(

@@ -24,7 +24,6 @@ class HomeScreen extends StatelessWidget {
     return AlertDialog(
       title: const Text('Na pewno?'),
       content: const Text('Chcesz wyjść z aplikacji?'),
-      backgroundColor: Theme.of(context).backgroundColor,
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),

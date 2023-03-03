@@ -15,7 +15,6 @@ class StatsScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Statystyki'),
-          backgroundColor: Theme.of(context).backgroundColor,
           centerTitle: true,
         ),
         body: Container(
