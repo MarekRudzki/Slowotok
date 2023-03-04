@@ -2,11 +2,10 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:slowotok/src/services/hive_statistics.dart';
 
 class WordsProvider with ChangeNotifier {
-  final statsBox = Hive.box('statsBox');
+  final HiveStatistics _hiveStatistics = HiveStatistics();
 
   List<bool> status = [false, false, false, false, false, false];
   List<String> guesses = ["", "", "", "", "", "", ""];
@@ -159,6 +158,11 @@ class WordsProvider with ChangeNotifier {
     if (guesses[index].length == wordLength) {
       status[index] = true;
       if (guesses[index] == correctWord) {
+        await _hiveStatistics.addGameStatistics(
+          isWinner: true,
+          wordLength: wordLength,
+          totalTries: selectedTotalTries,
+        );
         completed = true;
         gameWon = true;
         letterController();
@@ -168,6 +172,11 @@ class WordsProvider with ChangeNotifier {
 
       if (wordLength == 4) {
         if (index == selectedTotalTries - 1) {
+          await _hiveStatistics.addGameStatistics(
+            isWinner: false,
+            wordLength: wordLength,
+            totalTries: selectedTotalTries,
+          );
           letterController();
           completed = true;
           notifyListeners();
@@ -178,6 +187,11 @@ class WordsProvider with ChangeNotifier {
 
       if (wordLength == 5) {
         if (index == selectedTotalTries - 1) {
+          await _hiveStatistics.addGameStatistics(
+            isWinner: false,
+            wordLength: wordLength,
+            totalTries: selectedTotalTries,
+          );
           letterController();
           completed = true;
           notifyListeners();
@@ -188,6 +202,11 @@ class WordsProvider with ChangeNotifier {
 
       if (wordLength == 6) {
         if (index == selectedTotalTries - 1) {
+          await _hiveStatistics.addGameStatistics(
+            isWinner: false,
+            wordLength: wordLength,
+            totalTries: selectedTotalTries,
+          );
           letterController();
           completed = true;
           notifyListeners();
@@ -198,6 +217,11 @@ class WordsProvider with ChangeNotifier {
 
       if (wordLength == 7) {
         if (index == selectedTotalTries - 1) {
+          await _hiveStatistics.addGameStatistics(
+            isWinner: false,
+            wordLength: wordLength,
+            totalTries: selectedTotalTries,
+          );
           letterController();
           completed = true;
           notifyListeners();
