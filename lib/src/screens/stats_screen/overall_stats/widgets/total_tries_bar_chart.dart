@@ -33,7 +33,7 @@ class TotalTriesBarChart extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.height * 0.25,
       width: MediaQuery.of(context).size.width * 0.42,
       child: BarChart(
         [

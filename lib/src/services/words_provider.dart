@@ -15,6 +15,14 @@ class WordsProvider with ChangeNotifier {
   bool gameWon = false;
   int selectedTotalTries = 0;
   int wordLength = 0;
+  String currentStatsSelected = 'Overall';
+
+  void setDisplayedStats({
+    required String statsType,
+  }) {
+    currentStatsSelected = statsType;
+    notifyListeners();
+  }
 
   Map<String, int> letters = {
     "Q": 0,

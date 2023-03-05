@@ -13,10 +13,8 @@ class OverallStatistics extends StatelessWidget {
   Widget build(BuildContext context) {
     final statsBox = Hive.box('statsBox');
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        const SizedBox(
-          height: 15,
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -41,6 +39,9 @@ class OverallStatistics extends StatelessWidget {
           height: 15,
         ),
         const WinLosePieChart(),
+        const SizedBox(
+          height: 45,
+        ),
         const Text(
           'Najczęściej wybierana:',
           style: TextStyle(

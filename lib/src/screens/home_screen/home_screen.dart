@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HiveStatistics hiveStatistics = HiveStatistics();
+    final HiveStatistics hiveStatistics = HiveStatistics();
 
     return WillPopScope(
       onWillPop: () => _onWillPop(context),

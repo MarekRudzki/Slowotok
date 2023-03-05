@@ -31,7 +31,7 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
     final int gamesWon = statsBox.get('game_won') as int;
     final int allGames = statsBox.get('game_counter') as int;
 
-    // Data to render.
+    // Data to render
     final List<_WinLoseStats> _data = [
       _WinLoseStats(
         status: 'Wygrane',
@@ -53,53 +53,46 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
       ),
     ];
 
-    return Expanded(
-      child: ListView(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: PieChart<String>(
-              [
-                Series<_WinLoseStats, String>(
-                  id: 'Win-lose stats',
-                  colorFn: (_WinLoseStats stats, _) => stats.color,
-                  domainFn: (_WinLoseStats stats, _) => stats.status,
-                  measureFn: (_WinLoseStats stats, _) => stats.counter,
-                  data: _data,
-                  labelAccessorFn: (_WinLoseStats stats, _) =>
-                      stats.counter.toString(),
-                  insideLabelStyleAccessorFn: (_WinLoseStats stats, _) =>
-                      stats.style,
-                ),
-              ],
-              animate: true,
-              animationDuration: const Duration(milliseconds: 850),
-              defaultRenderer: ArcRendererConfig(
-                arcRendererDecorators: [
-                  ArcLabelDecorator(
-                    leaderLineColor: const Color(r: 156, g: 39, b: 176),
-                    leaderLineStyleSpec: ArcLabelLeaderLineStyleSpec(
-                      color: const Color(r: 244, g: 67, b: 54),
-                      length: 20,
-                      thickness: 3,
-                    ),
-                    outsideLabelStyleSpec: const TextStyleSpec(
-                      fontSize: 15,
-                      color: Color.white,
-                    ),
-                  ),
-                ],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.28,
+      child: PieChart<String>(
+        [
+          Series<_WinLoseStats, String>(
+            id: 'Win-lose stats',
+            colorFn: (_WinLoseStats stats, _) => stats.color,
+            domainFn: (_WinLoseStats stats, _) => stats.status,
+            measureFn: (_WinLoseStats stats, _) => stats.counter,
+            data: _data,
+            labelAccessorFn: (_WinLoseStats stats, _) =>
+                stats.counter.toString(),
+            insideLabelStyleAccessorFn: (_WinLoseStats stats, _) => stats.style,
+          ),
+        ],
+        animate: true,
+        animationDuration: const Duration(milliseconds: 1300),
+        defaultRenderer: ArcRendererConfig(
+          arcRendererDecorators: [
+            ArcLabelDecorator(
+              leaderLineColor: const Color(r: 156, g: 39, b: 176),
+              leaderLineStyleSpec: ArcLabelLeaderLineStyleSpec(
+                color: const Color(r: 244, g: 67, b: 54),
+                length: 20,
+                thickness: 3,
               ),
-              behaviors: [
-                DatumLegend(
-                  position: BehaviorPosition.end,
-                  cellPadding: const EdgeInsets.only(right: 25, top: 35),
-                  outsideJustification: OutsideJustification.middleDrawArea,
-                  entryTextStyle: const TextStyleSpec(
-                    fontSize: 15,
-                  ),
-                ),
-              ],
+              outsideLabelStyleSpec: const TextStyleSpec(
+                fontSize: 15,
+                color: Color.white,
+              ),
+            ),
+          ],
+        ),
+        behaviors: [
+          DatumLegend(
+            position: BehaviorPosition.end,
+            cellPadding: const EdgeInsets.only(right: 25, top: 35),
+            outsideJustification: OutsideJustification.middleDrawArea,
+            entryTextStyle: const TextStyleSpec(
+              fontSize: 15,
             ),
           ),
         ],
