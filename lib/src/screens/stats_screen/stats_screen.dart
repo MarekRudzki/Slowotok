@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:slowotok/src/screens/stats_screen/widgets/games_won_pie_chart.dart';
-import 'package:slowotok/src/screens/stats_screen/widgets/total_tries_bar_chart.dart';
-import 'package:slowotok/src/screens/stats_screen/widgets/word_length_bar_chart.dart';
 
 import '../../services/constants.dart';
+import 'overall_stats/overall_statistics.dart';
 
 class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final statsBox = Hive.box('statsBox');
+    final int hasStats = statsBox.get('game_counter') as int;
 
     return SafeArea(
       child: Scaffold(
@@ -31,66 +31,73 @@ class StatsScreen extends StatelessWidget {
               end: Alignment.bottomCenter,
             ),
           ),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 15,
-              ),
-              const Text(
-                'Łączna liczba rozgrywek:',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Text(
-                  statsBox.get('game_counter').toString(),
-                  style: const TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const WinLosePieChart(),
-              const Text(
-                'Najczęściej wybierana:',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Text(
-                    'Długość słowa',
-                  ),
-                  const Text(
-                    'Liczba prób',
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: WordLengthBarChart(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TotalTriesBarChart(),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-            ],
+          child: Builder(
+            builder: (context) {
+              if (hasStats == 0) {
+                return Column(
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    const Text(
+                      'Brak statystyk!',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            'Zagraj',
+                            style: TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          'lub',
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            //TODO
+                          },
+                          child: const Text(
+                            'importuj',
+                            style: TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          'statystyki aby je wyświetlić.',
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                );
+              } else {
+                return const OverallStatistics();
+              }
+            },
           ),
         ),
       ),

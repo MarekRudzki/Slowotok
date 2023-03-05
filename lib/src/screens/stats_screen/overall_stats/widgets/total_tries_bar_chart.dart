@@ -1,6 +1,7 @@
 import 'package:charts_flutter_new/flutter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class _TotalTriesStats {
   final String tries;
@@ -15,16 +16,25 @@ class _TotalTriesStats {
 class TotalTriesBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final statsBox = Hive.box('statsBox');
     final data = [
-      _TotalTriesStats(tries: '4', count: 11),
-      _TotalTriesStats(tries: '5', count: 1),
-      _TotalTriesStats(tries: '6', count: 21),
-      _TotalTriesStats(tries: '7', count: 5),
+      _TotalTriesStats(
+        tries: '4',
+        count: statsBox.get('4_tries_game') as int,
+      ),
+      _TotalTriesStats(
+        tries: '5',
+        count: statsBox.get('5_tries_game') as int,
+      ),
+      _TotalTriesStats(
+        tries: '6',
+        count: statsBox.get('6_tries_game') as int,
+      ),
     ];
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.3,
-      width: MediaQuery.of(context).size.width * 0.45,
+      width: MediaQuery.of(context).size.width * 0.42,
       child: BarChart(
         [
           Series<_TotalTriesStats, String>(

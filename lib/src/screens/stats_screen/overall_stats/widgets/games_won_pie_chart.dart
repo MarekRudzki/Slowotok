@@ -28,7 +28,7 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
   @override
   Widget build(BuildContext context) {
     final statsBox = Hive.box('statsBox');
-    final int gamesWon = statsBox.get('games_won') as int;
+    final int gamesWon = statsBox.get('game_won') as int;
     final int allGames = statsBox.get('game_counter') as int;
 
     // Data to render.
@@ -76,7 +76,18 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
               animationDuration: const Duration(milliseconds: 850),
               defaultRenderer: ArcRendererConfig(
                 arcRendererDecorators: [
-                  ArcLabelDecorator(),
+                  ArcLabelDecorator(
+                    leaderLineColor: const Color(r: 156, g: 39, b: 176),
+                    leaderLineStyleSpec: ArcLabelLeaderLineStyleSpec(
+                      color: const Color(r: 244, g: 67, b: 54),
+                      length: 20,
+                      thickness: 3,
+                    ),
+                    outsideLabelStyleSpec: const TextStyleSpec(
+                      fontSize: 15,
+                      color: Color.white,
+                    ),
+                  ),
                 ],
               ),
               behaviors: [

@@ -1,6 +1,7 @@
 import 'package:charts_flutter_new/flutter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class _WordLengthStats {
   final String length;
@@ -17,32 +18,33 @@ class _WordLengthStats {
 class WordLengthBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final statsBox = Hive.box('statsBox');
     final data = [
       _WordLengthStats(
         length: '4',
-        count: 1,
+        count: statsBox.get('4_letter_game') as int,
         color: const Color(r: 76, g: 175, b: 80),
       ),
       _WordLengthStats(
         length: '5',
-        count: 5,
+        count: statsBox.get('5_letter_game') as int,
         color: const Color(r: 76, g: 175, b: 80),
       ),
       _WordLengthStats(
         length: '6',
-        count: 4,
+        count: statsBox.get('6_letter_game') as int,
         color: const Color(r: 76, g: 175, b: 80),
       ),
       _WordLengthStats(
         length: '7',
-        count: 12,
+        count: statsBox.get('7_letter_game') as int,
         color: const Color(r: 76, g: 175, b: 80),
       ),
     ];
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.3,
-      width: MediaQuery.of(context).size.width * 0.45,
+      width: MediaQuery.of(context).size.width * 0.48,
       child: BarChart(
         [
           Series<_WordLengthStats, String>(

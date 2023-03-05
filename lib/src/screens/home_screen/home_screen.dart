@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../common_widgets/game_instructions.dart';
 import '../../services/constants.dart';
+import '../../services/hive_statistics.dart';
 import '../stats_screen/stats_screen.dart';
 import 'widgets/word_total_tries_picker.dart';
 import 'widgets/word_length_picker.dart';
@@ -39,6 +40,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HiveStatistics hiveStatistics = HiveStatistics();
+
     return WillPopScope(
       onWillPop: () => _onWillPop(context),
       child: SafeArea(
@@ -54,71 +57,76 @@ class HomeScreen extends StatelessWidget {
                 end: Alignment.bottomCenter,
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Material(
-                    color: Colors.transparent,
-                    elevation: 25,
-                    child: Center(
-                      child: Image.asset(
-                        'assets/icon.png',
+            child: FutureBuilder(
+              future: hiveStatistics.checkForStatistics(),
+              builder: (context, snapshot) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Material(
+                        color: Colors.transparent,
+                        elevation: 25,
+                        child: Center(
+                          child: Image.asset(
+                            'assets/icon.png',
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Container(
-                    padding: const EdgeInsets.all(
-                      15,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                        color: Colors.green,
-                        width: 5,
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Container(
+                        padding: const EdgeInsets.all(
+                          15,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Colors.green,
+                            width: 5,
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            const WordLengthPicker(),
+                            const SizedBox(height: 15),
+                            const WordTotalTriesPicker(),
+                            const SizedBox(height: 20),
+                            const StartGameButton(),
+                          ],
+                        ),
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        const WordLengthPicker(),
-                        const SizedBox(height: 15),
-                        const WordTotalTriesPicker(),
-                        const SizedBox(height: 20),
-                        const StartGameButton(),
-                      ],
+                    MenuButton(
+                      text: 'Jak grać?',
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const GameInstructions(),
+                        );
+                      },
                     ),
-                  ),
-                ),
-                MenuButton(
-                  text: 'Jak grać?',
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => const GameInstructions(),
-                    );
-                  },
-                ),
-                MenuButton(
-                  text: 'Statystyki',
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const StatsScreen(),
-                      ),
-                    );
-                  },
-                ),
-                MenuButton(
-                  text: 'Wyjdź z aplikacji',
-                  onPressed: () {
-                    SystemNavigator.pop();
-                  },
-                ),
-              ],
+                    MenuButton(
+                      text: 'Statystyki',
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const StatsScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    MenuButton(
+                      text: 'Wyjdź z aplikacji',
+                      onPressed: () {
+                        SystemNavigator.pop();
+                      },
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
