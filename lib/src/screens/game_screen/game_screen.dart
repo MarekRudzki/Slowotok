@@ -42,18 +42,43 @@ class _WordleScreenState extends State<WordleScreen> {
       controller.play();
     }
     AlertDialog _buildExitDialog(BuildContext context) {
+      final bool gameLostAtExit = provider.gameLostAtExit();
       return AlertDialog(
         title: const Text('Na pewno?'),
-        content: const Text('Chcesz wyjść i opuścić te hasło?'),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Chcesz wyjść i opuścić te hasło?'),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              gameLostAtExit
+                  ? 'Podjęto próbę rozwiązania hasła - gra zostanie zaliczona jako przegrana.'
+                  : 'Gra nie zostanie zaliczona jako przegrana.',
+              style: const TextStyle(
+                color: Color.fromARGB(255, 225, 193, 51),
+              ),
+            )
+          ],
+        ),
+        contentPadding: const EdgeInsets.fromLTRB(25, 15, 10, 0),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
             child: const Text('Nie'),
           ),
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-              Provider.of<WordsProvider>(context, listen: false).restartWord();
+            onPressed: () async {
+              if (gameLostAtExit) {
+                provider.markGameAsLost();
+              }
+              if (context.mounted) {
+                Navigator.of(context).pop(true);
+                Provider.of<WordsProvider>(context, listen: false)
+                    .restartWord();
+              }
             },
             child: const Text('Tak'),
           ),

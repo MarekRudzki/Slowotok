@@ -62,6 +62,28 @@ class WordsProvider with ChangeNotifier {
     "Ł": 0,
   };
 
+  bool gameLostAtExit() {
+    int guessesUsed = 0;
+    for (final String guess in guesses) {
+      if (guess.isNotEmpty) {
+        guessesUsed++;
+      }
+    }
+    if (guessesUsed >= 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<void> markGameAsLost() async {
+    await _hiveStatistics.addGameStatistics(
+      isWinner: false,
+      wordLength: wordLength,
+      totalTries: selectedTotalTries,
+    );
+  }
+
   void setWordLength(int length) {
     wordLength = length;
     notifyListeners();
