@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../services/words_provider.dart';
 import '../../../services/constants.dart';
-import '../../wordle_screen/wordle_screen.dart';
+import '../../game_screen/game_screen.dart';
 
 class StartGameButton extends StatelessWidget {
   const StartGameButton({super.key});

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'widgets/games_won_pie_chart.dart';
 import 'widgets/total_tries_bar_chart.dart';
 import 'widgets/word_length_bar_chart.dart';
+import 'widgets/games_won_pie_chart.dart';
 
 class OverallStatistics extends StatelessWidget {
   const OverallStatistics({super.key});
@@ -13,7 +13,6 @@ class OverallStatistics extends StatelessWidget {
   Widget build(BuildContext context) {
     final statsBox = Hive.box('statsBox');
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -30,7 +29,7 @@ class OverallStatistics extends StatelessWidget {
               style: TextStyle(
                 fontSize: 21,
                 fontWeight: FontWeight.bold,
-                color: Colors.purple.shade700,
+                color: Colors.green.shade400,
               ),
             ),
           ],
