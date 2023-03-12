@@ -7,7 +7,8 @@ import '../../services/words_provider.dart';
 import '../../services/constants.dart';
 import 'detailed_stats/detailed_statistics.dart';
 import 'overall_stats/overall_statistics.dart';
-import 'stats_type_picker.dart';
+import 'widgets/statistics_options.dart';
+import 'widgets/stats_type_picker.dart';
 import 'no_statistics.dart';
 
 class StatsScreen extends StatelessWidget {
@@ -16,11 +17,12 @@ class StatsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statsBox = Hive.box('statsBox');
-    final int hasStats = statsBox.get('game_counter') as int;
 
     return SafeArea(
       child: Consumer<WordsProvider>(
         builder: (context, wordsProvider, _) {
+          final int gamesPlayed = statsBox.get('game_counter') as int;
+
           return Scaffold(
             appBar: AppBar(
               title: const Text('Statystyki'),
@@ -34,6 +36,9 @@ class StatsScreen extends StatelessWidget {
                   Icons.arrow_back,
                 ),
               ),
+              actions: [
+                StatisticsOptions(wordsProvider: wordsProvider),
+              ],
             ),
             body: Container(
               width: double.infinity,
@@ -49,7 +54,7 @@ class StatsScreen extends StatelessWidget {
               ),
               child: Builder(
                 builder: (context) {
-                  if (hasStats == 0) {
+                  if (gamesPlayed == 0) {
                     return const NoStatistics();
                   } else {
                     return Column(

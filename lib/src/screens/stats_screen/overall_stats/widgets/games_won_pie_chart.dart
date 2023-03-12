@@ -75,7 +75,9 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
             ArcLabelDecorator(
               leaderLineColor: const Color(r: 156, g: 39, b: 176),
               leaderLineStyleSpec: ArcLabelLeaderLineStyleSpec(
-                color: const Color(r: 244, g: 67, b: 54),
+                color: gamesWon > (allGames - gamesWon)
+                    ? const Color(r: 244, g: 67, b: 54)
+                    : const Color(r: 76, g: 175, b: 80),
                 length: 20,
                 thickness: 3,
               ),

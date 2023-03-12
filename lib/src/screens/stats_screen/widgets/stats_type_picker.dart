@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../services/words_provider.dart';
+import '../../../services/words_provider.dart';
 
 class StatsTypePicker extends StatelessWidget {
   const StatsTypePicker({

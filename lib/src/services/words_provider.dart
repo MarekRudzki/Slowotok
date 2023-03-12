@@ -62,14 +62,13 @@ class WordsProvider with ChangeNotifier {
     "Ł": 0,
   };
 
+  Future<void> resetStatistics() async {
+    await _hiveStatistics.setInitialStats();
+    notifyListeners();
+  }
+
   bool gameLostAtExit() {
-    int guessesUsed = 0;
-    for (final String guess in guesses) {
-      if (guess.isNotEmpty) {
-        guessesUsed++;
-      }
-    }
-    if (guessesUsed >= 1) {
+    if (status[0] == true) {
       return true;
     } else {
       return false;
