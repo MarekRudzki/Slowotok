@@ -10,4 +10,9 @@ class Constants {
       Color.fromARGB(255, 92, 134, 193);
   static const Color gradientBackgroundDarker =
       Color.fromARGB(255, 59, 85, 129);
+
+  //Statistics
+  static const String fourGuessesColor = '#fc6085';
+  static const String fiveGuessesColor = '#f6f005';
+  static const String sixGuessesColor = '#8cfc62';
 }
