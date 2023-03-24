@@ -5,11 +5,12 @@ import 'package:provider/provider.dart';
 
 import '../../services/words_provider.dart';
 import '../../services/constants.dart';
-import 'detailed_stats/detailed_statistics.dart';
-import 'overall_stats/overall_statistics.dart';
+import 'widgets/charts/win_percentage_bar_chart.dart';
+import 'widgets/charts/games_won_pie_chart.dart';
 import 'widgets/statistics_options.dart';
-import 'widgets/stats_type_picker.dart';
-import 'no_statistics.dart';
+import 'widgets/no_statistics.dart';
+import 'widgets/game_counter.dart';
+import 'widgets/top_choices.dart';
 
 class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
@@ -27,15 +28,6 @@ class StatsScreen extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Statystyki'),
               centerTitle: true,
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  wordsProvider.currentStatsSelected = 'Overall';
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                ),
-              ),
               actions: [
                 StatisticsOptions(wordsProvider: wordsProvider),
               ],
@@ -59,16 +51,32 @@ class StatsScreen extends StatelessWidget {
                   } else {
                     return Column(
                       children: [
-                        const SizedBox(
-                          height: 10,
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                GameCounter(
+                                  statsBox: statsBox,
+                                ),
+                                const WinLosePieChart(),
+                                const TopChoices(),
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                                  child: Center(
+                                    child: Text(
+                                      'Wygrane (%) dla poszczególnych długości słów',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const WinPercentageBarChart()
+                              ],
+                            ),
+                          ),
                         ),
-                        StatsTypePicker(
-                          wordsProvider: wordsProvider,
-                        ),
-                        if (wordsProvider.currentStatsSelected == 'Overall')
-                          const OverallStatistics()
-                        else
-                          const DetailedStatistics(),
                       ],
                     );
                   }

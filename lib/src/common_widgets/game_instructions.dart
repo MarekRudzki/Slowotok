@@ -96,7 +96,8 @@ class GameInstructions extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 scale: 1.2,
               ),
-              const Text('Litera A występuje w haśle, ale nie w tym miejscu.'),
+              const Text(
+                  'Litera A występuje w haśle (raz lub więcej), jednak nie na podanym miejscu'),
               const SizedBox(height: 14),
               Image.asset(
                 'assets/letter_correct_place.png',

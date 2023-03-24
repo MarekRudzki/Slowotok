@@ -110,75 +110,63 @@ class WinPercentageBarChart extends StatelessWidget {
       const TickSpec(100),
     ];
 
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-          child: Center(
-            child: Text(
-              'Wygrane (%) dla poszczególnych długości słów',
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: SizedBox(
+        height: 200,
+        child: BarChart(
+          barGroupingType: BarGroupingType.grouped,
+          animate: true,
+          animationDuration: const Duration(milliseconds: 1300),
+          primaryMeasureAxis: NumericAxisSpec(
+            tickProviderSpec: StaticNumericTickProviderSpec(
+              staticTicks,
+            ),
+            renderSpec: const GridlineRendererSpec(
+              labelStyle: TextStyleSpec(
+                color: MaterialPalette.white,
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: SizedBox(
-            height: 200,
-            child: BarChart(
-              barGroupingType: BarGroupingType.grouped,
-              animate: true,
-              animationDuration: const Duration(milliseconds: 1300),
-              primaryMeasureAxis: NumericAxisSpec(
-                tickProviderSpec: StaticNumericTickProviderSpec(
-                  staticTicks,
-                ),
-                renderSpec: const GridlineRendererSpec(
-                  labelStyle: TextStyleSpec(
-                    color: MaterialPalette.white,
-                  ),
-                ),
+          domainAxis: const OrdinalAxisSpec(
+            showAxisLine: false,
+            renderSpec: SmallTickRendererSpec(
+              labelStyle: TextStyleSpec(
+                color: MaterialPalette.white,
               ),
-              domainAxis: const OrdinalAxisSpec(
-                showAxisLine: false,
-                renderSpec: SmallTickRendererSpec(
-                  labelStyle: TextStyleSpec(
-                    color: MaterialPalette.white,
-                  ),
-                ),
-              ),
-              behaviors: [
-                SeriesLegend(
-                  position: BehaviorPosition.bottom,
-                  outsideJustification: OutsideJustification.endDrawArea,
-                ),
-              ],
-              [
-                Series<_WinPercentage, String>(
-                  id: 'Cztery próby',
-                  data: fourTries,
-                  domainFn: (_WinPercentage wins, _) => wins.wordLength,
-                  measureFn: (_WinPercentage wins, _) => wins.percentage,
-                  colorFn: (_WinPercentage wins, _) => wins.color,
-                ),
-                Series<_WinPercentage, String>(
-                  id: 'Pięć prób',
-                  data: fiveTries,
-                  domainFn: (_WinPercentage wins, _) => wins.wordLength,
-                  measureFn: (_WinPercentage wins, _) => wins.percentage,
-                  colorFn: (_WinPercentage wins, _) => wins.color,
-                ),
-                Series<_WinPercentage, String>(
-                  id: 'Sześć prób',
-                  data: sixTries,
-                  domainFn: (_WinPercentage wins, _) => wins.wordLength,
-                  measureFn: (_WinPercentage wins, _) => wins.percentage,
-                  colorFn: (_WinPercentage wins, _) => wins.color,
-                ),
-              ],
             ),
           ),
+          behaviors: [
+            SeriesLegend(
+              position: BehaviorPosition.bottom,
+              outsideJustification: OutsideJustification.endDrawArea,
+            ),
+          ],
+          [
+            Series<_WinPercentage, String>(
+              id: 'Cztery próby',
+              data: fourTries,
+              domainFn: (_WinPercentage wins, _) => wins.wordLength,
+              measureFn: (_WinPercentage wins, _) => wins.percentage,
+              colorFn: (_WinPercentage wins, _) => wins.color,
+            ),
+            Series<_WinPercentage, String>(
+              id: 'Pięć prób',
+              data: fiveTries,
+              domainFn: (_WinPercentage wins, _) => wins.wordLength,
+              measureFn: (_WinPercentage wins, _) => wins.percentage,
+              colorFn: (_WinPercentage wins, _) => wins.color,
+            ),
+            Series<_WinPercentage, String>(
+              id: 'Sześć prób',
+              data: sixTries,
+              domainFn: (_WinPercentage wins, _) => wins.wordLength,
+              measureFn: (_WinPercentage wins, _) => wins.percentage,
+              colorFn: (_WinPercentage wins, _) => wins.color,
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
