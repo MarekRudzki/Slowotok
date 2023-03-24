@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 
 import '../../services/words_provider.dart';
 import '../../services/constants.dart';
-import 'widgets/charts/win_percentage_bar_chart.dart';
 import 'widgets/charts/games_won_pie_chart.dart';
-import 'widgets/statistics_options.dart';
+import 'widgets/win_percentage.dart';
 import 'widgets/no_statistics.dart';
 import 'widgets/game_counter.dart';
 import 'widgets/top_choices.dart';
+import 'widgets/stats_reset.dart';
 
 class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
@@ -29,7 +29,7 @@ class StatsScreen extends StatelessWidget {
               title: const Text('Statystyki'),
               centerTitle: true,
               actions: [
-                StatisticsOptions(wordsProvider: wordsProvider),
+                StatsReset(wordsProvider: wordsProvider),
               ],
             ),
             body: Container(
@@ -55,24 +55,10 @@ class StatsScreen extends StatelessWidget {
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                GameCounter(
-                                  statsBox: statsBox,
-                                ),
+                                GameCounter(statsBox: statsBox),
                                 const WinLosePieChart(),
                                 const TopChoices(),
-                                const Padding(
-                                  padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                                  child: Center(
-                                    child: Text(
-                                      'Wygrane (%) dla poszczególnych długości słów',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const WinPercentageBarChart()
+                                const WinPercentage()
                               ],
                             ),
                           ),

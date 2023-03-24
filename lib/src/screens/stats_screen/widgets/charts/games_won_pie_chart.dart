@@ -54,7 +54,7 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
     ];
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.28,
+      height: 215,
       child: PieChart<String>(
         [
           Series<_WinLoseStats, String>(

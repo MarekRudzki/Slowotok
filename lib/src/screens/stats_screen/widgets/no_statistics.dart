@@ -8,6 +8,7 @@ class NoStatistics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(
           height: 15,
@@ -30,39 +31,20 @@ class NoStatistics extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: const Text(
-                'Zagraj',
+                'Zagraj,',
                 style: TextStyle(
-                  color: Colors.purple,
+                  color: Color.fromARGB(206, 129, 231, 92),
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
             ),
             const Text(
-              'lub',
+              'aby były dostępne.',
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 16,
               ),
             ),
-            TextButton(
-              onPressed: () {
-                //TODO
-              },
-              child: const Text(
-                'importuj',
-                style: TextStyle(
-                  color: Colors.purple,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            const Text(
-              'statystyki aby je wyświetlić.',
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            )
           ],
         ),
       ],
