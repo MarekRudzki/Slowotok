@@ -10,39 +10,36 @@ class NoStatistics extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(
-          height: 15,
-        ),
         const Text(
-          'Brak statystyk!',
+          'Brak statystyk',
           style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(
-          height: 10,
+          height: 15,
         ),
-        Row(
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text(
+              'Nie rozegrałeś jeszcze żadnej gry',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: const Text(
-                'Zagraj,',
+                'Spróbuj teraz!',
                 style: TextStyle(
                   color: Color.fromARGB(206, 129, 231, 92),
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                   fontSize: 16,
                 ),
-              ),
-            ),
-            const Text(
-              'aby były dostępne.',
-              style: TextStyle(
-                fontSize: 16,
               ),
             ),
           ],

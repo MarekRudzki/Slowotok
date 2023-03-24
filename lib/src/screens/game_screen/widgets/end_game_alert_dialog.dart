@@ -21,25 +21,43 @@ class EndGameAlertDialog extends StatelessWidget {
               'Gratulacje!',
               style: TextStyle(
                 color: Colors.green,
+                fontSize: 18,
               ),
             )
           : const Text(
               'Próbuj dalej!',
               style: TextStyle(
                 color: Colors.yellow,
+                fontSize: 18,
               ),
             ),
       content: isWinner
-          ? const Text('Udało Ci się odgadnąć hasło')
+          ? const Text(
+              'Udało Ci się odgadnąć hasło.',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            )
           : Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Niestety tym razem się nie udało.'),
-                const Text('Poszukiwane hasło to:'),
+                const Text(
+                  'Niestety tym razem się nie udało.',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                const Text(
+                  'Poszukiwane hasło to:',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
                 Text(
                   provider.correctWord,
                   style: const TextStyle(
                     color: Colors.green,
+                    fontSize: 15,
                   ),
                 ),
               ],

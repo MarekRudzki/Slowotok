@@ -23,10 +23,10 @@ class WordLengthButton extends StatelessWidget {
       onTap: onPressed,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 800),
-        width: 44,
-        height: 54,
+        width: 34,
+        height: 44,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           color: selectedWordLength == length
               ? Constants.correctLetterColor
               : Constants.noLetterInWordColor,
@@ -35,7 +35,7 @@ class WordLengthButton extends StatelessWidget {
           child: Text(
             length,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 17,
               fontWeight: FontWeight.bold,
             ),
           ),

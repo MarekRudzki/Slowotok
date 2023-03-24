@@ -44,12 +44,22 @@ class _WordleScreenState extends State<WordleScreen> {
     AlertDialog _buildExitDialog(BuildContext context) {
       final bool gameLostAtExit = provider.gameLostAtExit();
       return AlertDialog(
-        title: const Text('Na pewno?'),
+        title: const Text(
+          'Na pewno?',
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Chcesz wyjść i opuścić te hasło?'),
+            const Text(
+              'Chcesz wyjść i opuścić te hasło?',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
             const SizedBox(
               height: 5,
             ),
@@ -59,6 +69,7 @@ class _WordleScreenState extends State<WordleScreen> {
                   : 'Gra nie zostanie zaliczona jako przegrana.',
               style: const TextStyle(
                 color: Color.fromARGB(255, 225, 193, 51),
+                fontSize: 15,
               ),
             )
           ],
@@ -102,7 +113,7 @@ class _WordleScreenState extends State<WordleScreen> {
           children: [
             Scaffold(
               appBar: AppBar(
-                title: Text('Słowoku na ${widget.wordLength}'),
+                title: Text('Słowotok na ${widget.wordLength}'),
                 centerTitle: true,
                 leading: IconButton(
                   onPressed: () {
@@ -165,9 +176,11 @@ class _WordleScreenState extends State<WordleScreen> {
             ConfettiWidget(
               confettiController: controller,
               blastDirectionality: BlastDirectionality.explosive,
-              numberOfParticles: 30,
-              gravity: 0.15,
-              emissionFrequency: 0.1,
+              numberOfParticles: 35,
+              emissionFrequency: 0.12,
+              gravity: 0.1,
+              maximumSize: const Size(20, 10),
+              minimumSize: const Size(15, 7.5),
             )
           ],
         ),

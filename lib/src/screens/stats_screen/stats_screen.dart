@@ -26,7 +26,9 @@ class StatsScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Statystyki'),
+              title: const Text(
+                'Statystyki',
+              ),
               centerTitle: true,
               actions: [
                 StatsReset(wordsProvider: wordsProvider),

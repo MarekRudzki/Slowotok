@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const Color initialColor = Color.fromARGB(255, 224, 224, 224);
+  static const Color initialColor = Color.fromARGB(255, 205, 201, 201);
   static const Color backgroundColor = Color.fromARGB(133, 0, 0, 0);
   static const Color correctLetterColor = Color.fromARGB(255, 74, 222, 79);
   static const Color wrongLetterColor = Color.fromARGB(255, 225, 193, 51);

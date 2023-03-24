@@ -39,7 +39,7 @@ class KeyboardButton extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: buttonText == 'BACKSPACE'
-            ? const Color.fromARGB(255, 162, 162, 162)
+            ? const Color.fromARGB(255, 138, 137, 137)
             : buttonText == 'ENTER'
                 ? Constants.correctLetterColor
                 : context.watch<WordsProvider>().letters[buttonText] == 0

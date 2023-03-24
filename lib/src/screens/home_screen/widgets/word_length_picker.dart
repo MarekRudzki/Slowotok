@@ -22,8 +22,8 @@ class WordLengthPicker extends StatelessWidget {
             child: Text(
               'Wybierz długość słowa',
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),

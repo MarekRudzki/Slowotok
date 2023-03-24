@@ -54,7 +54,7 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
     ];
 
     return SizedBox(
-      height: 215,
+      height: 180,
       child: PieChart<String>(
         [
           Series<_WinLoseStats, String>(
@@ -91,10 +91,10 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
         behaviors: [
           DatumLegend(
             position: BehaviorPosition.end,
-            cellPadding: const EdgeInsets.only(right: 25, top: 35),
+            cellPadding: const EdgeInsets.only(right: 45, top: 35),
             outsideJustification: OutsideJustification.middleDrawArea,
             entryTextStyle: const TextStyleSpec(
-              fontSize: 15,
+              fontSize: 13,
             ),
           ),
         ],

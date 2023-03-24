@@ -18,7 +18,7 @@ class StartGameButton extends StatelessWidget {
     return InkWell(
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 800),
-        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
           color: wordLength == 0 || wordTotalTries == 0
@@ -28,7 +28,7 @@ class StartGameButton extends StatelessWidget {
         child: const Text(
           'Graj',
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 15,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -38,6 +38,7 @@ class StartGameButton extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: Constants.gradientBackgroundLighter,
+              duration: Duration(seconds: 2),
               content: Text(
                 'Wybierz długość słowa i liczbę prób',
                 textAlign: TextAlign.center,

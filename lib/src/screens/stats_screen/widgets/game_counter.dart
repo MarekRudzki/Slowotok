@@ -12,7 +12,7 @@ class GameCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 15),
       child: Column(
         children: [
           Row(
@@ -21,14 +21,14 @@ class GameCounter extends StatelessWidget {
               const Text(
                 'Łączna liczba rozgrywek: ',
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               Text(
                 statsBox.get('game_counter').toString(),
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.green.shade400,
                 ),

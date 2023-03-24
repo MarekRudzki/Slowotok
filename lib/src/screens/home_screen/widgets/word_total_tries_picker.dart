@@ -22,8 +22,8 @@ class WordTotalTriesPicker extends StatelessWidget {
             child: Text(
               'Wybierz liczbę prób',
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),

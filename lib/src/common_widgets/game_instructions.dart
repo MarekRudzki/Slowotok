@@ -23,20 +23,30 @@ class GameInstructions extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              const Center(
+                child: Text(
+                  'Jak grać?',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Constants.correctLetterColor,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
               const Text(
                 'Twoim zadaniem jest odgadnąć hasło w określonej liczbie prób.',
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 15,
                 ),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 8),
               RichText(
                 text: TextSpan(
                   children: [
                     const TextSpan(
                       text: 'Po wpisaniu słowa zatwierdź go przyciskiem ',
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 15,
                       ),
                     ),
                     WidgetSpan(
@@ -50,62 +60,67 @@ class GameInstructions extends StatelessWidget {
                         child: const Icon(
                           Icons.keyboard_return_rounded,
                           color: Colors.white,
-                          size: 18,
+                          size: 15,
                         ),
                       ),
                     ),
                     const TextSpan(
                       text: '.',
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 15,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 8),
               const Text(
-                'Po każdej próbie użyte litery zmienią kolor aby pokazać Ci jak blisko jesteś odgadnięcia hasła.',
+                'Po każdej próbie użyte litery zmienią kolor, aby pokazać Ci, jak blisko jesteś odgadnięcia hasła.',
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 15,
                 ),
               ),
-              const SizedBox(height: 10),
               const Divider(
                 color: Colors.grey,
                 thickness: 1,
+                endIndent: 30,
+                indent: 30,
               ),
-              const SizedBox(height: 10),
               const Text(
                 'Przykłady',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8),
               Image.asset(
                 'assets/no_letter_in_word.png',
-                alignment: Alignment.centerLeft,
-                scale: 1.2,
-              ),
-              const Text('Żadna z liter nie występuje w haśle.'),
-              const SizedBox(height: 14),
-              Image.asset(
-                'assets/letter_incorrect_place.png',
-                alignment: Alignment.centerLeft,
-                scale: 1.2,
+                scale: 1.6,
               ),
               const Text(
-                  'Litera A występuje w haśle (raz lub więcej), jednak nie na podanym miejscu'),
-              const SizedBox(height: 14),
+                'Żadna z liter nie występuje w haśle.',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 5),
+              Image.asset(
+                'assets/letter_incorrect_place.png',
+                scale: 1.6,
+              ),
+              const Text(
+                'Litera A występuje w haśle (raz lub więcej), jednak nie na podanych miejscach.',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 5),
               Image.asset(
                 'assets/letter_correct_place.png',
-                alignment: Alignment.centerLeft,
-                scale: 1.2,
+                scale: 1.6,
               ),
-              const Text('Litera A jest w odpowiednim miejscu.'),
-              const SizedBox(height: 14),
+              const Text(
+                'Litera A jest w odpowiednim miejscu.',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 5),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor:
