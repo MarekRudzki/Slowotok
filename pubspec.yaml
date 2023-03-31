@@ -20,6 +20,7 @@ dependencies:
   charts_flutter_new: ^0.12.0
   intl: ^0.17.0
   device_preview: ^1.1.0
+  
 
 dev_dependencies:
   flutter_test:
@@ -27,11 +28,16 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   flutter_launcher_icons: ^0.12.0
+  flutter_native_splash: ^2.2.19
 
 flutter_icons:
   image_path: assets/logo.png
   android: "launcher_icon"
   adaptive_icon_background: "#4bdd4e"
+
+flutter_native_splash:
+  image: assets/splash.png
+  color: "#4bdd4e"
 
 flutter:
 
