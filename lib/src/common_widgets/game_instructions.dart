@@ -120,7 +120,7 @@ class GameInstructions extends StatelessWidget {
                 'Litera A jest w odpowiednim miejscu.',
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 15),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor:

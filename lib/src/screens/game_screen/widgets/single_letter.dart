@@ -22,8 +22,8 @@ class SingleLetter extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 700),
         curve: Curves.easeIn,
-        width: 44,
-        height: 54,
+        width: 40,
+        height: 50,
         child: Align(
           child: Text(
             context.watch<WordsProvider>().getItem(index, letterIndex),

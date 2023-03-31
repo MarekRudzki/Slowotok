@@ -19,6 +19,7 @@ dependencies:
   another_flushbar: ^1.12.29
   charts_flutter_new: ^0.12.0
   intl: ^0.17.0
+  device_preview: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -29,7 +30,8 @@ dev_dependencies:
 
 flutter_icons:
   image_path: assets/logo.png
-  android: true
+  android: "launcher_icon"
+  adaptive_icon_background: "#4bdd4e"
 
 flutter:
 

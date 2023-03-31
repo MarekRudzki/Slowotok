@@ -35,7 +35,7 @@ class KeyboardButton extends StatelessWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 2),
+      margin: const EdgeInsets.symmetric(horizontal: 3.5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: buttonText == 'BACKSPACE'
@@ -69,14 +69,14 @@ class KeyboardButton extends StatelessWidget {
                         Radius.circular(20),
                       ),
                     ),
-                    margin: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height * 0.30,
-                      right: MediaQuery.of(context).size.height * 0.10,
-                      left: MediaQuery.of(context).size.height * 0.10,
+                    margin: const EdgeInsets.only(
+                      bottom: 250,
+                      right: 80,
+                      left: 80,
                     ),
                     behavior: SnackBarBehavior.floating,
                     duration: const Duration(
-                      milliseconds: 1200,
+                      milliseconds: 1100,
                     ),
                     content: Text(
                       status == 1 ? 'Niekompletne słowo' : 'Brak słowa w bazie',
