@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:slowotok/src/services/hive_statistics.dart';
 
@@ -15,6 +16,15 @@ class WordsProvider with ChangeNotifier {
   bool gameWon = false;
   int selectedTotalTries = 0;
   int wordLength = 0;
+  bool isDark = false;
+
+  void toggleTheme() {
+    isDark = !isDark;
+  }
+
+  void setTheme(AdaptiveThemeMode theme) {
+    theme == AdaptiveThemeMode.dark ? isDark = true : isDark = false;
+  }
 
   Map<String, int> letters = {
     "Q": 0,

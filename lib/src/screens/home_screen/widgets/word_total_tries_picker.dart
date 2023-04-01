@@ -18,10 +18,11 @@ class WordTotalTriesPicker extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Center(
+          Center(
             child: Text(
               'Wybierz liczbę prób',
               style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),

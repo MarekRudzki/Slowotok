@@ -18,10 +18,11 @@ class GameCounter extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'Łączna liczba rozgrywek: ',
                 style: TextStyle(
                   fontSize: 16,
+                  color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -35,8 +36,8 @@ class GameCounter extends StatelessWidget {
               ),
             ],
           ),
-          const Divider(
-            color: Color.fromARGB(66, 224, 224, 224),
+          Divider(
+            color: Theme.of(context).dividerColor,
             thickness: 2,
             endIndent: 80,
             indent: 80,

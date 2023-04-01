@@ -3,25 +3,31 @@ import 'package:flutter/material.dart';
 import 'charts/win_percentage_bar_chart.dart';
 
 class WinPercentage extends StatelessWidget {
-  const WinPercentage({super.key});
+  const WinPercentage({
+    super.key,
+    required this.isDark,
+  });
+
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
           child: Center(
             child: Text(
               'Wygrane (%) dla poszczególnej długości słów',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 15,
               ),
             ),
           ),
         ),
-        const WinPercentageBarChart(),
+        WinPercentageBarChart(isDark: isDark),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -32,11 +38,12 @@ class WinPercentage extends StatelessWidget {
                   height: 12,
                   width: 12,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     'Cztery próby',
                     style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 13,
                     ),
                   ),
@@ -50,11 +57,12 @@ class WinPercentage extends StatelessWidget {
                   height: 12,
                   width: 12,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     'Pięć prób',
                     style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 13,
                     ),
                   ),
@@ -68,11 +76,12 @@ class WinPercentage extends StatelessWidget {
                   height: 12,
                   width: 12,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     'Sześć prób',
                     style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 13,
                     ),
                   ),

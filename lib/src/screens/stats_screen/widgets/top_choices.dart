@@ -4,23 +4,29 @@ import 'charts/total_tries_bar_chart.dart';
 import 'charts/word_length_bar_chart.dart';
 
 class TopChoices extends StatelessWidget {
-  const TopChoices({super.key});
+  const TopChoices({
+    super.key,
+    required this.isDark,
+  });
+
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Divider(
-          color: Color.fromARGB(66, 224, 224, 224),
+        Divider(
+          color: Theme.of(context).dividerColor,
           thickness: 2,
           endIndent: 40,
           indent: 40,
         ),
         const SizedBox(height: 10),
-        const Text(
+        Text(
           'Najczęściej wybierana:',
           style: TextStyle(
             fontSize: 16,
+            color: Theme.of(context).colorScheme.primary,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -30,11 +36,17 @@ class TopChoices extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Text(
+            Text(
               'Długość słowa',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
-            const Text(
+            Text(
               'Liczba prób',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
           ],
         ),
@@ -42,16 +54,16 @@ class TopChoices extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: WordLengthBarChart(),
+              child: WordLengthBarChart(isDark: isDark),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TotalTriesBarChart(),
+              child: TotalTriesBarChart(isDark: isDark),
             ),
           ],
         ),
-        const Divider(
-          color: Color.fromARGB(66, 224, 224, 224),
+        Divider(
+          color: Theme.of(context).dividerColor,
           thickness: 2,
           endIndent: 40,
           indent: 40,

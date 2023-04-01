@@ -16,7 +16,12 @@ class _WinPercentage {
 }
 
 class WinPercentageBarChart extends StatelessWidget {
-  const WinPercentageBarChart({super.key});
+  const WinPercentageBarChart({
+    super.key,
+    required this.isDark,
+  });
+
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
@@ -124,17 +129,19 @@ class WinPercentageBarChart extends StatelessWidget {
                 tickProviderSpec: StaticNumericTickProviderSpec(
                   staticTicks,
                 ),
-                renderSpec: const GridlineRendererSpec(
+                renderSpec: GridlineRendererSpec(
                   labelStyle: TextStyleSpec(
-                    color: MaterialPalette.white,
+                    color:
+                        isDark ? MaterialPalette.white : MaterialPalette.black,
                   ),
                 ),
               ),
-              domainAxis: const OrdinalAxisSpec(
+              domainAxis: OrdinalAxisSpec(
                 showAxisLine: false,
                 renderSpec: SmallTickRendererSpec(
                   labelStyle: TextStyleSpec(
-                    color: MaterialPalette.white,
+                    color:
+                        isDark ? MaterialPalette.white : MaterialPalette.black,
                   ),
                 ),
               ),

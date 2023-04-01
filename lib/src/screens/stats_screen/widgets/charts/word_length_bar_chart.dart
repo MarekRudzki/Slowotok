@@ -16,6 +16,12 @@ class _WordLengthStats {
 }
 
 class WordLengthBarChart extends StatelessWidget {
+  const WordLengthBarChart({
+    required this.isDark,
+  });
+
+  final bool isDark;
+
   @override
   Widget build(BuildContext context) {
     final statsBox = Hive.box('statsBox');
@@ -60,23 +66,23 @@ class WordLengthBarChart extends StatelessWidget {
         animate: true,
         animationDuration: const Duration(milliseconds: 1300),
         barRendererDecorator: BarLabelDecorator<String>(
-          outsideLabelStyleSpec: const TextStyleSpec(
-            color: Color.white,
+          outsideLabelStyleSpec: TextStyleSpec(
+            color: isDark ? MaterialPalette.white : MaterialPalette.black,
           ),
         ),
-        primaryMeasureAxis: const NumericAxisSpec(
+        primaryMeasureAxis: NumericAxisSpec(
           showAxisLine: false,
           renderSpec: GridlineRendererSpec(
             labelStyle: TextStyleSpec(
-              color: MaterialPalette.white,
+              color: isDark ? MaterialPalette.white : MaterialPalette.black,
             ),
           ),
         ),
-        domainAxis: const OrdinalAxisSpec(
+        domainAxis: OrdinalAxisSpec(
           showAxisLine: false,
           renderSpec: SmallTickRendererSpec(
             labelStyle: TextStyleSpec(
-              color: MaterialPalette.white,
+              color: isDark ? MaterialPalette.white : MaterialPalette.black,
             ),
           ),
         ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../services/words_provider.dart';
-import '../../../services/constants.dart';
 import '../../game_screen/game_screen.dart';
 
 class StartGameButton extends StatelessWidget {
@@ -23,12 +22,13 @@ class StartGameButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(25),
           color: wordLength == 0 || wordTotalTries == 0
               ? Colors.grey
-              : Constants.correctLetterColor,
+              : Theme.of(context).colorScheme.onPrimaryContainer,
         ),
         child: const Text(
           'Graj',
           style: TextStyle(
             fontSize: 15,
+            color: Colors.white,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -37,7 +37,7 @@ class StartGameButton extends StatelessWidget {
         if (wordLength == 0 || wordTotalTries == 0) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              backgroundColor: Constants.gradientBackgroundLighter,
+              backgroundColor: Colors.red,
               duration: Duration(seconds: 2),
               content: Text(
                 'Wybierz długość słowa i liczbę prób',

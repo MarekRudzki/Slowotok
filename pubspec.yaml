@@ -20,6 +20,8 @@ dependencies:
   charts_flutter_new: ^0.12.0
   intl: ^0.17.0
   device_preview: ^1.1.0
+  adaptive_theme: ^3.2.0
+  lite_rolling_switch: ^1.0.0
   
 
 dev_dependencies:
@@ -50,6 +52,7 @@ flutter:
     - assets/7_letter_words.txt
     - assets/all_words.txt
     - assets/icon.png
+    - assets/icon2.png
     - assets/letter_correct_place.png
     - assets/letter_incorrect_place.png
     - assets/no_letter_in_word.png

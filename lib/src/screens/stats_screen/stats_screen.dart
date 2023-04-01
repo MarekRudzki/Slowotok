@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/words_provider.dart';
-import '../../services/constants.dart';
 import 'widgets/charts/games_won_pie_chart.dart';
 import 'widgets/win_percentage.dart';
 import 'widgets/no_statistics.dart';
@@ -25,6 +25,7 @@ class StatsScreen extends StatelessWidget {
           final int gamesPlayed = statsBox.get('game_counter') as int;
 
           return Scaffold(
+            backgroundColor: Theme.of(context).colorScheme.background,
             appBar: AppBar(
               title: const Text(
                 'Statystyki',
@@ -34,20 +35,15 @@ class StatsScreen extends StatelessWidget {
                 StatsReset(wordsProvider: wordsProvider),
               ],
             ),
-            body: Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Constants.gradientBackgroundLighter,
-                    Constants.gradientBackgroundDarker,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
-              child: Builder(
-                builder: (context) {
+            body: FutureBuilder(
+              future: AdaptiveTheme.getThemeMode(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  bool isDark;
+                  snapshot.data == AdaptiveThemeMode.dark
+                      ? isDark = true
+                      : isDark = false;
+
                   if (gamesPlayed == 0) {
                     return const NoStatistics();
                   } else {
@@ -58,9 +54,9 @@ class StatsScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 GameCounter(statsBox: statsBox),
-                                const WinLosePieChart(),
-                                const TopChoices(),
-                                const WinPercentage()
+                                WinLosePieChart(isDark: isDark),
+                                TopChoices(isDark: isDark),
+                                WinPercentage(isDark: isDark)
                               ],
                             ),
                           ),
@@ -68,8 +64,9 @@ class StatsScreen extends StatelessWidget {
                       ],
                     );
                   }
-                },
-              ),
+                }
+                return const SizedBox.shrink();
+              },
             ),
           );
         },

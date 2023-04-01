@@ -24,9 +24,19 @@ class StatsReset extends StatelessWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text('Reset statystyk'),
-              content: const Text(
-                  'Czy na pewno chcesz zresetować swoje statystyki?'),
+              backgroundColor: Theme.of(context).colorScheme.background,
+              title: Text(
+                'Reset statystyk',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+              content: Text(
+                'Czy na pewno chcesz zresetować swoje statystyki? Tej operacji nie można cofnąć.',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               actions: [
                 TextButton(
                   child: const Text(
@@ -72,7 +82,8 @@ class StatsReset extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ),
-                          backgroundColor: Colors.green,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
                       );
                     }

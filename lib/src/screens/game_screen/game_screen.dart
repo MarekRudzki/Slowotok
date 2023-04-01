@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:confetti/confetti.dart';
 
 import '../../common_widgets/game_instructions.dart';
-import '../../services/constants.dart';
 import '../../services/words_provider.dart';
 import 'widgets/letters_grid.dart';
 import 'widgets/keyboard.dart';
@@ -44,20 +43,21 @@ class _WordleScreenState extends State<WordleScreen> {
     AlertDialog _buildExitDialog(BuildContext context) {
       final bool gameLostAtExit = provider.gameLostAtExit();
       return AlertDialog(
-        title: const Text(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        title: Text(
           'Na pewno?',
           style: TextStyle(
-            fontSize: 18,
-          ),
+              fontSize: 18, color: Theme.of(context).colorScheme.primary),
         ),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
+            Text(
               'Chcesz wyjść i opuścić te hasło?',
               style: TextStyle(
                 fontSize: 15,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(
@@ -67,8 +67,10 @@ class _WordleScreenState extends State<WordleScreen> {
               gameLostAtExit
                   ? 'Podjęto próbę rozwiązania hasła - gra zostanie zaliczona jako przegrana.'
                   : 'Gra nie zostanie zaliczona jako przegrana.',
-              style: const TextStyle(
-                color: Color.fromARGB(255, 225, 193, 51),
+              style: TextStyle(
+                color: gameLostAtExit
+                    ? Theme.of(context).colorScheme.error
+                    : Theme.of(context).colorScheme.onError,
                 fontSize: 15,
               ),
             )
@@ -78,7 +80,12 @@ class _WordleScreenState extends State<WordleScreen> {
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Nie'),
+            child: const Text(
+              'Nie',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () async {
@@ -91,7 +98,12 @@ class _WordleScreenState extends State<WordleScreen> {
                     .restartWord();
               }
             },
-            child: const Text('Tak'),
+            child: const Text(
+              'Tak',
+              style: TextStyle(
+                color: Colors.green,
+              ),
+            ),
           ),
         ],
       );
@@ -112,10 +124,12 @@ class _WordleScreenState extends State<WordleScreen> {
           alignment: Alignment.center,
           children: [
             Scaffold(
+              backgroundColor: Theme.of(context).colorScheme.background,
               appBar: AppBar(
-                title: Text('Słowotok na ${widget.wordLength}'),
-                centerTitle: true,
+                elevation: 0,
+                backgroundColor: Theme.of(context).colorScheme.background,
                 leading: IconButton(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
                   onPressed: () {
                     showDialog(
                       context: context,
@@ -135,6 +149,7 @@ class _WordleScreenState extends State<WordleScreen> {
                 ),
                 actions: [
                   IconButton(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
                     onPressed: () {
                       showDialog(
                         context: context,
@@ -147,18 +162,8 @@ class _WordleScreenState extends State<WordleScreen> {
                   ),
                 ],
               ),
-              body: Container(
+              body: SizedBox(
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Constants.gradientBackgroundLighter,
-                      Constants.gradientBackgroundDarker,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
                 child: Column(
                   children: [
                     LettersGrid(

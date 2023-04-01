@@ -18,7 +18,12 @@ class _WinLoseStats {
 }
 
 class WinLosePieChart extends StatefulWidget {
-  const WinLosePieChart({super.key});
+  const WinLosePieChart({
+    super.key,
+    required this.isDark,
+  });
+
+  final bool isDark;
 
   @override
   _WinLosePieChartState createState() => _WinLosePieChartState();
@@ -81,9 +86,9 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
                 length: 20,
                 thickness: 3,
               ),
-              outsideLabelStyleSpec: const TextStyleSpec(
+              outsideLabelStyleSpec: TextStyleSpec(
                 fontSize: 15,
-                color: Color.white,
+                color: widget.isDark ? Color.white : Color.black,
               ),
             ),
           ],
@@ -93,8 +98,9 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
             position: BehaviorPosition.end,
             cellPadding: const EdgeInsets.only(right: 45, top: 35),
             outsideJustification: OutsideJustification.middleDrawArea,
-            entryTextStyle: const TextStyleSpec(
+            entryTextStyle: TextStyleSpec(
               fontSize: 13,
+              color: widget.isDark ? Color.white : Color.black,
             ),
           ),
         ],

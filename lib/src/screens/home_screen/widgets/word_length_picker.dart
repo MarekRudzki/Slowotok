@@ -18,10 +18,11 @@ class WordLengthPicker extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Center(
+          Center(
             child: Text(
               'Wybierz długość słowa',
               style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
