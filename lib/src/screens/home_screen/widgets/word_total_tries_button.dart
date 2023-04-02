@@ -28,7 +28,7 @@ class WordTotalTriesButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: selectedWordLength == tries
-              ? Theme.of(context).colorScheme.onPrimaryContainer
+              ? const Color.fromARGB(255, 99, 203, 105)
               : Constants.noLetterInWordColor,
         ),
         child: Center(

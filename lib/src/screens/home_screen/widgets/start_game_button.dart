@@ -22,7 +22,7 @@ class StartGameButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(25),
           color: wordLength == 0 || wordTotalTries == 0
               ? Colors.grey
-              : Theme.of(context).colorScheme.onPrimaryContainer,
+              : const Color.fromARGB(255, 99, 203, 105),
         ),
         child: const Text(
           'Graj',

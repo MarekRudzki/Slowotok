@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:confetti/confetti.dart';
+import 'package:slowotok/src/screens/game_screen/widgets/end_game_dialog.dart';
 
 import '../../common_widgets/game_instructions.dart';
 import '../../services/words_provider.dart';
@@ -148,6 +149,19 @@ class _WordleScreenState extends State<WordleScreen> {
                   ),
                 ),
                 actions: [
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => EndGameDialog(
+                          isWinner: false,
+                          provider: provider,
+                        ),
+                      );
+                      //TODO ...)
+                    },
+                    icon: const Icon(Icons.abc),
+                  ),
                   IconButton(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                     onPressed: () {

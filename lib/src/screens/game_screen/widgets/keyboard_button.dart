@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../services/words_provider.dart';
 import '../../../services/constants.dart';
-import 'end_game_alert_dialog.dart';
+import 'end_game_dialog.dart';
 
 class KeyboardButton extends StatelessWidget {
   const KeyboardButton({
@@ -26,7 +26,7 @@ class KeyboardButton extends StatelessWidget {
         showDialog(
           barrierDismissible: false,
           context: context,
-          builder: (context) => EndGameAlertDialog(
+          builder: (context) => EndGameDialog(
             provider: provider,
             isWinner: isWinner,
           ),
