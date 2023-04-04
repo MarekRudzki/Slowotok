@@ -15,9 +15,6 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   final savedThemeMode = await AdaptiveTheme.getThemeMode();
-  if (savedThemeMode != null) {
-    WordsProvider().setTheme(savedThemeMode);
-  }
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
