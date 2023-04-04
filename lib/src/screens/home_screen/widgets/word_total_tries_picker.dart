@@ -33,7 +33,7 @@ class WordTotalTriesPicker extends StatelessWidget {
               top: 10,
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 WordTotalTriesButton(
                   tries: '4',
@@ -42,12 +42,17 @@ class WordTotalTriesPicker extends StatelessWidget {
                         .setTotalTries(4);
                   },
                 ),
-                WordTotalTriesButton(
-                  tries: '5',
-                  onPressed: () async {
-                    Provider.of<WordsProvider>(context, listen: false)
-                        .setTotalTries(5);
-                  },
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 35,
+                  ),
+                  child: WordTotalTriesButton(
+                    tries: '5',
+                    onPressed: () async {
+                      Provider.of<WordsProvider>(context, listen: false)
+                          .setTotalTries(5);
+                    },
+                  ),
                 ),
                 WordTotalTriesButton(
                   tries: '6',

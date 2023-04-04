@@ -10,7 +10,7 @@ class StartGameButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int wordLength = context.watch<WordsProvider>().wordLength;
+    final int wordLength = context.watch<WordsProvider>().selectedWordLength;
     final int wordTotalTries =
         context.watch<WordsProvider>().selectedTotalTries;
 
@@ -34,13 +34,16 @@ class StartGameButton extends StatelessWidget {
         ),
       ),
       onTap: () async {
+        final WordsProvider wordsProvider =
+            Provider.of<WordsProvider>(context, listen: false);
+
         if (wordLength == 0 || wordTotalTries == 0) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: Colors.red,
               duration: Duration(seconds: 2),
               content: Text(
-                'Wybierz długość słowa i liczbę prób',
+                'Wybierz długość słowa i liczbę prób', //TODO wyswietla sie pod
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -50,12 +53,15 @@ class StartGameButton extends StatelessWidget {
           );
           return;
         }
-        await Provider.of<WordsProvider>(context, listen: false)
+
+        await wordsProvider
             .getRandomWord(
           context: context,
         )
             .then(
           (value) {
+            wordsProvider.resetWordLengthAndTries();
+            Navigator.of(context).pop();
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => WordleScreen(

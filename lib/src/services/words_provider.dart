@@ -15,7 +15,7 @@ class WordsProvider with ChangeNotifier {
   bool completed = false;
   bool gameWon = false;
   int selectedTotalTries = 0;
-  int wordLength = 0;
+  int selectedWordLength = 0;
   bool isDark = false;
 
   void toggleTheme() {
@@ -80,19 +80,24 @@ class WordsProvider with ChangeNotifier {
   Future<void> markGameAsLost() async {
     await _hiveStatistics.addGameStatistics(
       isWinner: false,
-      wordLength: wordLength,
+      wordLength: selectedWordLength,
       totalTries: selectedTotalTries,
     );
   }
 
   void setWordLength(int length) {
-    wordLength = length;
+    selectedWordLength = length;
     notifyListeners();
   }
 
   void setTotalTries(int tries) {
     selectedTotalTries = tries;
     notifyListeners();
+  }
+
+  void resetWordLengthAndTries() {
+    selectedTotalTries = 0;
+    selectedWordLength = 0;
   }
 
   void setCorrectWord(String word) {
@@ -104,7 +109,7 @@ class WordsProvider with ChangeNotifier {
     required BuildContext context,
   }) async {
     final lettersList = await DefaultAssetBundle.of(context)
-        .loadString('assets/${wordLength}_letter_words.txt');
+        .loadString('assets/${selectedWordLength}_letter_words.txt');
 
     final LineSplitter ls = const LineSplitter();
     final List<String> convertedList = ls.convert(lettersList);
@@ -139,7 +144,7 @@ class WordsProvider with ChangeNotifier {
   }
 
   void addLetter(String letter) {
-    if (guesses[index].length < wordLength && completed == false) {
+    if (guesses[index].length < selectedWordLength && completed == false) {
       guesses[index] += letter;
     }
     notifyListeners();
@@ -153,7 +158,7 @@ class WordsProvider with ChangeNotifier {
   }
 
   void letterController() {
-    for (int i = 0; i < wordLength; i++) {
+    for (int i = 0; i < selectedWordLength; i++) {
       if (guesses[index][i] == correctWord[i]) {
         letters[guesses[index][i]] = 3;
       } else if (correctWord.contains(guesses[index][i]) &&
@@ -186,12 +191,12 @@ class WordsProvider with ChangeNotifier {
       return 2;
     }
 
-    if (guesses[index].length == wordLength) {
+    if (guesses[index].length == selectedWordLength) {
       status[index] = true;
       if (guesses[index] == correctWord) {
         await _hiveStatistics.addGameStatistics(
           isWinner: true,
-          wordLength: wordLength,
+          wordLength: selectedWordLength,
           totalTries: selectedTotalTries,
         );
         completed = true;
@@ -201,11 +206,11 @@ class WordsProvider with ChangeNotifier {
         return 3;
       }
 
-      if (wordLength == 4) {
+      if (selectedWordLength == 4) {
         if (index == selectedTotalTries - 1) {
           await _hiveStatistics.addGameStatistics(
             isWinner: false,
-            wordLength: wordLength,
+            wordLength: selectedWordLength,
             totalTries: selectedTotalTries,
           );
           letterController();
@@ -216,11 +221,11 @@ class WordsProvider with ChangeNotifier {
         }
       }
 
-      if (wordLength == 5) {
+      if (selectedWordLength == 5) {
         if (index == selectedTotalTries - 1) {
           await _hiveStatistics.addGameStatistics(
             isWinner: false,
-            wordLength: wordLength,
+            wordLength: selectedWordLength,
             totalTries: selectedTotalTries,
           );
           letterController();
@@ -231,11 +236,11 @@ class WordsProvider with ChangeNotifier {
         }
       }
 
-      if (wordLength == 6) {
+      if (selectedWordLength == 6) {
         if (index == selectedTotalTries - 1) {
           await _hiveStatistics.addGameStatistics(
             isWinner: false,
-            wordLength: wordLength,
+            wordLength: selectedWordLength,
             totalTries: selectedTotalTries,
           );
           letterController();
@@ -246,11 +251,11 @@ class WordsProvider with ChangeNotifier {
         }
       }
 
-      if (wordLength == 7) {
+      if (selectedWordLength == 7) {
         if (index == selectedTotalTries - 1) {
           await _hiveStatistics.addGameStatistics(
             isWinner: false,
-            wordLength: wordLength,
+            wordLength: selectedWordLength,
             totalTries: selectedTotalTries,
           );
           letterController();

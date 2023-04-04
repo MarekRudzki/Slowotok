@@ -26,9 +26,12 @@ class KeyboardButton extends StatelessWidget {
         showDialog(
           barrierDismissible: false,
           context: context,
-          builder: (context) => EndGameDialog(
-            provider: provider,
-            isWinner: isWinner,
+          builder: (context) => WillPopScope(
+            onWillPop: () async => false,
+            child: EndGameDialog(
+              provider: provider,
+              isWinner: isWinner,
+            ),
           ),
         );
       }

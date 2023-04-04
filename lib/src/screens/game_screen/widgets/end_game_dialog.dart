@@ -50,7 +50,7 @@ class EndGameDialog extends StatelessWidget {
                 Transform.scale(
                   scale: 0.85,
                   child: LettersGrid(
-                    wordLength: provider.wordLength,
+                    wordLength: provider.selectedWordLength,
                   ),
                 ),
                 Text(
