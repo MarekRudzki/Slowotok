@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:slowotok/src/screens/game_screen/widgets/letters_grid.dart';
-import 'package:slowotok/src/screens/stats_screen/stats_screen.dart';
-import 'package:slowotok/src/services/constants.dart';
 
-import '../../../services/words_provider.dart';
-import '../../home_screen/home_screen.dart';
-import '../../../common_widgets/options_button.dart';
+import '/src/common_widgets/options_button.dart';
+import '/src/services/words_provider.dart';
+import '/src/services/constants.dart';
+import 'letters_grid.dart';
 
 class EndGameDialog extends StatelessWidget {
   const EndGameDialog({
@@ -23,9 +21,7 @@ class EndGameDialog extends StatelessWidget {
       insetPadding: const EdgeInsets.all(25),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(
-            40,
-          ),
+          Radius.circular(40),
         ),
       ),
       child: Container(
@@ -34,9 +30,7 @@ class EndGameDialog extends StatelessWidget {
           color: Theme.of(context).colorScheme.background,
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 20,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -92,38 +86,35 @@ class EndGameDialog extends StatelessWidget {
                 OptionsButton(
                   text: 'Kolejne hasło',
                   onPressed: () async {
-                    provider.restartWord();
-                    await provider
-                        .getRandomWord(
-                          context: context,
-                        )
-                        .then(
-                          (_) => Navigator.of(context).pop(),
-                        );
+                    await provider.restartWord();
+                    if (context.mounted)
+                      await provider
+                          .setRandomWord(
+                            context: context,
+                          )
+                          .then(
+                            (_) => Navigator.of(context).pop(),
+                          );
                   },
                 ),
                 OptionsButton(
                   text: 'Zobacz statystyki',
-                  onPressed: () {
-                    provider.restartWord();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const StatsScreen(),
-                      ),
-                    );
+                  onPressed: () async {
+                    await provider.restartWord();
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                      Navigator.pushReplacementNamed(context, 'stats_screen');
+                    }
                   },
                 ),
                 OptionsButton(
                   text: 'Wyjdź do menu',
-                  onPressed: () {
-                    provider.restartWord();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
-                      ),
-                    );
+                  onPressed: () async {
+                    await provider.restartWord();
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                      Navigator.pushReplacementNamed(context, '/');
+                    }
                   },
                 ),
               ],
@@ -154,9 +145,7 @@ class LetterTile extends StatelessWidget {
         height: 41,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(
-            13,
-          ),
+          borderRadius: BorderRadius.circular(13),
         ),
         child: Center(
           child: Text(

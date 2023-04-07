@@ -3,117 +3,50 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:confetti/confetti.dart';
 
-import '../../common_widgets/game_instructions.dart';
-import '../../services/words_provider.dart';
-import 'widgets/end_game_dialog.dart';
+import '/src/common_widgets/game_instructions.dart';
+import '/src/services/words_provider.dart';
+import 'widgets/exit_alert_dialog.dart';
 import 'widgets/letters_grid.dart';
 import 'widgets/keyboard.dart';
 
-class WordleScreen extends StatefulWidget {
-  const WordleScreen({
+class GameScreen extends StatefulWidget {
+  const GameScreen({
     super.key,
-    required this.wordToGuess,
-    required this.wordLength,
   });
 
-  final String wordToGuess;
-  final int wordLength;
-
   @override
-  State<WordleScreen> createState() => _WordleScreenState();
+  State<GameScreen> createState() => _GameScreenState();
 }
 
-class _WordleScreenState extends State<WordleScreen> {
+class _GameScreenState extends State<GameScreen> {
   bool isPlaying = false;
-  final controller = ConfettiController(
+  final confettiController = ConfettiController(
     duration: const Duration(seconds: 2),
   );
 
   @override
   void dispose() {
-    controller.dispose();
+    confettiController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<WordsProvider>();
+    final gameWord = provider.correctWord;
+    final bool wordSolveAttempt = provider.isGameLostAtExit();
+
     if (provider.gameWon) {
-      controller.play();
-    }
-    AlertDialog _buildExitDialog(BuildContext context) {
-      final bool gameLostAtExit = provider.gameLostAtExit();
-      return AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        title: Text(
-          'Na pewno?',
-          style: TextStyle(
-              fontSize: 18, color: Theme.of(context).colorScheme.primary),
-        ),
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Chcesz wyjść i opuścić te hasło?',
-              style: TextStyle(
-                fontSize: 15,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              gameLostAtExit
-                  ? 'Podjęto próbę rozwiązania hasła - gra zostanie zaliczona jako przegrana.'
-                  : 'Gra nie zostanie zaliczona jako przegrana.',
-              style: TextStyle(
-                color: gameLostAtExit
-                    ? Theme.of(context).colorScheme.error
-                    : Theme.of(context).colorScheme.onError,
-                fontSize: 15,
-              ),
-            )
-          ],
-        ),
-        contentPadding: const EdgeInsets.fromLTRB(25, 15, 10, 0),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text(
-              'Nie',
-              style: TextStyle(
-                color: Colors.red,
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () async {
-              if (gameLostAtExit) {
-                provider.markGameAsLost();
-              }
-              if (context.mounted) {
-                Navigator.of(context).pop(true);
-                Provider.of<WordsProvider>(context, listen: false)
-                    .restartWord();
-              }
-            },
-            child: const Text(
-              'Tak',
-              style: TextStyle(
-                color: Colors.green,
-              ),
-            ),
-          ),
-        ],
-      );
+      confettiController.play();
     }
 
     Future<bool> _onWillPop(BuildContext context) async {
       final bool? exitResult = await showDialog(
         context: context,
-        builder: (context) => _buildExitDialog(context),
+        builder: (context) => ExitAlertDialog(
+          wordSolveAttempt: wordSolveAttempt,
+          provider: provider,
+        ),
       );
       return exitResult ?? false;
     }
@@ -134,37 +67,26 @@ class _WordleScreenState extends State<WordleScreen> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) => _buildExitDialog(context),
-                    ).then((exit) => {
-                          if (exit as bool)
-                            {
-                              Provider.of<WordsProvider>(context, listen: false)
-                                  .restartWord(),
-                              Navigator.of(context).pop(),
-                            }
-                        });
+                      builder: (context) => ExitAlertDialog(
+                        wordSolveAttempt: wordSolveAttempt,
+                        provider: provider,
+                      ),
+                    ).then(
+                      (exit) => {
+                        if (exit as bool)
+                          {
+                            Provider.of<WordsProvider>(context, listen: false)
+                                .restartWord(),
+                            Navigator.of(context).pop(),
+                          }
+                      },
+                    );
                   },
                   icon: const Icon(
                     Icons.arrow_back,
                   ),
                 ),
                 actions: [
-                  IconButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => WillPopScope(
-                          onWillPop: () async => false,
-                          child: EndGameDialog(
-                            isWinner: false,
-                            provider: provider,
-                          ),
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.abc),
-                  ),
                   IconButton(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                     onPressed: () {
@@ -184,19 +106,17 @@ class _WordleScreenState extends State<WordleScreen> {
                 child: Column(
                   children: [
                     LettersGrid(
-                      wordLength: widget.wordLength,
+                      wordLength: gameWord.length,
                     ),
                     const Spacer(),
                     const Keyboard(),
-                    const SizedBox(
-                      height: 30,
-                    )
+                    const SizedBox(height: 30)
                   ],
                 ),
               ),
             ),
             ConfettiWidget(
-              confettiController: controller,
+              confettiController: confettiController,
               blastDirectionality: BlastDirectionality.explosive,
               numberOfParticles: 35,
               emissionFrequency: 0.12,

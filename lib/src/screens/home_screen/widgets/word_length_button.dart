@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../../services/words_provider.dart';
-import '../../../services/constants.dart';
+import '/src/services/words_provider.dart';
+import '/src/services/constants.dart';
 
 class WordLengthButton extends StatelessWidget {
   const WordLengthButton({
@@ -19,6 +19,7 @@ class WordLengthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final String selectedWordLength =
         context.watch<WordsProvider>().selectedWordLength.toString();
+
     return InkWell(
       onTap: onPressed,
       child: AnimatedContainer(

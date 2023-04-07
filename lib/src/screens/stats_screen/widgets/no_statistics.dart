@@ -20,9 +20,7 @@ class NoStatistics extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           Text(
             'Nie rozegrałeś jeszcze żadnej gry!',
             style: TextStyle(
@@ -30,9 +28,7 @@ class NoStatistics extends StatelessWidget {
               fontSize: 16,
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           ElevatedButton(
             child: const Text(
               'Spróbuj teraz!',

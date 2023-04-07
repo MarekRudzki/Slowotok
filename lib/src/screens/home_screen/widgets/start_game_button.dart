@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../../services/words_provider.dart';
-import '../../game_screen/game_screen.dart';
+import '/src/services/words_provider.dart';
 
 class StartGameButton extends StatelessWidget {
   const StartGameButton({super.key});
@@ -39,11 +38,15 @@ class StartGameButton extends StatelessWidget {
 
         if (wordLength == 0 || wordTotalTries == 0) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
               backgroundColor: Colors.red,
-              duration: Duration(seconds: 2),
-              content: Text(
-                'Wybierz długość słowa i liczbę prób', //TODO wyswietla sie pod
+              duration: const Duration(seconds: 2),
+              content: const Text(
+                'Wybierz długość słowa i liczbę prób',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -55,21 +58,13 @@ class StartGameButton extends StatelessWidget {
         }
 
         await wordsProvider
-            .getRandomWord(
+            .setRandomWord(
           context: context,
         )
             .then(
           (value) {
-            wordsProvider.resetWordLengthAndTries();
             Navigator.of(context).pop();
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => WordleScreen(
-                  wordToGuess: value,
-                  wordLength: wordLength,
-                ),
-              ),
-            );
+            Navigator.pushNamed(context, 'game_screen');
           },
         );
       },

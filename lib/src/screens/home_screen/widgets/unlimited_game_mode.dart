@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:slowotok/src/services/words_provider.dart';
 
-import '../../../common_widgets/options_button.dart';
-import 'start_game_button.dart';
-import 'word_length_picker.dart';
+import 'package:provider/provider.dart';
+
+import '/src/common_widgets/options_button.dart';
+import '/src/services/words_provider.dart';
 import 'word_total_tries_picker.dart';
+import 'word_length_picker.dart';
+import 'start_game_button.dart';
 
 class UnlimitedGameMode extends StatelessWidget {
   const UnlimitedGameMode({super.key});
@@ -15,33 +16,56 @@ class UnlimitedGameMode extends StatelessWidget {
     return OptionsButton(
       text: 'Tryb nieograniczony',
       onPressed: () {
+        Provider.of<WordsProvider>(context, listen: false)
+            .resetWordLengthAndTries();
+
         showDialog(
           context: context,
           builder: (context) {
-            return Dialog(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              backgroundColor: Theme.of(context).colorScheme.background,
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Provider.of<WordsProvider>(context, listen: false)
-                            .resetWordLengthAndTries();
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(Icons.close,
-                          color: Theme.of(context).colorScheme.primary),
+            return ScaffoldMessenger(
+              child: Builder(
+                builder: (context) => Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: Dialog(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
                     ),
-                    const WordLengthPicker(),
-                    const SizedBox(height: 15),
-                    const WordTotalTriesPicker(),
-                    const SizedBox(height: 20),
-                    const StartGameButton(),
-                  ],
+                    backgroundColor: Theme.of(context).colorScheme.background,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          right: 0.0,
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(25),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const WordLengthPicker(),
+                              const SizedBox(height: 15),
+                              const WordTotalTriesPicker(),
+                              const SizedBox(height: 20),
+                              const StartGameButton(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             );

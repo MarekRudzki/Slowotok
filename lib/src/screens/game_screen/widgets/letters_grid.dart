@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../../services/words_provider.dart';
+import '/src/services/words_provider.dart';
 import 'single_letter.dart';
 
 class LettersGrid extends StatelessWidget {
@@ -20,9 +20,7 @@ class LettersGrid extends StatelessWidget {
 
     return Column(
       children: [
-        const SizedBox(
-          height: 8,
-        ),
+        const SizedBox(height: 8),
         Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

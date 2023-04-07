@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../services/constants.dart';
+import '/src/services/constants.dart';
 
 class GameInstructions extends StatelessWidget {
   const GameInstructions({
@@ -22,7 +22,7 @@ class GameInstructions extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+            children: [
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(

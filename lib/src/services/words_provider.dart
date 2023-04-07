@@ -1,31 +1,26 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:slowotok/src/services/hive_statistics.dart';
+
+import 'package:adaptive_theme/adaptive_theme.dart';
+
+import '/src/services/hive_statistics.dart';
 
 class WordsProvider with ChangeNotifier {
   final HiveStatistics _hiveStatistics = HiveStatistics();
 
-  List<bool> status = [false, false, false, false, false, false];
-  List<String> guesses = ["", "", "", "", "", "", ""];
-  int index = 0;
-  String correctWord = '';
+  //Initial values
   bool completed = false;
   bool gameWon = false;
+  bool isDark = false;
+  bool unlimitedDialogError = false;
+  String correctWord = '';
   int selectedTotalTries = 0;
   int selectedWordLength = 0;
-  bool isDark = false;
-
-  void toggleTheme() {
-    isDark = !isDark;
-  }
-
-  void setTheme(AdaptiveThemeMode theme) {
-    theme == AdaptiveThemeMode.dark ? isDark = true : isDark = false;
-  }
-
+  int index = 0;
+  List<bool> status = [false, false, false, false, false, false];
+  List<String> guesses = ["", "", "", "", "", ""];
   Map<String, int> letters = {
     "Q": 0,
     "W": 0,
@@ -64,12 +59,7 @@ class WordsProvider with ChangeNotifier {
     "Ł": 0,
   };
 
-  Future<void> resetStatistics() async {
-    await _hiveStatistics.setInitialStats();
-    notifyListeners();
-  }
-
-  bool gameLostAtExit() {
+  bool isGameLostAtExit() {
     if (status[0] == true) {
       return true;
     } else {
@@ -100,12 +90,7 @@ class WordsProvider with ChangeNotifier {
     selectedWordLength = 0;
   }
 
-  void setCorrectWord(String word) {
-    correctWord = word.toUpperCase();
-    notifyListeners();
-  }
-
-  Future<String> getRandomWord({
+  Future<void> setRandomWord({
     required BuildContext context,
   }) async {
     final lettersList = await DefaultAssetBundle.of(context)
@@ -116,9 +101,7 @@ class WordsProvider with ChangeNotifier {
 
     final random = Random();
     final randomWord = convertedList[random.nextInt(convertedList.length)];
-    setCorrectWord(randomWord);
-
-    return randomWord;
+    correctWord = randomWord.toUpperCase();
   }
 
   Future<bool> checkIfWordExists({
@@ -137,7 +120,7 @@ class WordsProvider with ChangeNotifier {
     }
   }
 
-  String getItem(int index, int letterIndex) {
+  String getLetter(int index, int letterIndex) {
     return guesses[index].length <= letterIndex
         ? ""
         : guesses[index][letterIndex];
@@ -206,64 +189,18 @@ class WordsProvider with ChangeNotifier {
         return 3;
       }
 
-      if (selectedWordLength == 4) {
-        if (index == selectedTotalTries - 1) {
-          await _hiveStatistics.addGameStatistics(
-            isWinner: false,
-            wordLength: selectedWordLength,
-            totalTries: selectedTotalTries,
-          );
-          letterController();
-          completed = true;
-          notifyListeners();
+      if (index == selectedTotalTries - 1) {
+        await _hiveStatistics.addGameStatistics(
+          isWinner: false,
+          wordLength: selectedWordLength,
+          totalTries: selectedTotalTries,
+        );
 
-          return 4;
-        }
-      }
+        letterController();
+        completed = true;
+        notifyListeners();
 
-      if (selectedWordLength == 5) {
-        if (index == selectedTotalTries - 1) {
-          await _hiveStatistics.addGameStatistics(
-            isWinner: false,
-            wordLength: selectedWordLength,
-            totalTries: selectedTotalTries,
-          );
-          letterController();
-          completed = true;
-          notifyListeners();
-
-          return 4;
-        }
-      }
-
-      if (selectedWordLength == 6) {
-        if (index == selectedTotalTries - 1) {
-          await _hiveStatistics.addGameStatistics(
-            isWinner: false,
-            wordLength: selectedWordLength,
-            totalTries: selectedTotalTries,
-          );
-          letterController();
-          completed = true;
-          notifyListeners();
-
-          return 4;
-        }
-      }
-
-      if (selectedWordLength == 7) {
-        if (index == selectedTotalTries - 1) {
-          await _hiveStatistics.addGameStatistics(
-            isWinner: false,
-            wordLength: selectedWordLength,
-            totalTries: selectedTotalTries,
-          );
-          letterController();
-          completed = true;
-          notifyListeners();
-
-          return 4;
-        }
+        return 4;
       }
       letterController();
       index++;
@@ -276,12 +213,11 @@ class WordsProvider with ChangeNotifier {
   }
 
   Future<void> restartWord() async {
-    status = [false, false, false, false, false, false];
-    guesses = ["", "", "", "", "", "", ""];
-    completed = false;
     gameWon = false;
+    completed = false;
     index = 0;
-
+    status = [false, false, false, false, false, false];
+    guesses = ["", "", "", "", "", ""];
     letters = {
       "Q": 0,
       "W": 0,
@@ -319,7 +255,17 @@ class WordsProvider with ChangeNotifier {
       "Ó": 0,
       "Ł": 0,
     };
-
     notifyListeners();
+  }
+
+  // Statistics
+  Future<void> resetStatistics() async {
+    await _hiveStatistics.setInitialStats();
+    notifyListeners();
+  }
+
+  // Theme
+  void setTheme(AdaptiveThemeMode theme) {
+    theme == AdaptiveThemeMode.dark ? isDark = true : isDark = false;
   }
 }

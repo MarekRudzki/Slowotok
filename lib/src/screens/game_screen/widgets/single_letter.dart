@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../../services/words_provider.dart';
-import '../../../services/constants.dart';
+import '/src/services/constants.dart';
+import '/src/services/words_provider.dart';
 
 class SingleLetter extends StatelessWidget {
   final int index;
@@ -26,7 +26,7 @@ class SingleLetter extends StatelessWidget {
         height: 50,
         child: Align(
           child: Text(
-            context.watch<WordsProvider>().getItem(index, letterIndex),
+            context.watch<WordsProvider>().getLetter(index, letterIndex),
             style: const TextStyle(
               color: Colors.white,
               fontSize: 36,

@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../../services/words_provider.dart';
+import '/src/services/words_provider.dart';
 import 'word_total_tries_button.dart';
 
 class WordTotalTriesPicker extends StatelessWidget {
-  const WordTotalTriesPicker({
-    super.key,
-  });
+  const WordTotalTriesPicker({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final List<int> triesList = [4, 5, 6];
+
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         children: [
           Center(
@@ -29,39 +27,23 @@ class WordTotalTriesPicker extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(
-              top: 10,
-            ),
+            padding: const EdgeInsets.only(top: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                WordTotalTriesButton(
-                  tries: '4',
-                  onPressed: () async {
-                    Provider.of<WordsProvider>(context, listen: false)
-                        .setTotalTries(4);
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 35,
-                  ),
-                  child: WordTotalTriesButton(
-                    tries: '5',
-                    onPressed: () async {
-                      Provider.of<WordsProvider>(context, listen: false)
-                          .setTotalTries(5);
-                    },
-                  ),
-                ),
-                WordTotalTriesButton(
-                  tries: '6',
-                  onPressed: () async {
-                    Provider.of<WordsProvider>(context, listen: false)
-                        .setTotalTries(6);
-                  },
-                ),
-              ],
+              children: triesList
+                  .map(
+                    (tries) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 13),
+                      child: WordTotalTriesButton(
+                        tries: tries.toString(),
+                        onPressed: () async {
+                          Provider.of<WordsProvider>(context, listen: false)
+                              .setTotalTries(tries);
+                        },
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
         ],

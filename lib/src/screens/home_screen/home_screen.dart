@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:provider/provider.dart';
 
-import '../../common_widgets/game_instructions.dart';
-import '../../common_widgets/options_button.dart';
-import '../../services/hive_statistics.dart';
-import '../../services/words_provider.dart';
-import '../stats_screen/stats_screen.dart';
+import '/src/common_widgets/game_instructions.dart';
+import '/src/common_widgets/options_button.dart';
+import '/src/services/hive_statistics.dart';
+import '/src/services/words_provider.dart';
 import 'widgets/unlimited_game_mode.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,16 +23,40 @@ class HomeScreen extends StatelessWidget {
 
   AlertDialog _buildExitDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Na pewno?'),
-      content: const Text('Chcesz wyjść z aplikacji?'),
-      actions: <Widget>[
+      title: Text(
+        'Na pewno?',
+        style: TextStyle(
+          fontSize: 18,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+      content: Text(
+        'Chcesz wyjść z aplikacji?',
+        style: TextStyle(
+          fontSize: 15,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+      actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Nie'),
+          child: Text(
+            'Nie',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
         ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('Tak'),
+          child: Text(
+            'Tak',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
         ),
       ],
     );
@@ -61,9 +84,7 @@ class HomeScreen extends StatelessWidget {
 
                           return Column(
                             children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
+                              const SizedBox(height: 20),
                               Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: Material(
@@ -85,11 +106,10 @@ class HomeScreen extends StatelessWidget {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onPrimaryContainer,
-                                  borderRadius: BorderRadius.circular(
-                                    35,
-                                  ),
+                                  borderRadius: BorderRadius.circular(35),
                                 ),
                                 child: IconButton(
+                                  //TODO find fitting place for theme change
                                   onPressed: () async {
                                     if (wordsProvider.isDark) {
                                       AdaptiveTheme.of(context).setLight();
@@ -102,9 +122,7 @@ class HomeScreen extends StatelessWidget {
                                     }
                                   },
                                   icon: AnimatedSwitcher(
-                                    duration: const Duration(
-                                      milliseconds: 650,
-                                    ),
+                                    duration: const Duration(milliseconds: 650),
                                     transitionBuilder: (child, animation) =>
                                         RotationTransition(
                                       turns: child.key ==
@@ -140,9 +158,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                               Container(
                                 width: double.infinity,
-                                padding: const EdgeInsets.all(
-                                  15,
-                                ),
+                                padding: const EdgeInsets.all(15),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(35),
                                   color: Theme.of(context)
@@ -177,11 +193,7 @@ class HomeScreen extends StatelessWidget {
                               OptionsButton(
                                 text: 'Statystyki',
                                 onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => const StatsScreen(),
-                                    ),
-                                  );
+                                  Navigator.pushNamed(context, 'stats_screen');
                                 },
                               ),
                               OptionsButton(
@@ -190,9 +202,7 @@ class HomeScreen extends StatelessWidget {
                                   SystemNavigator.pop();
                                 },
                               ),
-                              const SizedBox(
-                                height: 15,
-                              )
+                              const SizedBox(height: 15)
                             ],
                           );
                         }

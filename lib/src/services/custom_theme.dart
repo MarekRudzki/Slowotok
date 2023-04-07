@@ -5,7 +5,6 @@ class CustomTheme {
     colorScheme: const ColorScheme.light(
       background: Color.fromARGB(255, 37, 36, 36),
       primary: Colors.white,
-      secondary: Colors.black,
       onPrimaryContainer: Color.fromARGB(255, 38, 117, 42),
       error: Colors.red,
       onError: Colors.yellow,
@@ -25,7 +24,6 @@ class CustomTheme {
     colorScheme: const ColorScheme.light(
       background: Color.fromARGB(255, 246, 246, 246),
       primary: Colors.black,
-      secondary: Colors.white,
       onPrimaryContainer: Color.fromARGB(255, 99, 203, 105),
       error: Colors.red,
       onError: Color.fromARGB(255, 182, 165, 8),

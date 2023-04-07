@@ -37,6 +37,7 @@ class StatsReset extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),
+              contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
               actions: [
                 TextButton(
                   child: const Text(

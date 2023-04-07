@@ -1,7 +1,9 @@
-import 'package:charts_flutter_new/flutter.dart';
 import 'package:flutter/material.dart';
+
+import 'package:charts_flutter_new/flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:slowotok/src/services/constants.dart';
+
+import '/src/services/constants.dart';
 
 class _WinPercentage {
   _WinPercentage({

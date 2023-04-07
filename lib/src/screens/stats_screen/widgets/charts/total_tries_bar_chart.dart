@@ -1,6 +1,6 @@
-import 'package:charts_flutter_new/flutter.dart';
-
 import 'package:flutter/material.dart';
+
+import 'package:charts_flutter_new/flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class _TotalTriesStats {
@@ -44,8 +44,8 @@ class TotalTriesBarChart extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.25,
-      width: MediaQuery.of(context).size.width * 0.42,
+      height: 210,
+      width: 180,
       child: BarChart(
         [
           Series<_TotalTriesStats, String>(
