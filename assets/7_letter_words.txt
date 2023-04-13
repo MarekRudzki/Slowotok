@@ -46,7 +46,6 @@ antymon
 apaszka
 apogeum
 arbiter
-arkadia
 arsenał
 artykuł
 artysta
@@ -206,7 +205,6 @@ diament
 dniówka
 dobytek
 dodatek
-dojenie
 dolewka
 dolomit
 domator
@@ -280,13 +278,11 @@ energia
 enigmat
 enklawa
 epopeja
-erotyka
 erudyta
 erupcja
 esencja
 eskadra
 eskorta
-espadon
 estetyk
 eternit
 etnolog
@@ -294,7 +290,7 @@ fabryka
 faktura
 fanatyk
 fartuch
-faworek
+faworki
 faworyt
 fekalia
 fenomen
@@ -424,7 +420,7 @@ jupiter
 kabanos
 kabaret
 kafejka
-kafelek
+kafelki
 kajdany
 kaliber
 kalosze
@@ -483,7 +479,6 @@ kolczyk
 kolebka
 koleina
 kolejka
-koleżka
 koliber
 kolizja
 kolonia
@@ -521,7 +516,6 @@ koperek
 koperta
 kopniak
 koralik
-korazja
 korekta
 korowód
 korozja
@@ -669,7 +663,6 @@ mieszek
 mięsień
 migawka
 milczek
-miliard
 minerał
 minimum
 miotacz
@@ -708,7 +701,6 @@ nabytek
 nabywca
 naczepa
 nadawca
-nadkład
 nadkole
 nadmiar
 nadwaga
@@ -751,7 +743,6 @@ nowinka
 obciach
 obcinak
 obelisk
-obierek
 obierka
 oblicze
 obniżka
@@ -777,12 +768,10 @@ odchody
 odcinek
 oddział
 odłamek
-odłazić
 odmiana
 odpadek
 odprawa
 odprysk
-odróbka
 odrzwia
 odsetek
 odsłona
@@ -795,7 +784,6 @@ odzywka
 odżywka
 oficyna
 ognisko
-ogończa
 ogródek
 ogryzek
 oklaski
@@ -915,7 +903,6 @@ plaster
 plastik
 platyna
 plejada
-plemnik
 pluskwa
 płaszcz
 płatnik
@@ -957,7 +944,6 @@ poligon
 polimer
 polityk
 polonez
-polówka
 połówka
 pomadka
 pomidor
@@ -1008,7 +994,6 @@ prezent
 problem
 procent
 produkt
-profeta
 program
 progres
 projekt
@@ -1063,7 +1048,6 @@ rakieta
 ramówka
 ranking
 rarytas
-rasista
 ratunek
 reakcja
 reaktor
@@ -1117,9 +1101,7 @@ rozróba
 rozruch
 rozrząd
 rozrzut
-rozsada
 rozstaw
-rozstęp
 roztwór
 rozwaga
 równina
@@ -1140,7 +1122,6 @@ rzeźnik
 rzutnik
 sabotaż
 sadysta
-salonik
 sałatka
 samogon
 samolot
@@ -1243,7 +1224,6 @@ suweren
 suwnica
 swawola
 swoboda
-sylikon
 symptom
 synapsa
 syndrom
@@ -1270,7 +1250,6 @@ szmatka
 szminka
 sznurek
 sznycel
-szóstka
 szpadel
 szpagat
 szpaler
@@ -1359,8 +1338,6 @@ trójnóg
 trójząb
 truchło
 trybuna
-trylion
-tryptyk
 trzcina
 trzepak
 trzepot
@@ -1376,7 +1353,6 @@ turbina
 turniej
 turysta
 turzyca
-tusznik
 tydzień
 tynkarz
 tyrania
@@ -1386,7 +1362,6 @@ ubóstwo
 ubranie
 uchwała
 uciecha
-ucięcie
 uczucie
 uczynek
 ukłucie
@@ -1448,7 +1423,6 @@ wkładka
 wkłucie
 wkrętak
 włodarz
-włosień
 włóczka
 wnętrze
 wniosek
@@ -1504,7 +1478,6 @@ zachęta
 zachwyt
 zacisze
 zadanie
-zadarty
 zadatek
 zagadka
 zagłada
@@ -1521,7 +1494,6 @@ zapisek
 zapłata
 zaprawa
 zaprzęg
-zaradny
 zarazek
 zarobek
 zarodek
@@ -1529,7 +1501,6 @@ zarośla
 zasieki
 zasiłek
 zasłona
-zasługa
 zastawa
 zasuwka
 zasypka
@@ -1580,9 +1551,8 @@ zwyczaj
 żeglarz
 żegluga
 żelazko
-żigolak
 żołądek
 żongler
 żyletka
-żywność
 żyzność
+żywność

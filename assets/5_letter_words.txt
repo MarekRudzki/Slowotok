@@ -57,7 +57,6 @@ banał
 banan
 banda
 bania
-banjo
 barak
 baran
 baraż
@@ -67,7 +66,6 @@ barok
 baron
 barwa
 basen
-basta
 batat
 baton
 bawół
@@ -84,7 +82,6 @@ beryl
 beton
 bęben
 biada
-biały
 bidet
 bidon
 bieda
@@ -97,7 +94,6 @@ biuro
 biust
 biwak
 bizon
-blady
 blask
 blond
 bluza
@@ -111,15 +107,13 @@ bomba
 bongo
 bordo
 borek
-bosko
 botki
 bożek
 bójka
 brama
-brawo
+brawa
 breja
 broda
-broić
 brydż
 bryja
 bryka
@@ -177,7 +171,6 @@ cielę
 cierń
 cisza
 ciuch
-ciżba
 cnota
 cokół
 córka
@@ -191,7 +184,6 @@ cypel
 cytat
 cywil
 czapa
-czara
 czerń
 człon
 czołg
@@ -203,7 +195,6 @@ datek
 dawka
 debel
 debet
-debil
 delta
 demon
 denar
@@ -213,12 +204,9 @@ derby
 deser
 deska
 detal
-dewot
 dętka
-diler
 dioda
 disco
-długi
 dłuto
 dobór
 dobro
@@ -232,7 +220,6 @@ dotyk
 dowód
 dowóz
 dozór
-draby
 draka
 drink
 droga
@@ -244,7 +231,6 @@ drzwi
 dubel
 dudek
 dukat
-dybel
 dycha
 dykta
 dymek
@@ -259,7 +245,6 @@ dzida
 dziób
 dzwon
 dźwig
-dżuma
 efekt
 ekipa
 ekler
@@ -273,7 +258,6 @@ etyka
 facet
 fajka
 fałsz
-fango
 farba
 farma
 farsa
@@ -287,13 +271,11 @@ felga
 fenek
 ferie
 ferma
-fifka
 filar
 filet
 filia
 filtr
 finał
-fiola
 fiord
 firma
 fizyk
@@ -324,7 +306,6 @@ fuzja
 gacek
 gacie
 gadka
-gagat
 galop
 gałąź
 gałka
@@ -332,13 +313,11 @@ ganek
 garaż
 garda
 gatki
-gazda
 gazik
 gąbka
 gekon
 genom
 getry
-getto
 glaca
 gleba
 glejt
@@ -397,7 +376,6 @@ honor
 horda
 hotel
 humor
-humus
 husky
 hycel
 hydra
@@ -668,7 +646,6 @@ oliwa
 omega
 omlet
 onyks
-opały
 opcja
 opera
 opium
@@ -701,7 +678,6 @@ panew
 panna
 papka
 papla
-parch
 pasaż
 pasek
 paser
@@ -836,6 +812,7 @@ rywal
 rzecz
 rzeka
 rzepa
+rzęsa
 sadło
 sadza
 sakwa
@@ -862,7 +839,6 @@ sesja
 sezam
 sezon
 sfera
-sfora
 siano
 silos
 sitko
@@ -930,7 +906,6 @@ susza
 suwak
 swaty
 syfon
-synek
 syrop
 szadź
 szafa
@@ -1037,7 +1012,6 @@ uroda
 urwis
 urząd
 uskok
-ustęp
 utarg
 utwór
 uwaga
@@ -1134,11 +1108,7 @@ wyżeł
 wzlot
 wzrok
 zabór
-zacny
-zadek
 zadra
-zagaj
-zagon
 zajad
 zając
 zakaz

@@ -77,137 +77,156 @@ class HomeScreen extends StatelessWidget {
               return Consumer<WordsProvider>(
                 builder: (context, wordsProvider, _) {
                   return FutureBuilder(
-                      future: AdaptiveTheme.getThemeMode(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          wordsProvider.setTheme(snapshot.data!);
+                    future: AdaptiveTheme.getThemeMode(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        wordsProvider.setTheme(snapshot.data!);
 
-                          return Column(
-                            children: [
-                              const SizedBox(height: 20),
-                              Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  elevation: 25,
-                                  child: Center(
-                                    child: Image.asset(
-                                      gaplessPlayback: true,
-                                      !wordsProvider.isDark
-                                          ? 'assets/icon.png'
-                                          : 'assets/icon2.png',
-                                    ),
+                        return Column(
+                          children: [
+                            const SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Material(
+                                color: Colors.transparent,
+                                elevation: 25,
+                                child: Center(
+                                  child: Image.asset(
+                                    gaplessPlayback: true,
+                                    !wordsProvider.isDark
+                                        ? 'assets/icon.png'
+                                        : 'assets/icon2.png',
                                   ),
                                 ),
                               ),
-                              const Spacer(),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer,
-                                  borderRadius: BorderRadius.circular(35),
-                                ),
-                                child: IconButton(
-                                  //TODO find fitting place for theme change
-                                  onPressed: () async {
-                                    if (wordsProvider.isDark) {
-                                      AdaptiveTheme.of(context).setLight();
-                                      wordsProvider
-                                          .setTheme(AdaptiveThemeMode.light);
-                                    } else {
-                                      AdaptiveTheme.of(context).setDark();
-                                      wordsProvider
-                                          .setTheme(AdaptiveThemeMode.dark);
-                                    }
-                                  },
-                                  icon: AnimatedSwitcher(
-                                    duration: const Duration(milliseconds: 650),
-                                    transitionBuilder: (child, animation) =>
-                                        RotationTransition(
-                                      turns: child.key ==
-                                              const ValueKey(
-                                                'icon1',
-                                              )
-                                          ? Tween<double>(begin: 1, end: 0.5)
-                                              .animate(animation)
-                                          : Tween<double>(begin: 0.5, end: 1)
-                                              .animate(animation),
-                                      child: FadeTransition(
-                                          opacity: animation, child: child),
-                                    ),
-                                    child: wordsProvider.isDark
-                                        ? Icon(
-                                            size: 30,
-                                            color: Colors.blue.shade700,
-                                            Icons.mode_night,
-                                            key: const ValueKey(
+                            ),
+                            const Spacer(),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                                borderRadius: BorderRadius.circular(35),
+                              ),
+                              child: IconButton(
+                                //TODO find fitting place for theme change
+                                onPressed: () async {
+                                  if (wordsProvider.isDark) {
+                                    AdaptiveTheme.of(context).setLight();
+                                    wordsProvider
+                                        .setTheme(AdaptiveThemeMode.light);
+                                  } else {
+                                    AdaptiveTheme.of(context).setDark();
+                                    wordsProvider
+                                        .setTheme(AdaptiveThemeMode.dark);
+                                  }
+                                },
+                                icon: AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 650),
+                                  transitionBuilder: (child, animation) =>
+                                      RotationTransition(
+                                    turns: child.key ==
+                                            const ValueKey(
                                               'icon1',
-                                            ),
-                                          )
-                                        : const Icon(
-                                            size: 30,
-                                            color: Colors.amber,
-                                            Icons.sunny,
-                                            key: ValueKey(
-                                              'icon2',
-                                            ),
-                                          ),
+                                            )
+                                        ? Tween<double>(begin: 1, end: 0.5)
+                                            .animate(animation)
+                                        : Tween<double>(begin: 0.5, end: 1)
+                                            .animate(animation),
+                                    child: FadeTransition(
+                                        opacity: animation, child: child),
                                   ),
+                                  child: wordsProvider.isDark
+                                      ? Icon(
+                                          size: 30,
+                                          color: Colors.blue.shade700,
+                                          Icons.mode_night,
+                                          key: const ValueKey(
+                                            'icon1',
+                                          ),
+                                        )
+                                      : const Icon(
+                                          size: 30,
+                                          color: Colors.amber,
+                                          Icons.sunny,
+                                          key: ValueKey(
+                                            'icon2',
+                                          ),
+                                        ),
                                 ),
                               ),
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(35),
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer
-                                      .withOpacity(0.6),
-                                ),
-                                child: Column(
-                                  children: [
-                                    const UnlimitedGameMode(),
-                                    const SizedBox(height: 20),
-                                    OptionsButton(
-                                      text: 'Słówka dnia',
-                                      onPressed: () {
-                                        //TODO add this feature
-                                      },
-                                    ),
-                                  ],
-                                ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(35),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer
+                                    .withOpacity(0.6),
                               ),
-                              const Spacer(),
-                              OptionsButton(
-                                text: 'Jak grać?',
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) =>
-                                        const GameInstructions(),
-                                  );
-                                },
+                              child: Column(
+                                children: [
+                                  const UnlimitedGameMode(),
+                                  const SizedBox(height: 20),
+                                  OptionsButton(
+                                    text: 'Słówka dnia',
+                                    onPressed: () async {
+                                      wordsProvider.setTotalTries(6);
+                                      wordsProvider.setWordLength(5);
+
+                                      await wordsProvider
+                                          .setRandomWord(
+                                        context: context,
+                                      )
+                                          .then(
+                                        (value) {
+                                          wordsProvider.changeGameMode(
+                                              newGameMode: 'wordOfTheDay');
+                                          Navigator.pushNamed(
+                                              context, 'game_screen');
+                                        },
+                                      );
+                                      //TODO add this feature
+                                      // Save data to hive
+                                      // add Introduction screen to app and this screen
+                                      //https://pub.dev/packages/introduction_screen
+                                    },
+                                  ),
+                                ],
                               ),
-                              OptionsButton(
-                                text: 'Statystyki',
-                                onPressed: () {
-                                  Navigator.pushNamed(context, 'stats_screen');
-                                },
-                              ),
-                              OptionsButton(
-                                text: 'Wyjdź z gry',
-                                onPressed: () {
-                                  SystemNavigator.pop();
-                                },
-                              ),
-                              const SizedBox(height: 15)
-                            ],
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      });
+                            ),
+                            const Spacer(),
+                            OptionsButton(
+                              text: 'Jak grać?',
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      const GameInstructions(),
+                                );
+                              },
+                            ),
+                            OptionsButton(
+                              text: 'Statystyki',
+                              onPressed: () {
+                                Navigator.pushNamed(context, 'stats_screen');
+                              },
+                            ),
+                            OptionsButton(
+                              text: 'Wyjdź z gry',
+                              onPressed: () {
+                                SystemNavigator.pop();
+                              },
+                            ),
+                            const SizedBox(height: 15)
+                          ],
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  );
                 },
               );
             },

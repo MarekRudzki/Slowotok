@@ -142,7 +142,6 @@ gong
 gość
 góra
 grad
-graf
 gram
 grań
 grat
@@ -216,7 +215,6 @@ kłos
 knot
 knur
 koja
-koka
 koks
 koło
 kora
@@ -366,7 +364,6 @@ piec
 pieg
 pień
 pies
-pięć
 piła
 pion
 pisk
@@ -443,7 +440,6 @@ saga
 sala
 sejf
 sejm
-seks
 sens
 serw
 siad
@@ -544,7 +540,6 @@ trop
 trud
 trup
 tryb
-trzy
 tuba
 tuja
 tura
@@ -585,7 +580,6 @@ węch
 widz
 wiec
 wieś
-wikt
 wilk
 wino
 wiór
@@ -624,7 +618,6 @@ zryw
 zsyp
 zuch
 zupa
-zwał
 zwid
 zwis
 zwód

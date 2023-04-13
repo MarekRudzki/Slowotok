@@ -28,7 +28,6 @@ antena
 aparat
 apetyt
 apteka
-arenal
 areszt
 arkusz
 armata
@@ -94,7 +93,6 @@ blamaż
 blizna
 bluzka
 błazen
-błonie
 bochen
 bocian
 boczek
@@ -116,7 +114,6 @@ brokat
 broker
 brokuł
 brosza
-bródka
 brudas
 brunet
 brutal
@@ -170,7 +167,6 @@ ciasto
 cieśla
 ciężar
 ciocia
-cnotka
 cukier
 cyborg
 cygaro
@@ -187,7 +183,6 @@ czapla
 czekan
 czepek
 czopek
-cztery
 czubek
 czynsz
 daktyl
@@ -222,7 +217,6 @@ drapak
 drążek
 drenaż
 drewno
-dropsy
 druhna
 drużba
 drwina
@@ -249,7 +243,6 @@ eksces
 elipsa
 emeryt
 emisja
-engram
 enigma
 epitet
 epizod
@@ -283,7 +276,6 @@ fretka
 frezja
 frotka
 fuksja
-furgon
 furiat
 furkot
 furtka
@@ -334,7 +326,6 @@ grzywa
 gulasz
 guziec
 gwóźdź
-hacker
 haczyk
 handel
 hangar
@@ -349,10 +340,8 @@ hetman
 horror
 hrabia
 husarz
-idiota
 iglica
 iguana
-ilasty
 iluzja
 imadło
 imbryk
@@ -397,7 +386,6 @@ kaleka
 kalmar
 kalosz
 kałuża
-kamasz
 kamera
 kamień
 kampus
@@ -446,7 +434,6 @@ klęska
 klient
 klimat
 klincz
-klinga
 klitka
 klocek
 klozet
@@ -517,7 +504,6 @@ kropka
 kropla
 krosta
 królik
-krwiak
 krycie
 krypta
 krytyk
@@ -586,7 +572,6 @@ lutnia
 łodyga
 łokieć
 łopata
-łosica
 łoskot
 łowczy
 łupież
@@ -594,6 +579,7 @@ lutnia
 magnat
 magnes
 magnez
+majtek
 majtki
 malarz
 maluch
@@ -609,7 +595,6 @@ marzec
 masarz
 maślak
 matura
-mawiać
 mdłość
 meczet
 melanż
@@ -737,7 +722,6 @@ odpływ
 odpust
 odraza
 odrzut
-odsada
 odsiew
 odskok
 odstęp
@@ -941,10 +925,8 @@ prosię
 prosta
 prośba
 próbka
-prusak
 prycza
 prymas
-prymat
 prymus
 psikus
 pstrąg
@@ -962,8 +944,6 @@ puzzle
 rabata
 racica
 racuch
-raczek
-rajtki
 ranczo
 randka
 raport
@@ -1017,9 +997,7 @@ rzemyk
 rzepak
 rzepka
 rzeźba
-rzęska
 rzutki
-sadnik
 safari
 salami
 sałata
@@ -1048,7 +1026,6 @@ sędzia
 sfinks
 siarka
 siatka
-siedem
 siemię
 sierść
 siewca
@@ -1122,7 +1099,6 @@ strzęp
 studia
 studio
 suchar
-suczka
 sufler
 suflet
 sukces
@@ -1131,7 +1107,6 @@ sułtan
 surdut
 swatka
 sweter
-swojak
 sygnał
 sygnet
 sylaba
@@ -1189,7 +1164,6 @@ szynka
 śmiech
 śmierć
 śmigło
-śniedź
 śpioch
 śpiwór
 śrubka
@@ -1226,13 +1200,11 @@ tetryk
 tkanka
 tlenek
 tłumik
-toczeń
 tokarz
 topola
 toster
 trapez
 tratwa
-trawka
 trąbka
 trener
 trucht
@@ -1250,7 +1222,6 @@ turkus
 twaróg
 twórca
 tygrys
-tysiąc
 udział
 udziec
 ulotka
@@ -1327,6 +1298,7 @@ zaczyn
 zaimek
 zajazd
 zakład
+zakola
 zakole
 zakres
 zakręt
@@ -1363,6 +1335,7 @@ znawca
 zniżka
 zodiak
 zwłoki
+źdźbło
 źrebak
 źródło
 żagiel

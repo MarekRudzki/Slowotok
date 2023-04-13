@@ -86,6 +86,32 @@ class _GameScreenState extends State<GameScreen> {
                     Icons.arrow_back,
                   ),
                 ),
+                centerTitle: true,
+                title: provider.gameMode == 'wordOfTheDay'
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: provider.wordsOfTheDayStatus
+                            .map(
+                              (wordStatus) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 7),
+                                child: Icon(
+                                  wordStatus == 0
+                                      ? Icons.radio_button_unchecked
+                                      : wordStatus == 1
+                                          ? Icons.task_alt
+                                          : Icons.cancel,
+                                  color: wordStatus == 0
+                                      ? Colors.yellow
+                                      : wordStatus == 1
+                                          ? Colors.green
+                                          : Colors.red,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      )
+                    : const SizedBox.shrink(),
                 actions: [
                   IconButton(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,

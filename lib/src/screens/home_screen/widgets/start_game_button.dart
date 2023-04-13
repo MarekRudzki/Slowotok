@@ -63,6 +63,7 @@ class StartGameButton extends StatelessWidget {
         )
             .then(
           (value) {
+            wordsProvider.changeGameMode(newGameMode: 'unlimited');
             Navigator.of(context).pop();
             Navigator.pushNamed(context, 'game_screen');
           },

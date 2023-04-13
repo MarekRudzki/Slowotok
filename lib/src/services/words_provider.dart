@@ -15,10 +15,13 @@ class WordsProvider with ChangeNotifier {
   bool gameWon = false;
   bool isDark = false;
   bool unlimitedDialogError = false;
+  String gameMode = 'unlimited';
   String correctWord = '';
   int selectedTotalTries = 0;
   int selectedWordLength = 0;
   int index = 0;
+  // wordsOfTheDayStatus (status 0 = initial, 1 = won, 2 = lost)
+  List<int> wordsOfTheDayStatus = [1, 2, 0];
   List<bool> status = [false, false, false, false, false, false];
   List<String> guesses = ["", "", "", "", "", ""];
   Map<String, int> letters = {
@@ -58,6 +61,11 @@ class WordsProvider with ChangeNotifier {
     "Ó": 0,
     "Ł": 0,
   };
+
+  void changeGameMode({required String newGameMode}) {
+    gameMode = newGameMode;
+    notifyListeners();
+  }
 
   bool isGameLostAtExit() {
     if (status[0] == true) {

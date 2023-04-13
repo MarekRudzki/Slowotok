@@ -57,6 +57,7 @@ class KeyboardButton extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           if (buttonText == "ENTER") {
+            //TODO Fix bug with double click
             final int status = await provider.saveWord(context: context);
             if (status == 3) {
               await showEndDialogWithDelay(isWinner: true);
@@ -64,23 +65,9 @@ class KeyboardButton extends StatelessWidget {
               await showEndDialogWithDelay(isWinner: false);
             } else if (status == 1 || status == 2) {
               if (context.mounted) {
+                ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor: Colors.red.shade400,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                    margin: const EdgeInsets.only(
-                      bottom: 250,
-                      right: 80,
-                      left: 80,
-                    ),
-                    behavior: SnackBarBehavior.floating,
-                    duration: const Duration(
-                      milliseconds: 1100,
-                    ),
                     content: Text(
                       status == 1 ? 'Niekompletne słowo' : 'Brak słowa w bazie',
                       textAlign: TextAlign.center,
@@ -88,6 +75,20 @@ class KeyboardButton extends StatelessWidget {
                         color: Colors.white,
                         fontSize: 15,
                       ),
+                    ),
+                    backgroundColor: Colors.red.shade400,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    duration: const Duration(milliseconds: 1300),
+                    behavior: SnackBarBehavior.floating,
+                    dismissDirection: DismissDirection.none,
+                    margin: const EdgeInsets.only(
+                      bottom: 250,
+                      right: 80,
+                      left: 80,
                     ),
                   ),
                 );
