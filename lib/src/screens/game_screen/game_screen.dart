@@ -87,29 +87,37 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                 ),
                 centerTitle: true,
-                title: provider.gameMode == 'wordOfTheDay'
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: provider.wordsOfTheDayStatus
-                            .map(
-                              (wordStatus) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 7),
-                                child: Icon(
-                                  wordStatus == 0
-                                      ? Icons.radio_button_unchecked
-                                      : wordStatus == 1
-                                          ? Icons.task_alt
-                                          : Icons.cancel,
-                                  color: wordStatus == 0
-                                      ? Colors.yellow
-                                      : wordStatus == 1
-                                          ? Colors.green
-                                          : Colors.red,
-                                ),
-                              ),
-                            )
-                            .toList(),
+                title: provider.gameMode == 'wordsoftheday'
+                    ? FutureBuilder(
+                        future: provider.getGameStatus(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: snapshot.data!
+                                  .map(
+                                    (wordStatus) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 7),
+                                      child: Icon(
+                                        wordStatus == 0
+                                            ? Icons.radio_button_unchecked
+                                            : wordStatus == 1
+                                                ? Icons.task_alt
+                                                : Icons.cancel,
+                                        color: wordStatus == 0
+                                            ? Colors.yellow
+                                            : wordStatus == 1
+                                                ? Colors.green
+                                                : Colors.red,
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
                       )
                     : const SizedBox.shrink(),
                 actions: [

@@ -19,22 +19,24 @@ class KeyboardButton extends StatelessWidget {
     final provider = Provider.of<WordsProvider>(context, listen: false);
 
     Future<void> showEndDialogWithDelay({required bool isWinner}) async {
+      provider.setGameEndStatus(isGameWon: isWinner);
       await Future.delayed(
         const Duration(seconds: 2),
-      );
-      if (context.mounted) {
-        showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) => WillPopScope(
-            onWillPop: () async => false,
-            child: EndGameDialog(
-              provider: provider,
-              isWinner: isWinner,
+      ).then(
+        (_) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: EndGameDialog(
+                provider: provider,
+                isWinner: isWinner,
+              ),
             ),
-          ),
-        );
-      }
+          );
+        },
+      );
     }
 
     return Container(
@@ -56,8 +58,7 @@ class KeyboardButton extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () async {
-          if (buttonText == "ENTER") {
-            //TODO Fix bug with double click
+          if (buttonText == "ENTER" && !provider.gameWon) {
             final int status = await provider.saveWord(context: context);
             if (status == 3) {
               await showEndDialogWithDelay(isWinner: true);

@@ -183,15 +183,11 @@ class HomeScreen extends StatelessWidget {
                                           .then(
                                         (value) {
                                           wordsProvider.changeGameMode(
-                                              newGameMode: 'wordOfTheDay');
+                                              newGameMode: 'wordsoftheday');
                                           Navigator.pushNamed(
                                               context, 'game_screen');
                                         },
                                       );
-                                      //TODO add this feature
-                                      // Save data to hive
-                                      // add Introduction screen to app and this screen
-                                      //https://pub.dev/packages/introduction_screen
                                     },
                                   ),
                                 ],

@@ -50,7 +50,7 @@ class WordLengthBarChart extends StatelessWidget {
 
     return SizedBox(
       height: 210,
-      width: 180,
+      width: MediaQuery.of(context).size.width * 0.455,
       child: BarChart(
         [
           Series<_WordLengthStats, String>(

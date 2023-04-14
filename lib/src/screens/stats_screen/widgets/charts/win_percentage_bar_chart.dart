@@ -119,60 +119,54 @@ class WinPercentageBarChart extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(15),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 200,
-            child: BarChart(
-              barGroupingType: BarGroupingType.grouped,
-              animate: true,
-              animationDuration: const Duration(milliseconds: 1300),
-              primaryMeasureAxis: NumericAxisSpec(
-                tickProviderSpec: StaticNumericTickProviderSpec(
-                  staticTicks,
-                ),
-                renderSpec: GridlineRendererSpec(
-                  labelStyle: TextStyleSpec(
-                    color:
-                        isDark ? MaterialPalette.white : MaterialPalette.black,
-                  ),
-                ),
+      child: SizedBox(
+        height: 200,
+        child: BarChart(
+          barGroupingType: BarGroupingType.grouped,
+          animate: true,
+          animationDuration: const Duration(milliseconds: 1300),
+          primaryMeasureAxis: NumericAxisSpec(
+            tickProviderSpec: StaticNumericTickProviderSpec(
+              staticTicks,
+            ),
+            renderSpec: GridlineRendererSpec(
+              labelStyle: TextStyleSpec(
+                color: isDark ? MaterialPalette.white : MaterialPalette.black,
               ),
-              domainAxis: OrdinalAxisSpec(
-                showAxisLine: false,
-                renderSpec: SmallTickRendererSpec(
-                  labelStyle: TextStyleSpec(
-                    color:
-                        isDark ? MaterialPalette.white : MaterialPalette.black,
-                  ),
-                ),
-              ),
-              [
-                Series<_WinPercentage, String>(
-                  id: 'Cztery próby',
-                  data: fourTries,
-                  domainFn: (_WinPercentage wins, _) => wins.wordLength,
-                  measureFn: (_WinPercentage wins, _) => wins.percentage,
-                  colorFn: (_WinPercentage wins, _) => wins.color,
-                ),
-                Series<_WinPercentage, String>(
-                  id: 'Pięć prób',
-                  data: fiveTries,
-                  domainFn: (_WinPercentage wins, _) => wins.wordLength,
-                  measureFn: (_WinPercentage wins, _) => wins.percentage,
-                  colorFn: (_WinPercentage wins, _) => wins.color,
-                ),
-                Series<_WinPercentage, String>(
-                  id: 'Sześć prób',
-                  data: sixTries,
-                  domainFn: (_WinPercentage wins, _) => wins.wordLength,
-                  measureFn: (_WinPercentage wins, _) => wins.percentage,
-                  colorFn: (_WinPercentage wins, _) => wins.color,
-                ),
-              ],
             ),
           ),
-        ],
+          domainAxis: OrdinalAxisSpec(
+            showAxisLine: false,
+            renderSpec: SmallTickRendererSpec(
+              labelStyle: TextStyleSpec(
+                color: isDark ? MaterialPalette.white : MaterialPalette.black,
+              ),
+            ),
+          ),
+          [
+            Series<_WinPercentage, String>(
+              id: 'Cztery próby',
+              data: fourTries,
+              domainFn: (_WinPercentage wins, _) => wins.wordLength,
+              measureFn: (_WinPercentage wins, _) => wins.percentage,
+              colorFn: (_WinPercentage wins, _) => wins.color,
+            ),
+            Series<_WinPercentage, String>(
+              id: 'Pięć prób',
+              data: fiveTries,
+              domainFn: (_WinPercentage wins, _) => wins.wordLength,
+              measureFn: (_WinPercentage wins, _) => wins.percentage,
+              colorFn: (_WinPercentage wins, _) => wins.color,
+            ),
+            Series<_WinPercentage, String>(
+              id: 'Sześć prób',
+              data: sixTries,
+              domainFn: (_WinPercentage wins, _) => wins.wordLength,
+              measureFn: (_WinPercentage wins, _) => wins.percentage,
+              colorFn: (_WinPercentage wins, _) => wins.color,
+            ),
+          ],
+        ),
       ),
     );
   }

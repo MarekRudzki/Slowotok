@@ -4,11 +4,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:slowotok/src/services/hive_words_of_the_day.dart';
 
 import '/src/services/hive_statistics.dart';
 
 class WordsProvider with ChangeNotifier {
   final HiveStatistics _hiveStatistics = HiveStatistics();
+  final HiveWordsOfTheDay _hiveWordsOfTheDay = HiveWordsOfTheDay();
 
   //Initial values
   bool completed = false;
@@ -20,8 +22,8 @@ class WordsProvider with ChangeNotifier {
   int selectedTotalTries = 0;
   int selectedWordLength = 0;
   int index = 0;
-  // wordsOfTheDayStatus (status 0 = initial, 1 = won, 2 = lost)
-  List<int> wordsOfTheDayStatus = [1, 2, 0];
+
+  // List<int> wordsOfTheDayStatus = [1, 2, 0];
   List<bool> status = [false, false, false, false, false, false];
   List<String> guesses = ["", "", "", "", "", ""];
   Map<String, int> letters = {
@@ -62,17 +64,17 @@ class WordsProvider with ChangeNotifier {
     "Ł": 0,
   };
 
-  void changeGameMode({required String newGameMode}) {
-    gameMode = newGameMode;
-    notifyListeners();
-  }
-
   bool isGameLostAtExit() {
     if (status[0] == true) {
       return true;
     } else {
       return false;
     }
+  }
+
+  void setGameEndStatus({required bool isGameWon}) {
+    gameWon = isGameWon;
+    notifyListeners();
   }
 
   Future<void> markGameAsLost() async {
@@ -191,7 +193,6 @@ class WordsProvider with ChangeNotifier {
           totalTries: selectedTotalTries,
         );
         completed = true;
-        gameWon = true;
         letterController();
         notifyListeners();
         return 3;
@@ -264,6 +265,41 @@ class WordsProvider with ChangeNotifier {
       "Ł": 0,
     };
     notifyListeners();
+  }
+
+  // Words of the day
+  void changeGameMode({required String newGameMode}) {
+    gameMode = newGameMode;
+    notifyListeners();
+  }
+
+  Future<void> gamePlayChecker() async {
+    final String month = (DateTime.now().month).toString();
+    final String day = (DateTime.now().day).toString();
+    final String currentDate = '$day$month';
+
+    final bool gamePlayedToday = await _hiveWordsOfTheDay
+        .checkIfModePlayedToday(currentDate: currentDate);
+
+    if (!gamePlayedToday) {
+      await _hiveWordsOfTheDay.setInitialValues(currentDate: currentDate);
+    }
+  }
+
+  Future<List<int>> getGameStatus() async {
+    await gamePlayChecker();
+    final List<int> statusList = await _hiveWordsOfTheDay.getGamesStatus();
+    return statusList;
+  }
+
+  Future<void> setGameStatus({
+    required int gameLevel,
+    required bool isWinner,
+  }) async {
+    _hiveWordsOfTheDay.changeGameStatus(
+      gameLevel: gameLevel,
+      isWinner: isWinner,
+    );
   }
 
   // Statistics
