@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:slowotok/src/screens/game_screen/widgets/game_status_indicator.dart';
 
 import '/src/common_widgets/options_button.dart';
 import '/src/services/words_provider.dart';
 import '/src/services/constants.dart';
+import 'word_of_the_day_summary_dialog.dart';
+import 'game_status_indicator.dart';
 import 'letters_grid.dart';
+import 'letter_tile.dart';
 
 class EndGameDialog extends StatelessWidget {
   const EndGameDialog({
@@ -138,9 +140,9 @@ class EndGameDialog extends StatelessWidget {
                                       showDialog(
                                         context: context,
                                         builder: (context) {
-                                          return const Dialog(
-                                            child: Text('not available'),
-                                          ); //TODO add scrollable dialog with outcome
+                                          return WordOfTheDaySummaryDialog(
+                                            provider: provider,
+                                          );
                                         },
                                       );
                                     return;
@@ -175,42 +177,6 @@ class EndGameDialog extends StatelessWidget {
                   },
                 ),
               ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class LetterTile extends StatelessWidget {
-  const LetterTile({
-    super.key,
-    required this.letter,
-    required this.color,
-  });
-
-  final String letter;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4),
-      child: Container(
-        width: 32,
-        height: 41,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(13),
-        ),
-        child: Center(
-          child: Text(
-            letter,
-            style: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
             ),
           ),
         ),

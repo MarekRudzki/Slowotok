@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:slowotok/src/screens/game_screen/widgets/word_of_the_day_summary_dialog.dart';
 
 import '/src/common_widgets/game_instructions.dart';
 import '/src/common_widgets/options_button.dart';
@@ -181,9 +182,9 @@ class HomeScreen extends StatelessWidget {
                                           showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return const Dialog(
-                                                child: Text('not available'),
-                                              ); //TODO add scrollable dialog with outcome
+                                              return WordOfTheDaySummaryDialog(
+                                                provider: wordsProvider,
+                                              );
                                             },
                                           );
                                         return;

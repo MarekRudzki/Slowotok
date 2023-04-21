@@ -18,6 +18,8 @@ class WordsProvider with ChangeNotifier {
   bool isDark = false;
   bool unlimitedDialogError = false;
   String gameMode = 'unlimited';
+  // wotd - word of the day mode
+  int wotdDialogPageIndex = 0;
   String correctWord = '';
   int selectedTotalTries = 0;
   int selectedWordLength = 0;
@@ -68,6 +70,11 @@ class WordsProvider with ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  void changeWotdDialogPage({required int indexPage}) {
+    wotdDialogPageIndex = indexPage;
+    notifyListeners();
   }
 
   void setGameEndStatus({required bool isGameWon}) {
@@ -298,6 +305,16 @@ class WordsProvider with ChangeNotifier {
       gameLevel: gameLevel,
       isWinner: isWinner,
     );
+
+    await _hiveWordsOfTheDay.addUserWords(
+      words: guesses,
+      gameLevel: gameLevel,
+    );
+
+    await _hiveWordsOfTheDay.addCorrectWord(
+      correctWord: correctWord,
+      gameLevel: gameLevel,
+    );
   }
 
   Future<int> getCurrentGameLevel() async {
@@ -310,6 +327,17 @@ class WordsProvider with ChangeNotifier {
     } else {
       return 2;
     }
+  }
+
+  Future<List<List<String>>> getUserWords() async {
+    final List<List<String>> wordsList =
+        await _hiveWordsOfTheDay.getAllUserWords();
+    return wordsList;
+  }
+
+  Future<List<String>> getCorrectWords() async {
+    final List<String> wordsList = await _hiveWordsOfTheDay.getCorrectWords();
+    return wordsList;
   }
 
   Future<bool> gameModeAvailable() async {

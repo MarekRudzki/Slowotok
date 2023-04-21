@@ -125,7 +125,6 @@ class _GameScreenState extends State<GameScreen> {
               blastDirectionality: BlastDirectionality.explosive,
               numberOfParticles: 35,
               emissionFrequency: 0.12,
-              gravity: 0.1,
               maximumSize: const Size(20, 10),
               minimumSize: const Size(15, 7.5),
             )
