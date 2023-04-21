@@ -6,6 +6,7 @@ import 'package:confetti/confetti.dart';
 import '/src/common_widgets/game_instructions.dart';
 import '/src/services/words_provider.dart';
 import 'widgets/exit_alert_dialog.dart';
+import 'widgets/game_status_indicator.dart';
 import 'widgets/letters_grid.dart';
 import 'widgets/keyboard.dart';
 
@@ -88,37 +89,7 @@ class _GameScreenState extends State<GameScreen> {
                 ),
                 centerTitle: true,
                 title: provider.gameMode == 'wordsoftheday'
-                    ? FutureBuilder(
-                        future: provider.getGameStatus(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: snapshot.data!
-                                  .map(
-                                    (wordStatus) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 7),
-                                      child: Icon(
-                                        wordStatus == 0
-                                            ? Icons.radio_button_unchecked
-                                            : wordStatus == 1
-                                                ? Icons.task_alt
-                                                : Icons.cancel,
-                                        color: wordStatus == 0
-                                            ? Colors.yellow
-                                            : wordStatus == 1
-                                                ? Colors.green
-                                                : Colors.red,
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
-                      )
+                    ? GameStatusIndicator(provider: provider)
                     : const SizedBox.shrink(),
                 actions: [
                   IconButton(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slowotok/src/screens/game_screen/widgets/game_status_indicator.dart';
 
 import '/src/common_widgets/options_button.dart';
 import '/src/services/words_provider.dart';
@@ -83,20 +84,76 @@ class EndGameDialog extends StatelessWidget {
                       ),
                     ],
                   ),
-                OptionsButton(
-                  text: 'Kolejne hasło',
-                  onPressed: () async {
-                    await provider.restartWord();
-                    if (context.mounted)
-                      await provider
-                          .setRandomWord(
-                            context: context,
-                          )
-                          .then(
-                            (_) => Navigator.of(context).pop(),
-                          );
-                  },
-                ),
+                if (provider.gameMode == 'unlimited')
+                  OptionsButton(
+                    text: 'Kolejne hasło',
+                    onPressed: () async {
+                      await provider.restartWord();
+                      if (context.mounted)
+                        await provider
+                            .setRandomWord(
+                              context: context,
+                            )
+                            .then(
+                              (_) => Navigator.of(context).pop(),
+                            );
+                    },
+                  )
+                else
+                  FutureBuilder(
+                    future: provider.gameModeAvailable(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final bool gameAvailable = snapshot.data!;
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GameStatusIndicator(provider: provider),
+                            ),
+                            if (gameAvailable)
+                              OptionsButton(
+                                text: 'Kolejne hasło dnia',
+                                onPressed: () async {
+                                  await provider.restartWord();
+                                  if (context.mounted)
+                                    await provider
+                                        .setRandomWord(
+                                          context: context,
+                                        )
+                                        .then(
+                                          (_) => Navigator.of(context).pop(),
+                                        );
+                                },
+                              )
+                            else
+                              OptionsButton(
+                                text: 'Podsumowanie',
+                                onPressed: () async {
+                                  await provider.restartWord();
+                                  if (context.mounted) {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pushNamed('/');
+                                    if (context.mounted)
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const Dialog(
+                                            child: Text('not available'),
+                                          ); //TODO add scrollable dialog with outcome
+                                        },
+                                      );
+                                    return;
+                                  }
+                                },
+                              )
+                          ],
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
                 OptionsButton(
                   text: 'Zobacz statystyki',
                   onPressed: () async {

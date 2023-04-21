@@ -20,6 +20,15 @@ class KeyboardButton extends StatelessWidget {
 
     Future<void> showEndDialogWithDelay({required bool isWinner}) async {
       provider.setGameEndStatus(isGameWon: isWinner);
+
+      if (provider.gameMode == 'wordsoftheday') {
+        final int gameLevel = await provider.getCurrentGameLevel();
+        await provider.setGameStatus(
+          gameLevel: gameLevel,
+          isWinner: isWinner,
+        );
+      }
+
       await Future.delayed(
         const Duration(seconds: 2),
       ).then(

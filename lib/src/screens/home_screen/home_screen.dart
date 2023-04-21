@@ -173,21 +173,37 @@ class HomeScreen extends StatelessWidget {
                                   OptionsButton(
                                     text: 'Słówka dnia',
                                     onPressed: () async {
+                                      final bool modeAvailable =
+                                          await wordsProvider
+                                              .gameModeAvailable();
+                                      if (!modeAvailable) {
+                                        if (context.mounted)
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return const Dialog(
+                                                child: Text('not available'),
+                                              ); //TODO add scrollable dialog with outcome
+                                            },
+                                          );
+                                        return;
+                                      }
                                       wordsProvider.setTotalTries(6);
                                       wordsProvider.setWordLength(5);
 
-                                      await wordsProvider
-                                          .setRandomWord(
-                                        context: context,
-                                      )
-                                          .then(
-                                        (value) {
-                                          wordsProvider.changeGameMode(
-                                              newGameMode: 'wordsoftheday');
-                                          Navigator.pushNamed(
-                                              context, 'game_screen');
-                                        },
-                                      );
+                                      if (context.mounted)
+                                        await wordsProvider
+                                            .setRandomWord(
+                                          context: context,
+                                        )
+                                            .then(
+                                          (value) {
+                                            wordsProvider.changeGameMode(
+                                                newGameMode: 'wordsoftheday');
+                                            Navigator.pushNamed(
+                                                context, 'game_screen');
+                                          },
+                                        );
                                     },
                                   ),
                                 ],

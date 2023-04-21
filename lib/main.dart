@@ -24,6 +24,9 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]).then(
     (_) {
+      //TODO add Introduction screen to app
+      //https://pub.dev/packages/introduction_screen
+      //TODO adjust UI
       runApp(
         ChangeNotifierProvider(
           create: (context) => WordsProvider(),
@@ -49,5 +52,3 @@ void main() async {
     },
   );
 }
- //TODO  add Introduction screen to app
- //https://pub.dev/packages/introduction_screen

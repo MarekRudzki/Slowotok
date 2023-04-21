@@ -22,8 +22,6 @@ class WordsProvider with ChangeNotifier {
   int selectedTotalTries = 0;
   int selectedWordLength = 0;
   int index = 0;
-
-  // List<int> wordsOfTheDayStatus = [1, 2, 0];
   List<bool> status = [false, false, false, false, false, false];
   List<String> guesses = ["", "", "", "", "", ""];
   Map<String, int> letters = {
@@ -267,7 +265,7 @@ class WordsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Words of the day
+  // Words of the day mode
   void changeGameMode({required String newGameMode}) {
     gameMode = newGameMode;
     notifyListeners();
@@ -296,10 +294,31 @@ class WordsProvider with ChangeNotifier {
     required int gameLevel,
     required bool isWinner,
   }) async {
-    _hiveWordsOfTheDay.changeGameStatus(
+    await _hiveWordsOfTheDay.changeGameStatus(
       gameLevel: gameLevel,
       isWinner: isWinner,
     );
+  }
+
+  Future<int> getCurrentGameLevel() async {
+    final List<int> gameStatus = await _hiveWordsOfTheDay.getGamesStatus();
+
+    if (gameStatus[0] == 0) {
+      return 0;
+    } else if (gameStatus[1] == 0) {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
+
+  Future<bool> gameModeAvailable() async {
+    final List<int> gameStatus = await getGameStatus();
+    if (!gameStatus.contains(0)) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   // Statistics
