@@ -83,8 +83,9 @@ class _GameScreenState extends State<GameScreen> {
                       },
                     );
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.arrow_back,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 centerTitle: true,
@@ -100,8 +101,9 @@ class _GameScreenState extends State<GameScreen> {
                         builder: (context) => const GameInstructions(),
                       );
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.info_outline,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ],

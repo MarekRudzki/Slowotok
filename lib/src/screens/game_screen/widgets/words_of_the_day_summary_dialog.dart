@@ -4,15 +4,14 @@ import 'package:slide_countdown/slide_countdown.dart';
 import 'package:provider/provider.dart';
 
 import '/src/common_widgets/options_button.dart';
+import '/src/services/words_provider.dart';
 import '/src/services/constants.dart';
 import 'game_status_indicator.dart';
-import 'wotd_games_summary.dart';
+import 'words_of_the_day_games_summary.dart';
 import 'letter_tile.dart';
 
-import '/src/services/words_provider.dart';
-
-class WordOfTheDaySummaryDialog extends StatefulWidget {
-  const WordOfTheDaySummaryDialog({
+class WordsOfTheDaySummaryDialog extends StatefulWidget {
+  const WordsOfTheDaySummaryDialog({
     super.key,
     required this.provider,
   });
@@ -20,11 +19,12 @@ class WordOfTheDaySummaryDialog extends StatefulWidget {
   final WordsProvider provider;
 
   @override
-  State<WordOfTheDaySummaryDialog> createState() =>
-      _WordOfTheDaySummaryDialogState();
+  State<WordsOfTheDaySummaryDialog> createState() =>
+      _WordsOfTheDaySummaryDialogState();
 }
 
-class _WordOfTheDaySummaryDialogState extends State<WordOfTheDaySummaryDialog> {
+class _WordsOfTheDaySummaryDialogState
+    extends State<WordsOfTheDaySummaryDialog> {
   PageController pageController = PageController();
 
   @override
@@ -89,17 +89,17 @@ class _WordOfTheDaySummaryDialogState extends State<WordOfTheDaySummaryDialog> {
                                   .changeWotdDialogPage(indexPage: index);
                             },
                             children: [
-                              WotdGamesSummary(
+                              WordsOfTheDayGamesSummary(
                                 provider: widget.provider,
                                 correctWords: correctWords,
                                 currentWordLevel: 0,
                               ),
-                              WotdGamesSummary(
+                              WordsOfTheDayGamesSummary(
                                 provider: widget.provider,
                                 correctWords: correctWords,
                                 currentWordLevel: 1,
                               ),
-                              WotdGamesSummary(
+                              WordsOfTheDayGamesSummary(
                                 provider: widget.provider,
                                 correctWords: correctWords,
                                 currentWordLevel: 2,

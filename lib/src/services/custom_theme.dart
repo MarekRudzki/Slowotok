@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 class CustomTheme {
   static ThemeData darkTheme = ThemeData(
     colorScheme: const ColorScheme.light(
-      background: Color.fromARGB(255, 37, 36, 36),
+      background: Color.fromARGB(255, 31, 39, 47),
       primary: Colors.white,
-      onPrimaryContainer: Color.fromARGB(255, 38, 117, 42),
+      onPrimaryContainer: Color.fromARGB(255, 49, 58, 69),
       error: Colors.red,
       onError: Colors.yellow,
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Color.fromARGB(255, 38, 117, 42),
     ),
+    splashFactory: NoSplash.splashFactory,
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     dividerColor: const Color.fromARGB(66, 224, 224, 224),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -22,7 +25,7 @@ class CustomTheme {
 
   static ThemeData lightTheme = ThemeData(
     colorScheme: const ColorScheme.light(
-      background: Color.fromARGB(255, 246, 246, 246),
+      background: Color.fromARGB(255, 209, 242, 189),
       primary: Colors.black,
       onPrimaryContainer: Color.fromARGB(255, 99, 203, 105),
       error: Colors.red,

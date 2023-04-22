@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:slowotok/src/screens/game_screen/widgets/word_of_the_day_summary_dialog.dart';
+import 'package:slowotok/src/screens/home_screen/theme_switcher.dart';
 
+import '../game_screen/widgets/words_of_the_day_summary_dialog.dart';
 import '/src/common_widgets/game_instructions.dart';
 import '/src/common_widgets/options_button.dart';
 import '/src/services/hive_statistics.dart';
@@ -102,124 +103,72 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             const Spacer(),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer,
-                                borderRadius: BorderRadius.circular(35),
-                              ),
-                              child: IconButton(
-                                //TODO find fitting place for theme change
-                                onPressed: () async {
-                                  if (wordsProvider.isDark) {
-                                    AdaptiveTheme.of(context).setLight();
-                                    wordsProvider
-                                        .setTheme(AdaptiveThemeMode.light);
-                                  } else {
-                                    AdaptiveTheme.of(context).setDark();
-                                    wordsProvider
-                                        .setTheme(AdaptiveThemeMode.dark);
-                                  }
-                                },
-                                icon: AnimatedSwitcher(
-                                  duration: const Duration(milliseconds: 650),
-                                  transitionBuilder: (child, animation) =>
-                                      RotationTransition(
-                                    turns: child.key ==
-                                            const ValueKey(
-                                              'icon1',
-                                            )
-                                        ? Tween<double>(begin: 1, end: 0.5)
-                                            .animate(animation)
-                                        : Tween<double>(begin: 0.5, end: 1)
-                                            .animate(animation),
-                                    child: FadeTransition(
-                                        opacity: animation, child: child),
-                                  ),
-                                  child: wordsProvider.isDark
-                                      ? Icon(
-                                          size: 30,
-                                          color: Colors.blue.shade700,
-                                          Icons.mode_night,
-                                          key: const ValueKey(
-                                            'icon1',
-                                          ),
-                                        )
-                                      : const Icon(
-                                          size: 30,
-                                          color: Colors.amber,
-                                          Icons.sunny,
-                                          key: ValueKey(
-                                            'icon2',
-                                          ),
-                                        ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(35),
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer
-                                    .withOpacity(0.6),
-                              ),
-                              child: Column(
-                                children: [
-                                  const UnlimitedGameMode(),
-                                  const SizedBox(height: 20),
-                                  OptionsButton(
-                                    text: 'Słówka dnia',
-                                    onPressed: () async {
-                                      final bool modeAvailable =
-                                          await wordsProvider
-                                              .gameModeAvailable();
-                                      if (!modeAvailable) {
-                                        if (context.mounted)
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return WordOfTheDaySummaryDialog(
-                                                provider: wordsProvider,
-                                              );
-                                            },
-                                          );
-                                        return;
-                                      }
-                                      wordsProvider.setTotalTries(6);
-                                      wordsProvider.setWordLength(5);
-
+                            Column(
+                              children: [
+                                const UnlimitedGameMode(),
+                                const SizedBox(height: 20),
+                                OptionsButton(
+                                  text: 'Słówka dnia',
+                                  onPressed: () async {
+                                    final bool modeAvailable =
+                                        await wordsProvider.gameModeAvailable();
+                                    if (!modeAvailable) {
+                                      wordsProvider.changeWotdDialogPage(
+                                          indexPage: 0);
                                       if (context.mounted)
-                                        await wordsProvider
-                                            .setRandomWord(
+                                        showDialog(
                                           context: context,
-                                        )
-                                            .then(
-                                          (value) {
-                                            wordsProvider.changeGameMode(
-                                                newGameMode: 'wordsoftheday');
-                                            Navigator.pushNamed(
-                                                context, 'game_screen');
+                                          builder: (context) {
+                                            return WordsOfTheDaySummaryDialog(
+                                              provider: wordsProvider,
+                                            );
                                           },
                                         );
-                                    },
-                                  ),
-                                ],
-                              ),
+                                      return;
+                                    }
+                                    wordsProvider.setTotalTries(6);
+                                    wordsProvider.setWordLength(5);
+
+                                    if (context.mounted)
+                                      await wordsProvider
+                                          .setRandomWord(
+                                        context: context,
+                                      )
+                                          .then(
+                                        (value) {
+                                          wordsProvider.changeGameMode(
+                                              newGameMode: 'wordsoftheday');
+                                          Navigator.pushNamed(
+                                              context, 'game_screen');
+                                        },
+                                      );
+                                  },
+                                ),
+                              ],
                             ),
                             const Spacer(),
-                            OptionsButton(
-                              text: 'Jak grać?',
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      const GameInstructions(),
-                                );
-                              },
+                            Row(
+                              children: [
+                                Flexible(
+                                  flex: 4,
+                                  child: OptionsButton(
+                                    text: 'Jak grać?',
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            const GameInstructions(),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 2,
+                                  child: ThemeSwitcher(
+                                    wordsProvider: wordsProvider,
+                                  ),
+                                ),
+                              ],
                             ),
                             OptionsButton(
                               text: 'Statystyki',
@@ -227,6 +176,7 @@ class HomeScreen extends StatelessWidget {
                                 Navigator.pushNamed(context, 'stats_screen');
                               },
                             ),
+                            const SizedBox(height: 25),
                             OptionsButton(
                               text: 'Wyjdź z gry',
                               onPressed: () {

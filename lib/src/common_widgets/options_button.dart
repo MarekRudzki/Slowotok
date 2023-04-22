@@ -16,9 +16,10 @@ class OptionsButton extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: InkWell(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 12),
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 14),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(10),
             color: Theme.of(context).colorScheme.onPrimaryContainer,
             boxShadow: [
               BoxShadow(
@@ -30,6 +31,7 @@ class OptionsButton extends StatelessWidget {
           ),
           child: Text(
             text,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 15,
               color: Colors.white,

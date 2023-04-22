@@ -105,7 +105,7 @@ class GameInstructions extends StatelessWidget {
               ),
               Image.asset(
                 'assets/no_letter_in_word.png',
-                scale: 1.6,
+                scale: 5.5,
               ),
               Text(
                 'Żadna z liter nie występuje w haśle.',
@@ -117,7 +117,7 @@ class GameInstructions extends StatelessWidget {
               const SizedBox(height: 5),
               Image.asset(
                 'assets/letter_incorrect_place.png',
-                scale: 1.6,
+                scale: 5.5,
               ),
               Text(
                 'Litera A występuje w haśle (raz lub więcej), jednak nie na podanych miejscach.',
@@ -129,7 +129,7 @@ class GameInstructions extends StatelessWidget {
               const SizedBox(height: 5),
               Image.asset(
                 'assets/letter_correct_place.png',
-                scale: 1.6,
+                scale: 5.5,
               ),
               Text(
                 'Litera A jest w odpowiednim miejscu.',

@@ -3,8 +3,8 @@ import 'package:slowotok/src/screens/game_screen/widgets/letter_tile.dart';
 import 'package:slowotok/src/services/constants.dart';
 import 'package:slowotok/src/services/words_provider.dart';
 
-class WotdGamesSummary extends StatelessWidget {
-  const WotdGamesSummary({
+class WordsOfTheDayGamesSummary extends StatelessWidget {
+  const WordsOfTheDayGamesSummary({
     super.key,
     required this.provider,
     required this.correctWords,
