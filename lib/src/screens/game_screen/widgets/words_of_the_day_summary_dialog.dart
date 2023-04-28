@@ -191,6 +191,7 @@ class _WordsOfTheDaySummaryDialogState
                         ),
                         Text(
                           'Do następnych słówek dnia pozostało:',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15,
                             color: Theme.of(context).colorScheme.primary,

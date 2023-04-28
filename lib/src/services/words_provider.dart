@@ -116,6 +116,20 @@ class WordsProvider with ChangeNotifier {
 
     final random = Random();
     final randomWord = convertedList[random.nextInt(convertedList.length)];
+
+    if (gameMode == 'wordsoftheday') {
+      final List<String> usedWords = await _hiveWordsOfTheDay.getCorrectWords();
+
+      if (usedWords.contains(randomWord.toUpperCase())) {
+        convertedList.remove(randomWord);
+
+        final newRandomWord =
+            convertedList[random.nextInt(convertedList.length - 1)];
+        correctWord = newRandomWord.toUpperCase();
+
+        return;
+      }
+    }
     correctWord = randomWord.toUpperCase();
   }
 
