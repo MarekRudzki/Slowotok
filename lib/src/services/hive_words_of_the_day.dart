@@ -81,17 +81,31 @@ class HiveWordsOfTheDay {
   }
 
   Future<List<String>> getCorrectWords() async {
-    final String firstCorrectWord =
-        await wordsOfTheDayBox.get('correct_word_0') as String;
-    final String secondCorrectWord =
-        await wordsOfTheDayBox.get('correct_word_1') as String;
-    final String thirdCorrectWord =
-        await wordsOfTheDayBox.get('correct_word_2') as String;
+    if (!wordsOfTheDayBox.containsKey('correct_word_0')) {
+      return [];
+    } else if (!wordsOfTheDayBox.containsKey('correct_word_1')) {
+      final String firstCorrectWord =
+          await wordsOfTheDayBox.get('correct_word_0') as String;
+      return [firstCorrectWord];
+    } else if (!wordsOfTheDayBox.containsKey('correct_word_2')) {
+      final String firstCorrectWord =
+          await wordsOfTheDayBox.get('correct_word_0') as String;
+      final String secondCorrectWord =
+          await wordsOfTheDayBox.get('correct_word_1') as String;
+      return [firstCorrectWord, secondCorrectWord];
+    } else {
+      final String firstCorrectWord =
+          await wordsOfTheDayBox.get('correct_word_0') as String;
+      final String secondCorrectWord =
+          await wordsOfTheDayBox.get('correct_word_1') as String;
+      final String thirdCorrectWord =
+          await wordsOfTheDayBox.get('correct_word_2') as String;
 
-    return [
-      firstCorrectWord,
-      secondCorrectWord,
-      thirdCorrectWord,
-    ];
+      return [
+        firstCorrectWord,
+        secondCorrectWord,
+        thirdCorrectWord,
+      ];
+    }
   }
 }

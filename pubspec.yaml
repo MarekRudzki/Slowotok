@@ -20,6 +20,8 @@ dependencies:
   intl: ^0.17.0
   adaptive_theme: ^3.2.0
   slide_countdown: ^0.5.0
+  smooth_page_indicator: ^1.1.0
+  device_preview: ^1.1.0
   
 
 dev_dependencies:
@@ -54,3 +56,5 @@ flutter:
     - assets/letter_correct_place.png
     - assets/letter_incorrect_place.png
     - assets/no_letter_in_word.png
+    - assets/game_guide_1.png
+    - assets/game_guide_2.png

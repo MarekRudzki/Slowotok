@@ -119,7 +119,7 @@ class WordsProvider with ChangeNotifier {
 
     if (gameMode == 'wordsoftheday') {
       final List<String> usedWords = await _hiveWordsOfTheDay.getCorrectWords();
-
+      print('usedWords:$usedWords');
       if (usedWords.contains(randomWord.toUpperCase())) {
         convertedList.remove(randomWord);
 

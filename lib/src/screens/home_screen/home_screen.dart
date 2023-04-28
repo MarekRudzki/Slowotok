@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:slowotok/src/screens/home_screen/theme_switcher.dart';
+import 'package:slowotok/src/screens/home_screen/widgets/theme_switcher.dart';
 
 import '../game_screen/widgets/words_of_the_day_summary_dialog.dart';
+import '../introduction_screen/introduction_screen.dart';
 import '/src/common_widgets/game_instructions.dart';
 import '/src/common_widgets/options_button.dart';
 import '/src/services/hive_statistics.dart';
@@ -129,6 +130,9 @@ class HomeScreen extends StatelessWidget {
                                     wordsProvider.setTotalTries(6);
                                     wordsProvider.setWordLength(5);
 
+                                    wordsProvider.changeGameMode(
+                                        newGameMode: 'wordsoftheday');
+
                                     if (context.mounted)
                                       await wordsProvider
                                           .setRandomWord(
@@ -136,8 +140,6 @@ class HomeScreen extends StatelessWidget {
                                       )
                                           .then(
                                         (value) {
-                                          wordsProvider.changeGameMode(
-                                              newGameMode: 'wordsoftheday');
                                           Navigator.pushNamed(
                                               context, 'game_screen');
                                         },
@@ -177,6 +179,17 @@ class HomeScreen extends StatelessWidget {
                               },
                             ),
                             const SizedBox(height: 25),
+                            IconButton(
+                                //TODO just for testing
+                                onPressed: () {
+                                  Navigator.of(context).push(PageRouteBuilder(
+                                      opaque: false,
+                                      pageBuilder:
+                                          (BuildContext context, _, __) {
+                                        return const IntroductionScreen();
+                                      }));
+                                },
+                                icon: const Icon(Icons.abc)),
                             OptionsButton(
                               text: 'Wyjdź z gry',
                               onPressed: () {
