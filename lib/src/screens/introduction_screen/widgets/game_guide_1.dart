@@ -1,23 +1,38 @@
 import 'package:flutter/material.dart';
 
-class GameGuide1 extends StatefulWidget {
-  const GameGuide1({super.key});
+import 'package:provider/provider.dart';
 
-  @override
-  State<GameGuide1> createState() => _GameGuide1State();
-}
+import '/src/services/providers/introduction_screen_provider.dart';
 
-class _GameGuide1State extends State<GameGuide1> {
-  double _opacity = 1.0;
+class GameGuide1 extends StatelessWidget {
+  const GameGuide1({
+    super.key,
+    required this.introductionScreenProvider,
+  });
+
+  final IntroductionScreenProvider introductionScreenProvider;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        FutureBuilder(
+          future: introductionScreenProvider.manageOpacity(),
+          builder: (context, snapshot) {
+            return const SizedBox.shrink();
+          },
+        ),
         AnimatedOpacity(
-          opacity: _opacity,
+          opacity: context.select(
+            (IntroductionScreenProvider introductionScreenProvider) =>
+                introductionScreenProvider.iconOpacity,
+          ),
           duration: const Duration(milliseconds: 1500),
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 35,
+            ),
             child: Material(
               color: Colors.transparent,
               elevation: 25,
@@ -27,36 +42,61 @@ class _GameGuide1State extends State<GameGuide1> {
             ),
           ),
         ),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              _opacity = _opacity == 1.0 ? 0.0 : 1.0;
-            });
-          },
-          child: const Text('Toggle Opacity'),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15, 35, 15, 15),
+          child: Column(
+            children: [
+              AnimatedOpacity(
+                opacity: context.select(
+                  (IntroductionScreenProvider introductionScreenProvider) =>
+                      introductionScreenProvider.firstTextOpacity,
+                ),
+                duration: const Duration(milliseconds: 2500),
+                child: const Text(
+                  'Witaj!',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 40),
+                child: AnimatedOpacity(
+                  opacity: context.select(
+                    (IntroductionScreenProvider introductionScreenProvider) =>
+                        introductionScreenProvider.secondTextOpacity,
+                  ),
+                  duration: const Duration(milliseconds: 2500),
+                  child: const Text(
+                    'Oto krótki przewodnik po głównych funkcjach aplikacji.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              AnimatedOpacity(
+                opacity: context.select(
+                  (IntroductionScreenProvider introductionScreenProvider) =>
+                      introductionScreenProvider.thirdTextOpacity,
+                ),
+                duration: const Duration(milliseconds: 2500),
+                child: const Text(
+                  'Jeśli chcesz, możesz go zamknąć w każdej chwili przyciskiem na dole ekranu.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 }
-
-
-// Padding(
-        //   padding: const EdgeInsets.only(top: 35),
-        //   child: AnimatedTextKit(
-        //     animatedTexts: [
-        //       TypewriterAnimatedText(
-        //         'Witaj w aplikacji',
-        //         textStyle: const TextStyle(
-        //           fontSize: 20,
-        //           fontWeight: FontWeight.w600,
-        //         ),
-        //         speed: const Duration(
-        //           milliseconds: 90,
-        //         ),
-        //         cursor: '.',
-        //       ),
-        //     ],
-        //     isRepeatingAnimation: false,
-        //   ),
-        // ),

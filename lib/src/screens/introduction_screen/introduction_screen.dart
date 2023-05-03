@@ -33,106 +33,114 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Consumer<IntroductionScreenProvider>(
-          builder: (context, wordsProvider, _) => Stack(
+          builder: (context, introductionScreen, _) => Stack(
             children: [
               PageView(
                 onPageChanged: (index) {
-                  wordsProvider.changeIntroductionScreen(pageIndex: index);
+                  introductionScreen.changeIntroductionScreen(pageIndex: index);
                 },
                 controller: _controller,
                 children: [
-                  const GameGuide1(),
+                  GameGuide1(introductionScreenProvider: introductionScreen),
                   Image.asset('assets/game_guide_1.png'),
                   Image.asset('assets/game_guide_2.png'),
                 ],
               ),
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        if (currentPage == 0)
-                          const SizedBox(width: 106)
-                        else
-                          OutlinedButton(
-                            onPressed: () {
-                              _controller.previousPage(
-                                duration: const Duration(milliseconds: 400),
-                                curve: Curves.easeIn,
-                              );
-                            },
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                width: 2.0,
-                                color: Colors.green,
+              AnimatedOpacity(
+                opacity: context.select(
+                  (IntroductionScreenProvider introductionScreenProvider) =>
+                      introductionScreenProvider.thirdTextOpacity,
+                ),
+                duration: const Duration(milliseconds: 2500),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          if (currentPage == 0)
+                            const SizedBox(width: 106)
+                          else
+                            OutlinedButton(
+                              onPressed: () {
+                                _controller.previousPage(
+                                  duration: const Duration(milliseconds: 400),
+                                  curve: Curves.easeIn,
+                                );
+                              },
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(
+                                  width: 2.0,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              child: const Text(
+                                'Cofnij',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
-                            child: const Text(
-                              'Poprzedni',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
+                          SmoothPageIndicator(
+                            controller: _controller,
+                            effect: const WormEffect(
+                              activeDotColor: Colors.green,
                             ),
+                            count: 3,
                           ),
-                        SmoothPageIndicator(
-                          controller: _controller,
-                          effect: const WormEffect(
-                            activeDotColor: Colors.green,
-                          ),
-                          count: 3,
-                        ),
-                        if (currentPage == 2)
-                          const SizedBox(width: 101)
-                        else
-                          OutlinedButton(
-                            onPressed: () {
-                              _controller.nextPage(
-                                duration: const Duration(milliseconds: 400),
-                                curve: Curves.easeIn,
-                              );
-                            },
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                width: 2.0,
-                                color: Colors.green,
+                          if (currentPage == 2)
+                            const SizedBox(width: 101)
+                          else
+                            OutlinedButton(
+                              onPressed: () {
+                                _controller.nextPage(
+                                  duration: const Duration(milliseconds: 400),
+                                  curve: Curves.easeIn,
+                                );
+                              },
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(
+                                  width: 2.0,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              child: const Text(
+                                'Dalej',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
-                            child: const Text(
-                              'Następny',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                color: Colors.black,
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () async {
+                          await introductionScreen
+                              .deactivateIntroductionScreen();
+                          if (context.mounted)
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => const HomeScreen(),
                               ),
-                            ),
+                            );
+                        },
+                        child: Text(
+                          currentPage == 2 ? 'Zamknij' : 'Pomiń',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                           ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    ElevatedButton(
-                      onPressed: () async {
-                        await wordsProvider.deactivateIntroductionScreen();
-                        if (context.mounted)
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
-                            ),
-                          );
-                      },
-                      child: Text(
-                        currentPage == 2 ? 'Zamknij' : 'Pomiń',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 25),
-                  ],
+                      const SizedBox(height: 25),
+                    ],
+                  ),
                 ),
               ),
             ],

@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '/src/common_widgets/game_instructions.dart';
 import '/src/common_widgets/options_button.dart';
 import '/src/screens/game_screen/widgets/words_of_the_day_summary_dialog.dart';
-import '/src/screens/introduction_screen/introduction_screen.dart';
 import '/src/screens/home_screen/widgets/theme_switcher.dart';
 import '/src/services/providers/words_provider.dart';
 import '/src/services/hive/hive_statistics.dart';
@@ -183,17 +182,6 @@ class HomeScreen extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: 25),
-                              IconButton(
-                                  //TODO just for testing
-                                  onPressed: () {
-                                    Navigator.of(context).push(PageRouteBuilder(
-                                        opaque: false,
-                                        pageBuilder:
-                                            (BuildContext context, _, __) {
-                                          return const IntroductionScreen();
-                                        }));
-                                  },
-                                  icon: const Icon(Icons.abc)),
                               OptionsButton(
                                 text: 'Wyjdź z gry',
                                 onPressed: () {

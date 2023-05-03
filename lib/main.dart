@@ -30,37 +30,38 @@ void main() async {
   ]).then(
     (_) {
       //TODO add stats for WOTD
-      //TODO adjust introduction screen
       //TODO app tests
-      runApp(MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => WordsProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => IntroductionScreenProvider(),
-          )
-        ],
-        child: AdaptiveTheme(
-          light: CustomTheme.lightTheme,
-          dark: CustomTheme.darkTheme,
-          initial: savedThemeMode ?? AdaptiveThemeMode.light,
-          builder: (theme, darkTheme) => MaterialApp(
-            theme: theme,
-            darkTheme: darkTheme,
-            title: 'Słowotok',
-            routes: {
-              '/': (context) => showIntroductionScreen
-                  ? const IntroductionScreen()
-                  : const HomeScreen(),
-              'stats_screen': (context) => const StatsScreen(),
-              'game_screen': (context) => const GameScreen(),
-            },
-            debugShowCheckedModeBanner: false,
-            initialRoute: '/',
+      runApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => WordsProvider(),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => IntroductionScreenProvider(),
+            )
+          ],
+          child: AdaptiveTheme(
+            light: CustomTheme.lightTheme,
+            dark: CustomTheme.darkTheme,
+            initial: savedThemeMode ?? AdaptiveThemeMode.light,
+            builder: (theme, darkTheme) => MaterialApp(
+              theme: theme,
+              darkTheme: darkTheme,
+              title: 'Słowotok',
+              routes: {
+                '/': (context) => showIntroductionScreen
+                    ? const IntroductionScreen()
+                    : const HomeScreen(),
+                'stats_screen': (context) => const StatsScreen(),
+                'game_screen': (context) => const GameScreen(),
+              },
+              debugShowCheckedModeBanner: false,
+              initialRoute: '/',
+            ),
           ),
         ),
-      ));
+      );
     },
   );
 }
