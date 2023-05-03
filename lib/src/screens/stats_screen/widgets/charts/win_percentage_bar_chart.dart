@@ -133,6 +133,11 @@ class WinPercentageBarChart extends StatelessWidget {
               labelStyle: TextStyleSpec(
                 color: isDark ? MaterialPalette.white : MaterialPalette.black,
               ),
+              lineStyle: LineStyleSpec(
+                color: isDark
+                    ? MaterialPalette.white
+                    : const Color(r: 135, g: 131, b: 131),
+              ),
             ),
           ),
           domainAxis: OrdinalAxisSpec(

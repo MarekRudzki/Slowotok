@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:confetti/confetti.dart';
 
 import '/src/common_widgets/game_instructions.dart';
-import '/src/services/words_provider.dart';
+import '/src/services/providers/words_provider.dart';
 import 'widgets/exit_alert_dialog.dart';
 import 'widgets/game_status_indicator.dart';
 import 'widgets/letters_grid.dart';

@@ -26,7 +26,7 @@ class GameInstructions extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).appBarTheme.backgroundColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Center(

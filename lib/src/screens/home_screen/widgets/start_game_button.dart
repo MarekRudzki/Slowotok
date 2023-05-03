@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '/src/services/words_provider.dart';
+import '/src/services/providers/words_provider.dart';
 
 class StartGameButton extends StatelessWidget {
   const StartGameButton({super.key});

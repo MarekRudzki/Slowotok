@@ -4,9 +4,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:slowotok/src/services/hive_words_of_the_day.dart';
 
-import '/src/services/hive_statistics.dart';
+import '/src/services/hive/hive_words_of_the_day.dart';
+import '/src/services/hive/hive_statistics.dart';
 
 class WordsProvider with ChangeNotifier {
   final HiveStatistics _hiveStatistics = HiveStatistics();
@@ -18,8 +18,7 @@ class WordsProvider with ChangeNotifier {
   bool isDark = false;
   bool unlimitedDialogError = false;
   String gameMode = 'unlimited';
-  // wotd - word of the day mode
-  int wotdDialogPageIndex = 0;
+  int wotdDialogPageIndex = 0; // wotd - WordsOfTheDay mode
   String correctWord = '';
   int selectedTotalTries = 0;
   int selectedWordLength = 0;
@@ -119,7 +118,7 @@ class WordsProvider with ChangeNotifier {
 
     if (gameMode == 'wordsoftheday') {
       final List<String> usedWords = await _hiveWordsOfTheDay.getCorrectWords();
-      print('usedWords:$usedWords');
+
       if (usedWords.contains(randomWord.toUpperCase())) {
         convertedList.remove(randomWord);
 

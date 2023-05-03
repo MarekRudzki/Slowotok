@@ -4,7 +4,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '/src/services/words_provider.dart';
+import '/src/services/providers/words_provider.dart';
 import 'widgets/charts/games_won_pie_chart.dart';
 import 'widgets/win_percentage.dart';
 import 'widgets/no_statistics.dart';

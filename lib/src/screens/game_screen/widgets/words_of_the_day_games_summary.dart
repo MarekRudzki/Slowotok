@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:slowotok/src/screens/game_screen/widgets/letter_tile.dart';
-import 'package:slowotok/src/services/constants.dart';
-import 'package:slowotok/src/services/words_provider.dart';
+
+import '/src/screens/game_screen/widgets/letter_tile.dart';
+import '/src/services/providers/words_provider.dart';
+import '/src/services/constants.dart';
 
 class WordsOfTheDayGamesSummary extends StatelessWidget {
   const WordsOfTheDayGamesSummary({

@@ -4,7 +4,7 @@ import 'package:slide_countdown/slide_countdown.dart';
 import 'package:provider/provider.dart';
 
 import '/src/common_widgets/options_button.dart';
-import '/src/services/words_provider.dart';
+import '/src/services/providers/words_provider.dart';
 import '/src/services/constants.dart';
 import 'game_status_indicator.dart';
 import 'words_of_the_day_games_summary.dart';

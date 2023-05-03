@@ -43,6 +43,23 @@ class TotalTriesBarChart extends StatelessWidget {
       ),
     ];
 
+    List<TickSpec<int>> getStaticTicks() {
+      final List<int> counter = [
+        statsBox.get('4_tries_game') as int,
+        statsBox.get('5_tries_game') as int,
+        statsBox.get('6_tries_game') as int,
+      ];
+      counter.sort();
+      final int maxTries = counter.last;
+
+      return [
+        const TickSpec(0),
+        TickSpec(int.parse((maxTries / 2).toStringAsFixed(0))),
+        TickSpec(int.parse((maxTries / 4).toStringAsFixed(0))),
+        TickSpec(maxTries),
+      ];
+    }
+
     return SizedBox(
       height: 210,
       width: MediaQuery.of(context).size.width * 0.455,
@@ -67,9 +84,17 @@ class TotalTriesBarChart extends StatelessWidget {
           ),
         ),
         primaryMeasureAxis: NumericAxisSpec(
+          tickProviderSpec: StaticNumericTickProviderSpec(
+            getStaticTicks(),
+          ),
           renderSpec: GridlineRendererSpec(
             labelStyle: TextStyleSpec(
               color: isDark ? MaterialPalette.white : MaterialPalette.black,
+            ),
+            lineStyle: LineStyleSpec(
+              color: isDark
+                  ? MaterialPalette.white
+                  : const Color(r: 135, g: 131, b: 131),
             ),
           ),
         ),

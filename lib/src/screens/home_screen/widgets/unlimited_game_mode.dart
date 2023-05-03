@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/src/common_widgets/options_button.dart';
-import '/src/services/words_provider.dart';
+import '/src/services/providers/words_provider.dart';
 import 'word_total_tries_picker.dart';
 import 'word_length_picker.dart';
 import 'start_game_button.dart';

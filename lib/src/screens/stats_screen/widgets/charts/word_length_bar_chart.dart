@@ -1,6 +1,7 @@
 import 'package:charts_flutter_new/flutter.dart';
 
 import 'package:flutter/material.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 
 class _WordLengthStats {
@@ -48,6 +49,24 @@ class WordLengthBarChart extends StatelessWidget {
       ),
     ];
 
+    List<TickSpec<int>> getStaticTicks() {
+      final List<int> counter = [
+        statsBox.get('4_letter_game') as int,
+        statsBox.get('5_letter_game') as int,
+        statsBox.get('6_letter_game') as int,
+        statsBox.get('7_letter_game') as int
+      ];
+      counter.sort();
+      final int maxLength = counter.last;
+
+      return [
+        const TickSpec(0),
+        TickSpec(int.parse((maxLength / 2).toStringAsFixed(0))),
+        TickSpec(int.parse((maxLength / 4).toStringAsFixed(0))),
+        TickSpec(maxLength),
+      ];
+    }
+
     return SizedBox(
       height: 210,
       width: MediaQuery.of(context).size.width * 0.455,
@@ -71,10 +90,18 @@ class WordLengthBarChart extends StatelessWidget {
           ),
         ),
         primaryMeasureAxis: NumericAxisSpec(
+          tickProviderSpec: StaticNumericTickProviderSpec(
+            getStaticTicks(),
+          ),
           showAxisLine: false,
           renderSpec: GridlineRendererSpec(
             labelStyle: TextStyleSpec(
               color: isDark ? MaterialPalette.white : MaterialPalette.black,
+            ),
+            lineStyle: LineStyleSpec(
+              color: isDark
+                  ? MaterialPalette.white
+                  : const Color(r: 135, g: 131, b: 131),
             ),
           ),
         ),

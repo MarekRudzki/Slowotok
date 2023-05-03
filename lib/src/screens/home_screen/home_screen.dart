@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:slowotok/src/screens/home_screen/widgets/theme_switcher.dart';
 
-import '../game_screen/widgets/words_of_the_day_summary_dialog.dart';
-import '../introduction_screen/introduction_screen.dart';
 import '/src/common_widgets/game_instructions.dart';
 import '/src/common_widgets/options_button.dart';
-import '/src/services/hive_statistics.dart';
-import '/src/services/words_provider.dart';
+import '/src/screens/game_screen/widgets/words_of_the_day_summary_dialog.dart';
+import '/src/screens/introduction_screen/introduction_screen.dart';
+import '/src/screens/home_screen/widgets/theme_switcher.dart';
+import '/src/services/providers/words_provider.dart';
+import '/src/services/hive/hive_statistics.dart';
 import 'widgets/unlimited_game_mode.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -85,119 +85,124 @@ class HomeScreen extends StatelessWidget {
                       if (snapshot.hasData) {
                         wordsProvider.setTheme(snapshot.data!);
 
-                        return Column(
-                          children: [
-                            const SizedBox(height: 20),
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Material(
-                                color: Colors.transparent,
-                                elevation: 25,
-                                child: Center(
-                                  child: Image.asset(
-                                    gaplessPlayback: true,
-                                    !wordsProvider.isDark
-                                        ? 'assets/icon.png'
-                                        : 'assets/icon2.png',
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                          ),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 20),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15.0),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  elevation: 25,
+                                  child: Center(
+                                    child: Image.asset(
+                                      gaplessPlayback: true,
+                                      !wordsProvider.isDark
+                                          ? 'assets/icon.png'
+                                          : 'assets/icon2.png',
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const Spacer(),
-                            Column(
-                              children: [
-                                const UnlimitedGameMode(),
-                                const SizedBox(height: 20),
-                                OptionsButton(
-                                  text: 'Słówka dnia',
-                                  onPressed: () async {
-                                    final bool modeAvailable =
-                                        await wordsProvider.gameModeAvailable();
-                                    if (!modeAvailable) {
-                                      wordsProvider.changeWotdDialogPage(
-                                          indexPage: 0);
+                              const Spacer(),
+                              Column(
+                                children: [
+                                  const UnlimitedGameMode(),
+                                  OptionsButton(
+                                    text: 'Słówka dnia',
+                                    onPressed: () async {
+                                      final bool modeAvailable =
+                                          await wordsProvider
+                                              .gameModeAvailable();
+                                      if (!modeAvailable) {
+                                        wordsProvider.changeWotdDialogPage(
+                                            indexPage: 0);
+                                        if (context.mounted)
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return WordsOfTheDaySummaryDialog(
+                                                provider: wordsProvider,
+                                              );
+                                            },
+                                          );
+                                        return;
+                                      }
+                                      wordsProvider.setTotalTries(6);
+                                      wordsProvider.setWordLength(5);
+
+                                      wordsProvider.changeGameMode(
+                                          newGameMode: 'wordsoftheday');
+
                                       if (context.mounted)
-                                        showDialog(
+                                        await wordsProvider
+                                            .setRandomWord(
                                           context: context,
-                                          builder: (context) {
-                                            return WordsOfTheDaySummaryDialog(
-                                              provider: wordsProvider,
-                                            );
+                                        )
+                                            .then(
+                                          (value) {
+                                            Navigator.pushNamed(
+                                                context, 'game_screen');
                                           },
                                         );
-                                      return;
-                                    }
-                                    wordsProvider.setTotalTries(6);
-                                    wordsProvider.setWordLength(5);
-
-                                    wordsProvider.changeGameMode(
-                                        newGameMode: 'wordsoftheday');
-
-                                    if (context.mounted)
-                                      await wordsProvider
-                                          .setRandomWord(
-                                        context: context,
-                                      )
-                                          .then(
-                                        (value) {
-                                          Navigator.pushNamed(
-                                              context, 'game_screen');
-                                        },
-                                      );
-                                  },
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                            Row(
-                              children: [
-                                Flexible(
-                                  flex: 4,
-                                  child: OptionsButton(
-                                    text: 'Jak grać?',
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            const GameInstructions(),
-                                      );
                                     },
                                   ),
-                                ),
-                                Flexible(
-                                  flex: 2,
-                                  child: ThemeSwitcher(
-                                    wordsProvider: wordsProvider,
+                                ],
+                              ),
+                              const Spacer(),
+                              Row(
+                                children: [
+                                  Flexible(
+                                    flex: 4,
+                                    child: OptionsButton(
+                                      text: 'Jak grać?',
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              const GameInstructions(),
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            OptionsButton(
-                              text: 'Statystyki',
-                              onPressed: () {
-                                Navigator.pushNamed(context, 'stats_screen');
-                              },
-                            ),
-                            const SizedBox(height: 25),
-                            IconButton(
-                                //TODO just for testing
+                                  Flexible(
+                                    flex: 2,
+                                    child: ThemeSwitcher(
+                                      wordsProvider: wordsProvider,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              OptionsButton(
+                                text: 'Statystyki',
                                 onPressed: () {
-                                  Navigator.of(context).push(PageRouteBuilder(
-                                      opaque: false,
-                                      pageBuilder:
-                                          (BuildContext context, _, __) {
-                                        return const IntroductionScreen();
-                                      }));
+                                  Navigator.pushNamed(context, 'stats_screen');
                                 },
-                                icon: const Icon(Icons.abc)),
-                            OptionsButton(
-                              text: 'Wyjdź z gry',
-                              onPressed: () {
-                                SystemNavigator.pop();
-                              },
-                            ),
-                            const SizedBox(height: 15)
-                          ],
+                              ),
+                              const SizedBox(height: 25),
+                              IconButton(
+                                  //TODO just for testing
+                                  onPressed: () {
+                                    Navigator.of(context).push(PageRouteBuilder(
+                                        opaque: false,
+                                        pageBuilder:
+                                            (BuildContext context, _, __) {
+                                          return const IntroductionScreen();
+                                        }));
+                                  },
+                                  icon: const Icon(Icons.abc)),
+                              OptionsButton(
+                                text: 'Wyjdź z gry',
+                                onPressed: () {
+                                  SystemNavigator.pop();
+                                },
+                              ),
+                              const SizedBox(height: 15)
+                            ],
+                          ),
                         );
                       }
                       return const SizedBox.shrink();

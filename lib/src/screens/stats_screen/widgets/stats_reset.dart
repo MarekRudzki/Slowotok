@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '/src/services/words_provider.dart';
+import '/src/services/providers/words_provider.dart';
 
 class StatsReset extends StatelessWidget {
   const StatsReset({

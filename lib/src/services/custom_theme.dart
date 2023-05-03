@@ -25,7 +25,7 @@ class CustomTheme {
 
   static ThemeData lightTheme = ThemeData(
     colorScheme: const ColorScheme.light(
-      background: Color.fromARGB(255, 209, 242, 189),
+      background: Color.fromARGB(255, 244, 244, 244),
       primary: Colors.black,
       onPrimaryContainer: Color.fromARGB(255, 99, 203, 105),
       error: Colors.red,
@@ -34,6 +34,9 @@ class CustomTheme {
     appBarTheme: const AppBarTheme(
       backgroundColor: Color.fromARGB(255, 99, 203, 105),
     ),
+    splashFactory: NoSplash.splashFactory,
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     dividerColor: const Color.fromARGB(148, 135, 131, 131),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(

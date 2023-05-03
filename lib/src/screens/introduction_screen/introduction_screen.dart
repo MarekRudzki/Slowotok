@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:provider/provider.dart';
 
-import '/src/services/hive_introduction_screen.dart';
-import 'screens/game_guide_1.dart';
+import '/src/screens/home_screen/home_screen.dart';
+import '/src/services/providers/introduction_screen_provider.dart';
+import 'widgets/game_guide_1.dart';
 
 class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({super.key});
@@ -13,10 +15,7 @@ class IntroductionScreen extends StatefulWidget {
 }
 
 class _IntroductionScreenState extends State<IntroductionScreen> {
-  final HiveIntroductionScreen _hiveIntroductionScreen =
-      HiveIntroductionScreen();
   final PageController _controller = PageController();
-  int pageIndex = 0;
 
   @override
   void dispose() {
@@ -26,108 +25,118 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final int currentPage = context.select(
+        (IntroductionScreenProvider introductionScreenProvider) =>
+            introductionScreenProvider.introductionScreenPageIndex);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-        body: Stack(
-          children: [
-            PageView(
-              onPageChanged: (index) {
-                setState(() {
-                  pageIndex = index;
-                });
-              },
-              controller: _controller,
-              children: [
-                const GameGuide1(),
-                Image.asset('assets/game_guide_1.png'),
-                Image.asset('assets/game_guide_2.png'),
-              ],
-            ),
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+        body: Consumer<IntroductionScreenProvider>(
+          builder: (context, wordsProvider, _) => Stack(
+            children: [
+              PageView(
+                onPageChanged: (index) {
+                  wordsProvider.changeIntroductionScreen(pageIndex: index);
+                },
+                controller: _controller,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        child: Text(
-                          'Poprzedni',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              color: pageIndex == 0
-                                  ? Theme.of(context).colorScheme.background
-                                  : Colors.black),
-                        ),
-                        onTap: () {
-                          _controller.previousPage(
-                            duration: const Duration(milliseconds: 400),
-                            curve: Curves.easeIn,
-                          );
-                        },
-                      ),
-                      SmoothPageIndicator(
-                        controller: _controller,
-                        effect: const WormEffect(
-                          activeDotColor: Colors.green,
-                        ),
-                        count: 3,
-                      ),
-                      if (pageIndex == 2)
-                        GestureDetector(
-                          child: const Text(
-                            'Rozumiem!',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                          onTap: () async {
-                            await _hiveIntroductionScreen
-                                .deactivateIntroductionScreen();
-                            if (context.mounted) Navigator.of(context).pop();
-                          },
-                        )
-                      else
-                        GestureDetector(
-                          child: const Text(
-                            'Następny',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                          onTap: () {
-                            _controller.nextPage(
-                              duration: const Duration(milliseconds: 400),
-                              curve: Curves.easeIn,
-                            );
-                          },
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                  ElevatedButton(
-                    onPressed: () {
-                      //_controller.jumpToPage(2);
-                      //TODO this is temporray
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'Pomiń',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 25),
+                  const GameGuide1(),
+                  Image.asset('assets/game_guide_1.png'),
+                  Image.asset('assets/game_guide_2.png'),
                 ],
               ),
-            ),
-          ],
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        if (currentPage == 0)
+                          const SizedBox(width: 106)
+                        else
+                          OutlinedButton(
+                            onPressed: () {
+                              _controller.previousPage(
+                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.easeIn,
+                              );
+                            },
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                width: 2.0,
+                                color: Colors.green,
+                              ),
+                            ),
+                            child: const Text(
+                              'Poprzedni',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        SmoothPageIndicator(
+                          controller: _controller,
+                          effect: const WormEffect(
+                            activeDotColor: Colors.green,
+                          ),
+                          count: 3,
+                        ),
+                        if (currentPage == 2)
+                          const SizedBox(width: 101)
+                        else
+                          OutlinedButton(
+                            onPressed: () {
+                              _controller.nextPage(
+                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.easeIn,
+                              );
+                            },
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                width: 2.0,
+                                color: Colors.green,
+                              ),
+                            ),
+                            child: const Text(
+                              'Następny',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await wordsProvider.deactivateIntroductionScreen();
+                        if (context.mounted)
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ),
+                          );
+                      },
+                      child: Text(
+                        currentPage == 2 ? 'Zamknij' : 'Pomiń',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '/src/services/words_provider.dart';
+import '/src/services/providers/words_provider.dart';
 import 'word_length_button.dart';
 
 class WordLengthPicker extends StatelessWidget {
