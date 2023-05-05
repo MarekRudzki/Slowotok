@@ -83,6 +83,8 @@ class WordsOfTheDayGamesSummary extends StatelessWidget {
       return Constants.correctLetterColor;
     } else if (correctWordLetters.contains(letterGuess)) {
       return Constants.wrongLetterColor;
+    } else if (letterGuess == ' ') {
+      return Constants.backgroundColor;
     } else {
       return Constants.noLetterInWordColor;
     }

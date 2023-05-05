@@ -17,43 +17,25 @@ class HiveStatistics {
     await statsBox.put('game_counter', 0);
     await statsBox.put('game_won', 0);
 
-    await statsBox.put('4_letter_game', 0);
-    await statsBox.put('5_letter_game', 0);
-    await statsBox.put('6_letter_game', 0);
-    await statsBox.put('7_letter_game', 0);
+    final List<int> gameLength = [4, 5, 6, 7];
+    final List<int> gameTries = [4, 5, 6];
 
-    await statsBox.put('4_tries_game', 0);
-    await statsBox.put('5_tries_game', 0);
-    await statsBox.put('6_tries_game', 0);
+    Future.wait(gameLength.map((length) async {
+      await statsBox.put('${length}_letter_game', 0);
+    }));
 
-    // Detailed game statistics (4_4 means game with 4 words and 4 tries)
-    await statsBox.put('4_4_game', 0);
-    await statsBox.put('4_4_won', 0);
-    await statsBox.put('4_5_game', 0);
-    await statsBox.put('4_5_won', 0);
-    await statsBox.put('4_6_game', 0);
-    await statsBox.put('4_6_won', 0);
+    Future.wait(gameTries.map((tries) async {
+      await statsBox.put('${tries}_tries_game', 0);
+    }));
 
-    await statsBox.put('5_4_game', 0);
-    await statsBox.put('5_4_won', 0);
-    await statsBox.put('5_5_game', 0);
-    await statsBox.put('5_5_won', 0);
-    await statsBox.put('5_6_game', 0);
-    await statsBox.put('5_6_won', 0);
-
-    await statsBox.put('6_4_game', 0);
-    await statsBox.put('6_4_won', 0);
-    await statsBox.put('6_5_game', 0);
-    await statsBox.put('6_5_won', 0);
-    await statsBox.put('6_6_game', 0);
-    await statsBox.put('6_6_won', 0);
-
-    await statsBox.put('7_4_game', 0);
-    await statsBox.put('7_4_won', 0);
-    await statsBox.put('7_5_game', 0);
-    await statsBox.put('7_5_won', 0);
-    await statsBox.put('7_6_game', 0);
-    await statsBox.put('7_6_won', 0);
+    Future.wait(gameLength.map((length) async {
+      Future.wait(gameTries.map(
+        (tries) async {
+          await statsBox.put('${length}_${tries}_game', 0);
+          await statsBox.put('${length}_${tries}_won', 0);
+        },
+      ));
+    }));
   }
 
   /// Add game statistics on game finish
@@ -61,23 +43,25 @@ class HiveStatistics {
     required bool isWinner,
     required int wordLength,
     required int totalTries,
+    required String modePlayed,
   }) async {
-    await addGameCount();
-    if (isWinner) {
-      await addGameWon();
-    }
+    if (modePlayed == 'unlimited') {
+      await addGameCount();
+      if (isWinner) {
+        await addGameWon();
+      }
+      await addSelectedLength(length: wordLength);
+      await addSelectedTries(tries: totalTries);
 
-    await addSelectedLength(length: wordLength);
-    await addSelectedTries(tries: totalTries);
-
-    await addWinPercentageStats(
-      isWinner: isWinner,
-      wordLength: wordLength,
-      totalTries: totalTries,
-    );
+      await addWinPercentageStats(
+        isWinner: isWinner,
+        wordLength: wordLength,
+        totalTries: totalTries,
+      );
+    } else if (modePlayed == 'wotd') {}
   }
 
-  /// Individual game statistics
+  /// Individual game statistics for unlimited game mode
 
   // Game counter & pie chart
   Future<void> addGameCount() async {

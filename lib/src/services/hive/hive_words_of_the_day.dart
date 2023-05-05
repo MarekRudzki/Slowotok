@@ -53,7 +53,20 @@ class HiveWordsOfTheDay {
     required List<String> words,
     required int gameLevel,
   }) async {
-    await wordsOfTheDayBox.put('user_words_$gameLevel', words);
+    final List<String> newList = [];
+    for (final String word in words) {
+      if (word.length != 5 && word.isNotEmpty) {
+        final buffer = StringBuffer();
+        final int missingLetters = 5 - word.length;
+        for (int i = 0; i < missingLetters; i++) {
+          buffer.write(' ');
+        }
+        newList.add(word + buffer.toString());
+      } else {
+        newList.add(word);
+      }
+    }
+    await wordsOfTheDayBox.put('user_words_$gameLevel', newList);
   }
 
   Future<List<List<String>>> getAllUserWords() async {

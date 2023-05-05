@@ -26,7 +26,7 @@ class IntroductionScreenProvider with ChangeNotifier {
     notifyListeners();
 
     await Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1200),
     );
     secondTextOpacity = 1.0;
     notifyListeners();

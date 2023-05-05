@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:slowotok/src/services/providers/stats_provider.dart';
 
 import 'src/screens/introduction_screen/introduction_screen.dart';
 import 'src/screens/stats_screen/stats_screen.dart';
@@ -39,6 +40,9 @@ void main() async {
             ),
             ChangeNotifierProvider(
               create: (context) => IntroductionScreenProvider(),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => StatsProvider(),
             )
           ],
           child: AdaptiveTheme(

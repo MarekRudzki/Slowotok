@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '/src/services/providers/words_provider.dart';
-import 'widgets/charts/games_won_pie_chart.dart';
-import 'widgets/win_percentage.dart';
-import 'widgets/no_statistics.dart';
-import 'widgets/game_counter.dart';
-import 'widgets/top_choices.dart';
-import 'widgets/stats_reset.dart';
+import '/src/services/providers/stats_provider.dart';
+import 'unlimited_mode_stats/unlimited_mode_stats.dart';
+import 'wotd_mode_stats/wotd_mode_stats.dart';
+import 'common_widgets/no_statistics.dart';
+import 'common_widgets/stats_reset.dart';
 
 class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final statsBox = Hive.box('statsBox');
-
     return SafeArea(
-      child: Consumer<WordsProvider>(
-        builder: (context, wordsProvider, _) {
-          final int gamesPlayed = statsBox.get('game_counter') as int;
-
+      child: Consumer<StatsProvider>(
+        builder: (context, statsProvider, _) {
           return Scaffold(
             backgroundColor: Theme.of(context).colorScheme.background,
             appBar: AppBar(
@@ -31,8 +24,18 @@ class StatsScreen extends StatelessWidget {
                 'Statystyki',
               ),
               centerTitle: true,
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  Navigator.of(context).pop();
+                },
+              ),
               actions: [
-                StatsReset(wordsProvider: wordsProvider),
+                StatsReset(statsProvider: statsProvider),
               ],
             ),
             body: FutureBuilder(
@@ -44,21 +47,25 @@ class StatsScreen extends StatelessWidget {
                       ? isDark = true
                       : isDark = false;
 
-                  if (gamesPlayed == 0) {
-                    return const NoStatistics();
+                  if (statsProvider.getNumberOfGames() == 0) {
+                    return const NoStatistics(
+                      hasAnyStats: false,
+                    );
                   } else {
                     return Column(
                       children: [
                         Expanded(
                           child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                GameCounter(statsBox: statsBox),
-                                WinLosePieChart(isDark: isDark),
-                                TopChoices(isDark: isDark),
-                                WinPercentage(isDark: isDark)
-                              ],
-                            ),
+                            child: statsProvider.getDisplayedStatsType() ==
+                                    'unlimited'
+                                ? UnlimitedModeStats(
+                                    statsProvider: statsProvider,
+                                    isDark: isDark,
+                                    statsBox: statsProvider.getStatsBox(),
+                                  )
+                                : WotdModeStats(
+                                    statsProvider: statsProvider,
+                                  ),
                           ),
                         ),
                       ],

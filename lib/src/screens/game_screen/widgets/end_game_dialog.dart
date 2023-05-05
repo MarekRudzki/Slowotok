@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slowotok/src/screens/home_screen/home_screen.dart';
 
 import '/src/common_widgets/options_button.dart';
 import '/src/services/providers/words_provider.dart';
@@ -135,7 +136,10 @@ class EndGameDialog extends StatelessWidget {
                                   await provider.restartWord();
                                   if (context.mounted) {
                                     Navigator.of(context).pop();
-                                    Navigator.of(context).pushNamed('/');
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => const HomeScreen(),
+                                    ));
                                     if (context.mounted)
                                       showDialog(
                                         context: context,
@@ -172,7 +176,11 @@ class EndGameDialog extends StatelessWidget {
                     await provider.restartWord();
                     if (context.mounted) {
                       Navigator.of(context).pop();
-                      Navigator.pushReplacementNamed(context, '/');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ),
+                      );
                     }
                   },
                 ),

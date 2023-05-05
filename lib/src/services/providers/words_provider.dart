@@ -84,6 +84,7 @@ class WordsProvider with ChangeNotifier {
   Future<void> markGameAsLost() async {
     await _hiveStatistics.addGameStatistics(
       isWinner: false,
+      modePlayed: gameMode,
       wordLength: selectedWordLength,
       totalTries: selectedTotalTries,
     );
@@ -207,6 +208,7 @@ class WordsProvider with ChangeNotifier {
       if (guesses[index] == correctWord) {
         await _hiveStatistics.addGameStatistics(
           isWinner: true,
+          modePlayed: gameMode,
           wordLength: selectedWordLength,
           totalTries: selectedTotalTries,
         );
@@ -219,6 +221,7 @@ class WordsProvider with ChangeNotifier {
       if (index == selectedTotalTries - 1) {
         await _hiveStatistics.addGameStatistics(
           isWinner: false,
+          modePlayed: gameMode,
           wordLength: selectedWordLength,
           totalTries: selectedTotalTries,
         );
@@ -360,12 +363,6 @@ class WordsProvider with ChangeNotifier {
     } else {
       return true;
     }
-  }
-
-  // Statistics
-  Future<void> resetStatistics() async {
-    await _hiveStatistics.setInitialStats();
-    notifyListeners();
   }
 
   // Theme

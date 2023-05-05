@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 class NoStatistics extends StatelessWidget {
   const NoStatistics({
     super.key,
+    required this.hasAnyStats,
   });
+
+  final bool hasAnyStats;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,9 @@ class NoStatistics extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Nie rozegrałeś jeszcze żadnej gry!',
+            hasAnyStats
+                ? 'Nie rozegrałeś jeszcze żadnej gry w tym trybie!'
+                : 'Nie rozegrałeś jeszcze żadnej gry!', //TODO zmienic na bezosobową formę
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontSize: 16,
