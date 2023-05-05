@@ -8,6 +8,7 @@ class StatsProvider with ChangeNotifier {
   final HiveStatistics _hiveStatistics = HiveStatistics();
 
   String currentStatsType = 'unlimited';
+  DateTime focusedDay = DateTime.now();
 
   Box<dynamic> getStatsBox() {
     return _hiveStatistics.statsBox;
@@ -26,6 +27,11 @@ class StatsProvider with ChangeNotifier {
 
   int getNumberOfGames() {
     return _hiveStatistics.statsBox.get('game_counter') as int;
+  }
+
+  void changeFocusedDay({required DateTime day}) {
+    focusedDay = day;
+    notifyListeners();
   }
 
   Future<void> resetStatistics() async {

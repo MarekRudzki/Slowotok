@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:slowotok/src/services/providers/stats_provider.dart';
 
@@ -32,36 +33,38 @@ void main() async {
     (_) {
       //TODO add stats for WOTD
       //TODO app tests
-      runApp(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (context) => WordsProvider(),
-            ),
-            ChangeNotifierProvider(
-              create: (context) => IntroductionScreenProvider(),
-            ),
-            ChangeNotifierProvider(
-              create: (context) => StatsProvider(),
-            )
-          ],
-          child: AdaptiveTheme(
-            light: CustomTheme.lightTheme,
-            dark: CustomTheme.darkTheme,
-            initial: savedThemeMode ?? AdaptiveThemeMode.light,
-            builder: (theme, darkTheme) => MaterialApp(
-              theme: theme,
-              darkTheme: darkTheme,
-              title: 'Słowotok',
-              routes: {
-                '/': (context) => showIntroductionScreen
-                    ? const IntroductionScreen()
-                    : const HomeScreen(),
-                'stats_screen': (context) => const StatsScreen(),
-                'game_screen': (context) => const GameScreen(),
-              },
-              debugShowCheckedModeBanner: false,
-              initialRoute: '/',
+      initializeDateFormatting().then(
+        (_) => runApp(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (context) => WordsProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => IntroductionScreenProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => StatsProvider(),
+              )
+            ],
+            child: AdaptiveTheme(
+              light: CustomTheme.lightTheme,
+              dark: CustomTheme.darkTheme,
+              initial: savedThemeMode ?? AdaptiveThemeMode.light,
+              builder: (theme, darkTheme) => MaterialApp(
+                theme: theme,
+                darkTheme: darkTheme,
+                title: 'Słowotok',
+                routes: {
+                  '/': (context) => showIntroductionScreen
+                      ? const IntroductionScreen()
+                      : const HomeScreen(),
+                  'stats_screen': (context) => const StatsScreen(),
+                  'game_screen': (context) => const GameScreen(),
+                },
+                debugShowCheckedModeBanner: false,
+                initialRoute: '/',
+              ),
             ),
           ),
         ),

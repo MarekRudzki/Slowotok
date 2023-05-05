@@ -27,7 +27,7 @@ class NoStatistics extends StatelessWidget {
           Text(
             hasAnyStats
                 ? 'Nie rozegrałeś jeszcze żadnej gry w tym trybie!'
-                : 'Nie rozegrałeś jeszcze żadnej gry!', //TODO zmienic na bezosobową formę
+                : 'Nie rozegrałeś jeszcze żadnej gry!', //TODO
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontSize: 16,
