@@ -68,6 +68,7 @@ class _WordsOfTheDaySummaryDialogState
                   if (snapshot.hasData) {
                     final List<String> correctWords = snapshot.data!;
                     return Column(
+                      //TODO add animation on widget height change
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Padding(

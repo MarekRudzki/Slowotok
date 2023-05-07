@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:slowotok/src/services/providers/stats_provider.dart';
 
 import '/src/services/hive/hive_words_of_the_day.dart';
 import '/src/services/hive/hive_statistics.dart';
@@ -11,6 +12,7 @@ import '/src/services/hive/hive_statistics.dart';
 class WordsProvider with ChangeNotifier {
   final HiveStatistics _hiveStatistics = HiveStatistics();
   final HiveWordsOfTheDay _hiveWordsOfTheDay = HiveWordsOfTheDay();
+  final StatsProvider _statsProvider = StatsProvider();
 
   //Initial values
   bool completed = false;
@@ -82,12 +84,15 @@ class WordsProvider with ChangeNotifier {
   }
 
   Future<void> markGameAsLost() async {
-    await _hiveStatistics.addGameStatistics(
-      isWinner: false,
-      modePlayed: gameMode,
-      wordLength: selectedWordLength,
-      totalTries: selectedTotalTries,
-    );
+    if (gameMode == 'unlimited') {
+      await _hiveStatistics.addUnlimitedGameStatistics(
+        isWinner: false,
+        wordLength: selectedWordLength,
+        totalTries: selectedTotalTries,
+      );
+    } else {
+      await _statsProvider.addWotdStats(isWin: false);
+    }
   }
 
   void setWordLength(int length) {
@@ -206,12 +211,16 @@ class WordsProvider with ChangeNotifier {
     if (guesses[index].length == selectedWordLength) {
       status[index] = true;
       if (guesses[index] == correctWord) {
-        await _hiveStatistics.addGameStatistics(
-          isWinner: true,
-          modePlayed: gameMode,
-          wordLength: selectedWordLength,
-          totalTries: selectedTotalTries,
-        );
+        if (gameMode == 'unlimited') {
+          await _hiveStatistics.addUnlimitedGameStatistics(
+            isWinner: true,
+            wordLength: selectedWordLength,
+            totalTries: selectedTotalTries,
+          );
+        } else {
+          await _statsProvider.addWotdStats(isWin: true);
+        }
+
         completed = true;
         letterController();
         notifyListeners();
@@ -219,12 +228,15 @@ class WordsProvider with ChangeNotifier {
       }
 
       if (index == selectedTotalTries - 1) {
-        await _hiveStatistics.addGameStatistics(
-          isWinner: false,
-          modePlayed: gameMode,
-          wordLength: selectedWordLength,
-          totalTries: selectedTotalTries,
-        );
+        if (gameMode == 'unlimited') {
+          await _hiveStatistics.addUnlimitedGameStatistics(
+            isWinner: false,
+            wordLength: selectedWordLength,
+            totalTries: selectedTotalTries,
+          );
+        } else {
+          await _statsProvider.addWotdStats(isWin: false);
+        }
 
         letterController();
         completed = true;

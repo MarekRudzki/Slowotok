@@ -74,7 +74,7 @@ class HomeScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
           body: FutureBuilder(
-            future: hiveStatistics.checkForStatistics(),
+            future: hiveStatistics.checkUnlimitedStatistics(),
             builder: (context, snapshot) {
               return Consumer<WordsProvider>(
                 builder: (context, wordsProvider, _) {

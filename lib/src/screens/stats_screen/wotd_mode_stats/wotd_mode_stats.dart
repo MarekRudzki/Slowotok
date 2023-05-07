@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:slowotok/src/screens/stats_screen/wotd_mode_stats/widgets/game_calendar.dart';
 
+import '/src/screens/stats_screen/wotd_mode_stats/widgets/game_calendar.dart';
 import '/src/screens/stats_screen/common_widgets/stats_type_picker.dart';
 import '/src/screens/stats_screen/common_widgets/no_statistics.dart';
 import '/src/services/providers/stats_provider.dart';
@@ -17,7 +17,7 @@ class WotdModeStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int gameCounter = 2; //TODO this is dummy data
+    final bool hasStats = statsProvider.hasWotdStatistics();
 
     // Get remaining height of screen
     //(Entire height - notification bar height - AppBar height - StatsTypePicker height)
@@ -29,7 +29,7 @@ class WotdModeStats extends StatelessWidget {
     return Column(
       children: [
         StatsTypePicker(statsProvider: statsProvider),
-        if (gameCounter == 0)
+        if (!hasStats)
           Container(
             width: double.infinity,
             height: remainingHeight,
@@ -39,13 +39,13 @@ class WotdModeStats extends StatelessWidget {
           )
         else
           Column(
-            //TODO add charts and stats
+            //TODO add more charts and stats
             children: [
               GameCalendar(
                 statsProvider: statsProvider,
               ),
             ],
-          )
+          ),
       ],
     );
   }

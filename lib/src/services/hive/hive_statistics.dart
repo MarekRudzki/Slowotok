@@ -4,9 +4,11 @@ class HiveStatistics {
   // Initialize box
   final statsBox = Hive.box('statsBox');
 
-  /// Check if user already have statistics in local memory
-  /// If not set initial values
-  Future<void> checkForStatistics() async {
+  /// Unlimited Game Mode Statistics
+
+  // Check if user already have statistics in local memory
+  // If not set initial values
+  Future<void> checkUnlimitedStatistics() async {
     final bool statsExists = statsBox.containsKey('game_counter');
     if (!statsExists) {
       await setInitialStats();
@@ -38,30 +40,27 @@ class HiveStatistics {
     }));
   }
 
-  /// Add game statistics on game finish
-  Future<void> addGameStatistics({
+  // Add game statistics on game finish
+  Future<void> addUnlimitedGameStatistics({
     required bool isWinner,
     required int wordLength,
     required int totalTries,
-    required String modePlayed,
   }) async {
-    if (modePlayed == 'unlimited') {
-      await addGameCount();
-      if (isWinner) {
-        await addGameWon();
-      }
-      await addSelectedLength(length: wordLength);
-      await addSelectedTries(tries: totalTries);
+    await addGameCount();
+    if (isWinner) {
+      await addGameWon();
+    }
+    await addSelectedLength(length: wordLength);
+    await addSelectedTries(tries: totalTries);
 
-      await addWinPercentageStats(
-        isWinner: isWinner,
-        wordLength: wordLength,
-        totalTries: totalTries,
-      );
-    } else if (modePlayed == 'wotd') {}
+    await addWinPercentageStats(
+      isWinner: isWinner,
+      wordLength: wordLength,
+      totalTries: totalTries,
+    );
   }
 
-  /// Individual game statistics for unlimited game mode
+  // Individual game statistics
 
   // Game counter & pie chart
   Future<void> addGameCount() async {
@@ -110,6 +109,45 @@ class HiveStatistics {
           statsBox.get('${wordLength}_${totalTries}_won') as int;
       final int newWinValue = currentWinValue + 1;
       await statsBox.put('${wordLength}_${totalTries}_won', newWinValue);
+    }
+  }
+
+  /// Words Of The Day Game Mode Statistics
+
+  bool checkForWotdStatistics() {
+    final bool statsExists = statsBox.containsKey('days_stats');
+    return statsExists;
+  }
+
+  Future<void> addWotdModeStats({
+    required String date,
+    required List<bool> dayStats,
+  }) async {
+    final Map<String, List<bool>> statsToAdd = {date: dayStats};
+    final Map<String, List<bool>> existingStats = getWotdModeStats();
+
+    if (existingStats.isEmpty) {
+      await statsBox.put('days_stats', statsToAdd);
+    } else {
+      existingStats.addAll({date: dayStats});
+      await statsBox.put('days_stats', existingStats);
+    }
+  }
+
+  Map<String, List<bool>> getWotdModeStats() {
+    if (!statsBox.containsKey('days_stats')) {
+      return {};
+    } else {
+      final stats = statsBox.get('days_stats') as Map;
+
+      final Map<String, List<bool>> convertedStatistics = {};
+      stats.forEach(
+        (date, dayStats) {
+          convertedStatistics.addAll({date.toString(): dayStats as List<bool>});
+        },
+      );
+
+      return convertedStatistics;
     }
   }
 }

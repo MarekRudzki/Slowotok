@@ -686,6 +686,7 @@ pasmo
 passa
 pasta
 pasza
+patio
 patyk
 pauza
 pazur

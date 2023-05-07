@@ -12,90 +12,84 @@ class StatsReset extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int gamesPlayed = statsProvider.getNumberOfGames();
-    return IconButton(
-      icon: const Icon(
-        Icons.restart_alt,
-      ),
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              backgroundColor: Theme.of(context).colorScheme.background,
-              title: Text(
-                'Reset statystyk',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-              content: Text(
-                'Czy na pewno chcesz zresetować wszystkie swoje statystyki? Tej operacji nie można cofnąć.',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-              contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
-              actions: [
-                TextButton(
-                  child: const Text(
-                    'Nie',
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
+    return Visibility(
+      visible: statsProvider.isResetButtonVisible(),
+      child: IconButton(
+        icon: const Icon(
+          Icons.restart_alt,
+        ),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                backgroundColor: Theme.of(context).colorScheme.background,
+                title: Text(
+                  'Reset statystyk',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
                 ),
-                TextButton(
-                  child: const Text(
-                    'Tak',
-                    style: TextStyle(
-                      color: Colors.green,
-                    ),
+                content: Text(
+                  'Czy na pewno chcesz zresetować swoje statystyki w tym trybie? Tej operacji nie można cofnąć.',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  onPressed: () async {
-                    if (gamesPlayed == 0) {
-                      buildSnackBar(context: context, hasStats: false);
-                    } else {
+                ),
+                contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+                actions: [
+                  TextButton(
+                    child: const Text(
+                      'Nie',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text(
+                      'Tak',
+                      style: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
+                    onPressed: () async {
                       await statsProvider.resetStatistics();
                       if (context.mounted) {
-                        buildSnackBar(context: context, hasStats: true);
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            duration: const Duration(
+                              seconds: 2,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            content: const Text(
+                              'Pomyślnie zresetowano statystyki',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                          ),
+                        );
                       }
-                    }
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      },
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
-}
-
-void buildSnackBar({required BuildContext context, required bool hasStats}) {
-  Navigator.of(context).pop();
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      behavior: SnackBarBehavior.floating,
-      duration: const Duration(
-        seconds: 2,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      content: Text(
-        hasStats
-            ? 'Pomyślnie zresetowano statystyki'
-            : 'Brak statystyk do zresetowania',
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-    ),
-  );
 }

@@ -2,15 +2,10 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
-import 'package:slowotok/src/services/providers/stats_provider.dart';
-
 import 'package:table_calendar/table_calendar.dart';
 
-class Event {
-  const Event({required this.isWin});
-
-  final bool isWin;
-}
+import 'event_model.dart';
+import '/src/services/providers/stats_provider.dart';
 
 class GameCalendar extends StatelessWidget {
   const GameCalendar({
@@ -26,49 +21,20 @@ class GameCalendar extends StatelessWidget {
       return key.day * 10000 + key.month * 1000 + key.year;
     }
 
-    final _kEventSource = {
-      //TODO this is dummy data
-      DateTime(2023, 5): [
-        const Event(isWin: true),
-        const Event(isWin: false),
-        const Event(isWin: true),
-      ],
-      DateTime(2023, 5, 2): [
-        const Event(isWin: true),
-        const Event(isWin: false),
-        const Event(isWin: false),
-      ],
-      DateTime(2023, 5, 3): [
-        const Event(isWin: true),
-        const Event(isWin: true),
-        const Event(isWin: true)
-      ],
-      DateTime(2023, 5, 4): [
-        const Event(isWin: false),
-        const Event(isWin: true),
-        const Event(isWin: false)
-      ],
-      DateTime(2023, 5, 5): [
-        const Event(isWin: false),
-        const Event(isWin: false),
-        const Event(isWin: true),
-      ],
-    };
+    final _kEventSource = statsProvider.getWotdStats();
     final kEvents = LinkedHashMap<DateTime, List<Event>>(
       equals: isSameDay,
       hashCode: getHashCode,
     )..addAll(_kEventSource);
 
-    final firstDayOfMonth =
-        DateTime.utc(DateTime.now().year, DateTime.now().month);
-    final lastDayOfMonth = DateTime(2024);
+    final lastDayOfMonth = DateTime.now().month;
 
     return Container(
       color: const Color.fromARGB(136, 226, 224, 224),
       child: TableCalendar(
-        focusedDay: statsProvider.focusedDay,
-        firstDay: firstDayOfMonth,
-        lastDay: lastDayOfMonth,
+        focusedDay: statsProvider.getFocusedDay(),
+        firstDay: statsProvider.getFirstDay(),
+        lastDay: DateTime(DateTime.now().year, lastDayOfMonth + 1, 0),
         locale: 'pl_PL',
         weekendDays: [
           DateTime.sunday,
@@ -97,11 +63,25 @@ class GameCalendar extends StatelessWidget {
           statsProvider.changeFocusedDay(day: focusedDay);
         },
         startingDayOfWeek: StartingDayOfWeek.monday,
-        headerStyle: const HeaderStyle(
+        headerStyle: HeaderStyle(
+          leftChevronVisible: statsProvider.isLeftChevronVisible(),
+          rightChevronVisible: statsProvider.isRightChevronVisible(),
+          titleTextStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+          headerPadding: !statsProvider.isRightChevronVisible()
+              ? const EdgeInsets.fromLTRB(0, 8, 46, 8)
+              : !statsProvider.isLeftChevronVisible()
+                  ? const EdgeInsets.fromLTRB(46, 8, 0, 8)
+                  : const EdgeInsets.symmetric(vertical: 8.0),
           titleCentered: true,
           formatButtonVisible: false,
         ),
         daysOfWeekStyle: const DaysOfWeekStyle(
+          weekdayStyle: TextStyle(
+            fontWeight: FontWeight.w500,
+          ),
           weekendStyle: TextStyle(
             color: Colors.red,
           ),

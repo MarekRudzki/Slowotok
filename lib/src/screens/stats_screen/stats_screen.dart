@@ -14,6 +14,7 @@ class StatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO adjust stats screen to dark theme
     return SafeArea(
       child: Consumer<StatsProvider>(
         builder: (context, statsProvider, _) {
@@ -47,7 +48,7 @@ class StatsScreen extends StatelessWidget {
                       ? isDark = true
                       : isDark = false;
 
-                  if (statsProvider.getNumberOfGames() == 0) {
+                  if (!statsProvider.hasAnyStatistics()) {
                     return const NoStatistics(
                       hasAnyStats: false,
                     );
