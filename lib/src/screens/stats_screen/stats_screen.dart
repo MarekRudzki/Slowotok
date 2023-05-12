@@ -14,7 +14,7 @@ class StatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO adjust stats screen to dark theme
+    //TODO by switching to stats screen the unlimited mode should show up as first
     return SafeArea(
       child: Consumer<StatsProvider>(
         builder: (context, statsProvider, _) {

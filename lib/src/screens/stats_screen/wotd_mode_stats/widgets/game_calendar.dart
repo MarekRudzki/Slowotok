@@ -27,14 +27,12 @@ class GameCalendar extends StatelessWidget {
       hashCode: getHashCode,
     )..addAll(_kEventSource);
 
-    final lastDayOfMonth = DateTime.now().month;
-
     return Container(
-      color: const Color.fromARGB(136, 226, 224, 224),
+      color: const Color.fromARGB(67, 163, 162, 162),
       child: TableCalendar(
         focusedDay: statsProvider.getFocusedDay(),
         firstDay: statsProvider.getFirstDay(),
-        lastDay: DateTime(DateTime.now().year, lastDayOfMonth + 1, 0),
+        lastDay: DateTime.now(),
         locale: 'pl_PL',
         weekendDays: [
           DateTime.sunday,
@@ -46,6 +44,12 @@ class GameCalendar extends StatelessWidget {
         calendarStyle: CalendarStyle(
           selectedDecoration: const BoxDecoration(
             color: Colors.red,
+          ),
+          defaultTextStyle: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          disabledTextStyle: TextStyle(
+            color: Theme.of(context).dividerColor,
           ),
           todayTextStyle: const TextStyle(
             color: Colors.black,
@@ -62,27 +66,26 @@ class GameCalendar extends StatelessWidget {
         onPageChanged: (focusedDay) {
           statsProvider.changeFocusedDay(day: focusedDay);
         },
+        onDaySelected: (selectedDay, focusedDay) {},
         startingDayOfWeek: StartingDayOfWeek.monday,
         headerStyle: HeaderStyle(
           leftChevronVisible: statsProvider.isLeftChevronVisible(),
           rightChevronVisible: statsProvider.isRightChevronVisible(),
-          titleTextStyle: const TextStyle(
+          titleTextStyle: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 16,
+            color: Theme.of(context).colorScheme.primary,
           ),
-          headerPadding: !statsProvider.isRightChevronVisible()
-              ? const EdgeInsets.fromLTRB(0, 8, 46, 8)
-              : !statsProvider.isLeftChevronVisible()
-                  ? const EdgeInsets.fromLTRB(46, 8, 0, 8)
-                  : const EdgeInsets.symmetric(vertical: 8.0),
+          headerPadding: buildHeaderPadding(statsProvider: statsProvider),
           titleCentered: true,
           formatButtonVisible: false,
         ),
-        daysOfWeekStyle: const DaysOfWeekStyle(
+        daysOfWeekStyle: DaysOfWeekStyle(
           weekdayStyle: TextStyle(
             fontWeight: FontWeight.w500,
+            color: Theme.of(context).colorScheme.primary,
           ),
-          weekendStyle: TextStyle(
+          weekendStyle: const TextStyle(
             color: Colors.red,
           ),
         ),
@@ -117,5 +120,18 @@ class GameCalendar extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+EdgeInsets buildHeaderPadding({required StatsProvider statsProvider}) {
+  final bool leftVisible = statsProvider.isLeftChevronVisible();
+  final bool rightVisible = statsProvider.isRightChevronVisible();
+
+  if (leftVisible && !rightVisible) {
+    return const EdgeInsets.fromLTRB(0, 10, 64, 10);
+  } else if (!leftVisible && rightVisible) {
+    return const EdgeInsets.fromLTRB(64, 10, 0, 10);
+  } else {
+    return const EdgeInsets.symmetric(vertical: 20);
   }
 }

@@ -104,9 +104,14 @@ class StatsProvider with ChangeNotifier {
   // Game Calendar
 
   DateTime getFirstDay() {
-    final allDates = getWotdStats();
+    final stats = getWotdStats();
+    final List<DateTime> allDates = [];
 
-    return allDates.keys.first;
+    for (final DateTime day in stats.keys) {
+      allDates.add(day);
+    }
+    allDates.sort();
+    return allDates.first;
   }
 
   DateTime getFocusedDay() {
@@ -119,10 +124,12 @@ class StatsProvider with ChangeNotifier {
   }
 
   bool isLeftChevronVisible() {
-    final String focusedDate = '${_focusedDay.year}-${_focusedDay.month}';
-    final String currentDate = '2023-1';
+    final DateTime firstDay = getFirstDay();
 
-    if (focusedDate == currentDate) {
+    final String focusedDate = '${_focusedDay.year}-${_focusedDay.month}';
+    final String firstMonth = '${firstDay.year}-${firstDay.month}';
+
+    if (focusedDate == firstMonth) {
       return false;
     } else {
       return true;

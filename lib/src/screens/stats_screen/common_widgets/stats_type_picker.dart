@@ -33,11 +33,8 @@ class StatsTypePicker extends StatelessWidget {
               curve: Curves.easeIn,
               decoration: BoxDecoration(
                 color: isUnlimited
-                    ? Theme.of(context)
-                        .colorScheme
-                        .onPrimaryContainer
-                        .withOpacity(0.5)
-                    : const Color.fromRGBO(235, 235, 235, 1),
+                    ? const Color.fromARGB(255, 99, 203, 105).withOpacity(0.5)
+                    : Colors.transparent,
               ),
               width: MediaQuery.of(context).size.width * 0.40,
               child: Center(
@@ -45,6 +42,7 @@ class StatsTypePicker extends StatelessWidget {
                   'Tryb nieograniczony',
                   style: TextStyle(
                     fontWeight: isUnlimited ? FontWeight.w700 : FontWeight.w400,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
@@ -65,12 +63,9 @@ class StatsTypePicker extends StatelessWidget {
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeIn,
               decoration: BoxDecoration(
-                color: isUnlimited
-                    ? const Color.fromRGBO(235, 235, 235, 1)
-                    : Theme.of(context)
-                        .colorScheme
-                        .onPrimaryContainer
-                        .withOpacity(0.5),
+                color: !isUnlimited
+                    ? const Color.fromARGB(255, 99, 203, 105).withOpacity(0.5)
+                    : Colors.transparent,
               ),
               width: MediaQuery.of(context).size.width * 0.40,
               child: Center(
@@ -78,6 +73,7 @@ class StatsTypePicker extends StatelessWidget {
                   'Słówka dnia',
                   style: TextStyle(
                     fontWeight: isUnlimited ? FontWeight.w400 : FontWeight.w700,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
