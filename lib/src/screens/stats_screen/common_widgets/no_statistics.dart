@@ -5,24 +5,19 @@ import 'package:flutter/material.dart';
 class NoStatistics extends StatelessWidget {
   const NoStatistics({
     super.key,
-    required this.hasAnyStats,
   });
-
-  final bool hasAnyStats;
 
   @override
   Widget build(BuildContext context) {
-    final int statsPickerHeight = hasAnyStats ? 65 : 0;
     final double remainingHeight = MediaQuery.of(context).size.height -
         MediaQueryData.fromWindow(window).padding.top -
-        AppBar().preferredSize.height -
-        statsPickerHeight;
+        AppBar().preferredSize.height;
 
     return SizedBox(
       width: double.infinity,
       child: Column(
         children: [
-          SizedBox(height: remainingHeight * 0.23),
+          SizedBox(height: remainingHeight * 0.28),
           Text(
             'Brak statystyk!',
             style: TextStyle(
@@ -31,7 +26,7 @@ class NoStatistics extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(height: remainingHeight * 0.15),
+          SizedBox(height: remainingHeight * 0.10),
           Text(
             'Trochę tutaj pusto 😕',
             style: TextStyle(
@@ -41,9 +36,7 @@ class NoStatistics extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            hasAnyStats
-                ? 'Zagraj w tym trybie, aby wyświetlić statystyki!'
-                : 'Zagraj, aby wyświetlić statystyki!',
+            'Zagraj w tym trybie, aby wyświetlić statystyki!',
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontSize: 16,

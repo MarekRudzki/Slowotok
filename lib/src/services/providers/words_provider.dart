@@ -91,7 +91,7 @@ class WordsProvider with ChangeNotifier {
         totalTries: selectedTotalTries,
       );
     } else {
-      await _statsProvider.addWotdStats(isWin: false);
+      await _statsProvider.addWotdStatistics(isWin: false);
     }
   }
 
@@ -218,7 +218,7 @@ class WordsProvider with ChangeNotifier {
             totalTries: selectedTotalTries,
           );
         } else {
-          await _statsProvider.addWotdStats(isWin: true);
+          await _statsProvider.addWotdStatistics(isWin: true);
         }
 
         completed = true;
@@ -235,7 +235,7 @@ class WordsProvider with ChangeNotifier {
             totalTries: selectedTotalTries,
           );
         } else {
-          await _statsProvider.addWotdStats(isWin: false);
+          await _statsProvider.addWotdStatistics(isWin: false);
         }
 
         letterController();

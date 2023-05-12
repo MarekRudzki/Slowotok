@@ -21,7 +21,7 @@ class GameCalendar extends StatelessWidget {
       return key.day * 10000 + key.month * 1000 + key.year;
     }
 
-    final _kEventSource = statsProvider.getWotdStats();
+    final _kEventSource = statsProvider.getWotdStatistics();
     final kEvents = LinkedHashMap<DateTime, List<Event>>(
       equals: isSameDay,
       hashCode: getHashCode,
@@ -66,7 +66,9 @@ class GameCalendar extends StatelessWidget {
         onPageChanged: (focusedDay) {
           statsProvider.changeFocusedDay(day: focusedDay);
         },
-        onDaySelected: (selectedDay, focusedDay) {},
+        onDaySelected: (selectedDay, focusedDay) {
+          statsProvider.changeSelectedDay(day: selectedDay);
+        },
         startingDayOfWeek: StartingDayOfWeek.monday,
         headerStyle: HeaderStyle(
           leftChevronVisible: statsProvider.isLeftChevronVisible(),

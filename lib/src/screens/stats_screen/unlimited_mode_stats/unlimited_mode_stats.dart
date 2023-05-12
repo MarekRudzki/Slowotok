@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '/src/screens/stats_screen/common_widgets/stats_type_picker.dart';
 import '/src/screens/stats_screen/common_widgets/no_statistics.dart';
 import '/src/services/providers/stats_provider.dart';
 import 'widgets/charts/games_won_pie_chart.dart';
@@ -27,21 +26,17 @@ class UnlimitedModeStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Get remaining height of screen
-    //(Entire height - notification bar height - AppBar height - StatsTypePicker height)
+    // (Entire height - notification bar height - AppBar height)
     final double remainingHeight = MediaQuery.of(context).size.height -
         MediaQueryData.fromWindow(window).padding.top -
-        AppBar().preferredSize.height -
-        65;
+        AppBar().preferredSize.height;
 
     return Column(
       children: [
-        StatsTypePicker(statsProvider: statsProvider),
         if (statsProvider.getNumberOfGames() == 0)
           Container(
             height: remainingHeight,
-            child: const NoStatistics(
-              hasAnyStats: true,
-            ),
+            child: const NoStatistics(),
           )
         else
           Column(

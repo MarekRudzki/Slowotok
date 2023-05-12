@@ -150,4 +150,19 @@ class HiveStatistics {
       return convertedStatistics;
     }
   }
+
+  List<bool> getWotdModeStatsForGivenDay({required String date}) {
+    final List<bool> singleDayStats = [];
+    final stats = statsBox.get('days_stats') as Map;
+
+    stats.forEach(
+      (date, dayStats) {
+        if (date.toString() == date) {
+          singleDayStats.addAll(dayStats as List<bool>);
+        }
+      },
+    );
+
+    return singleDayStats;
+  }
 }

@@ -6,15 +6,14 @@ import 'package:provider/provider.dart';
 import '/src/services/providers/stats_provider.dart';
 import 'unlimited_mode_stats/unlimited_mode_stats.dart';
 import 'wotd_mode_stats/wotd_mode_stats.dart';
-import 'common_widgets/no_statistics.dart';
 import 'common_widgets/stats_reset.dart';
 
 class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
 
+  //TODO by switching to stats screen the unlimited mode should show up as first
   @override
   Widget build(BuildContext context) {
-    //TODO by switching to stats screen the unlimited mode should show up as first
     return SafeArea(
       child: Consumer<StatsProvider>(
         builder: (context, statsProvider, _) {
@@ -39,6 +38,36 @@ class StatsScreen extends StatelessWidget {
                 StatsReset(statsProvider: statsProvider),
               ],
             ),
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor:
+                  Theme.of(context).colorScheme.onSecondaryContainer,
+              selectedItemColor: Colors.green,
+              selectedIconTheme: const IconThemeData(
+                size: 25,
+              ),
+              unselectedItemColor: Colors.grey,
+              currentIndex:
+                  statsProvider.getDisplayedStatsType() == 'unlimited' ? 0 : 1,
+              onTap: (value) {
+                statsProvider.setDisplayedStatsType(
+                    statsType: value == 0 ? 'unlimited' : 'wotd');
+              },
+              elevation: 10,
+              items: [
+                const BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.all_inclusive_rounded,
+                  ),
+                  label: 'Tryb nieograniczony',
+                ),
+                const BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.today,
+                  ),
+                  label: 'Słówka dnia',
+                ),
+              ],
+            ),
             body: FutureBuilder(
               future: AdaptiveTheme.getThemeMode(),
               builder: (context, snapshot) {
@@ -48,30 +77,16 @@ class StatsScreen extends StatelessWidget {
                       ? isDark = true
                       : isDark = false;
 
-                  if (!statsProvider.hasAnyStatistics()) {
-                    return const NoStatistics(
-                      hasAnyStats: false,
-                    );
-                  } else {
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: statsProvider.getDisplayedStatsType() ==
-                                    'unlimited'
-                                ? UnlimitedModeStats(
-                                    statsProvider: statsProvider,
-                                    isDark: isDark,
-                                    statsBox: statsProvider.getStatsBox(),
-                                  )
-                                : WotdModeStats(
-                                    statsProvider: statsProvider,
-                                  ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }
+                  return SingleChildScrollView(
+                    child: context.select((StatsProvider statsProvider) =>
+                            statsProvider.currentStatsType == 'unlimited')
+                        ? UnlimitedModeStats(
+                            statsProvider: statsProvider,
+                            isDark: isDark,
+                            statsBox: statsProvider.getStatsBox(),
+                          )
+                        : WotdModeStats(statsProvider: statsProvider),
+                  );
                 }
                 return const SizedBox.shrink();
               },
