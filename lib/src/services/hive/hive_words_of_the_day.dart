@@ -4,18 +4,87 @@ class HiveWordsOfTheDay {
   // Initialize box
   final wordsOfTheDayBox = Hive.box('wordsOfTheDay');
 
+  Future<void> checkWotdStatistics() async {
+    final bool statsExists = wordsOfTheDayBox.containsKey('days_stats');
+    if (!statsExists) {
+      await setFirstDayOfStats();
+    }
+  }
+
+  bool hasAnyWotdStatistics() {
+    final bool statsExists = wordsOfTheDayBox.containsKey('days_stats');
+    return statsExists;
+  }
+
+  Future<void> setFirstDayOfStats() async {
+    final String firstDayOfCurrentMonth =
+        DateTime.now().toString().substring(0, 8);
+    await wordsOfTheDayBox.put(
+        'first_day_of_stats', '${firstDayOfCurrentMonth}01');
+  }
+
+  String getFirstDayOfStats() {
+    return wordsOfTheDayBox.get('first_day_of_stats') as String;
+  }
+
+  Future<void> addWotdModeStats({
+    required String date,
+    required List<bool> dayStats,
+  }) async {
+    final Map<String, List<bool>> statsToAdd = {date: dayStats};
+    final Map<String, List<bool>> existingStats = getWotdModeStats();
+
+    if (existingStats.isEmpty) {
+      await wordsOfTheDayBox.put('days_stats', statsToAdd);
+    } else {
+      existingStats.addAll({date: dayStats});
+      await wordsOfTheDayBox.put('days_stats', existingStats);
+    }
+  }
+
+  Map<String, List<bool>> getWotdModeStats() {
+    if (!wordsOfTheDayBox.containsKey('days_stats')) {
+      return {};
+    } else {
+      final stats = wordsOfTheDayBox.get('days_stats') as Map;
+
+      final Map<String, List<bool>> convertedStatistics = {};
+      stats.forEach(
+        (date, dayStats) {
+          convertedStatistics.addAll({date.toString(): dayStats as List<bool>});
+        },
+      );
+
+      return convertedStatistics;
+    }
+  }
+
+  List<bool> getWotdModeStatsForGivenDay({required String date}) {
+    final List<bool> singleDayStats = [];
+    final stats = wordsOfTheDayBox.get('days_stats') as Map;
+
+    stats.entries.map((allStats) {
+      if (date == allStats.key as String) {
+        singleDayStats.addAll(allStats.value as List<bool>);
+      }
+    }).toList();
+
+    return singleDayStats;
+  }
+
   // Game status type:
   // 0 = initial
   // 1 = won,
   // 2 = lost
 
-  Future<bool> checkIfModePlayedToday({required String currentDate}) async {
+  Future<bool> checkIfModePlayedGivenDay({required String date}) async {
     final isDateSaved = wordsOfTheDayBox.containsKey('game_date');
     if (!isDateSaved) {
       return false;
     } else {
       final String savedDate = (wordsOfTheDayBox.get('game_date')) as String;
-      if (savedDate != currentDate) {
+
+      if (savedDate != date) {
         return false;
       }
     }

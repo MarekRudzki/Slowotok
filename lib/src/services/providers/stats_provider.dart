@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:slowotok/src/services/hive/hive_words_of_the_day.dart';
 
 import '../../screens/stats_screen/wotd_mode_stats/widgets/event_model.dart';
-import '/src/services/hive/hive_statistics.dart';
+import '../hive/hive_unlimited.dart';
 
 class StatsProvider with ChangeNotifier {
-  final HiveStatistics _hiveStatistics = HiveStatistics();
+  final HiveUnlimited _hiveUnlimited = HiveUnlimited();
+  final HiveWordsOfTheDay _hiveWordsOfTheDay = HiveWordsOfTheDay();
 
   String currentStatsType = 'unlimited';
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
 
-  bool hasAnyStatistics() {
-    if (getNumberOfGames() == 0 &&
-        _hiveStatistics.checkForWotdStatistics() == false) {
-      return false;
-    } else {
-      return true;
-    }
+  Future<void> checkForStatistics() async {
+    await _hiveUnlimited.checkUnlimitedStatistics();
+    await _hiveWordsOfTheDay.checkWotdStatistics();
   }
 
   String getDisplayedStatsType() {
@@ -35,11 +33,11 @@ class StatsProvider with ChangeNotifier {
   // Unlimited Game Mode
 
   Box<dynamic> getStatsBox() {
-    return _hiveStatistics.statsBox;
+    return _hiveUnlimited.statsBox;
   }
 
   int getNumberOfGames() {
-    return _hiveStatistics.statsBox.get('game_counter') as int;
+    return _hiveUnlimited.statsBox.get('game_counter') as int;
   }
 
   bool isResetButtonVisible() {
@@ -51,14 +49,14 @@ class StatsProvider with ChangeNotifier {
   }
 
   Future<void> resetStatistics() async {
-    await _hiveStatistics.setInitialStats();
+    await _hiveUnlimited.setInitialStats();
     notifyListeners();
   }
 
   // Words Of The Day Game Mode
 
   bool hasWotdStatistics() {
-    return _hiveStatistics.checkForWotdStatistics();
+    return _hiveWordsOfTheDay.hasAnyWotdStatistics();
   }
 
   DateTime getFirstDay() {
@@ -70,6 +68,11 @@ class StatsProvider with ChangeNotifier {
     }
     allDates.sort();
     return allDates.first;
+  }
+
+  DateTime getFirstDayOfStats() {
+    final String firstDayOfStats = _hiveWordsOfTheDay.getFirstDayOfStats();
+    return DateTime.parse(firstDayOfStats);
   }
 
   void changeFocusedDay({required DateTime day}) {
@@ -102,25 +105,25 @@ class StatsProvider with ChangeNotifier {
     };
 
     final Map<int, String> monthData = {
-      1: "Styczeń",
-      2: "Luty",
-      3: "Marzec",
-      4: "Kwiecień",
-      5: "Maj",
-      6: "Czerwiec",
-      7: "Lipiec",
-      8: "Sierpień",
-      9: "Wrzesień",
-      10: "Październik",
-      11: "Listopad",
-      12: "Grudzień",
+      1: "Stycznia",
+      2: "Lutego",
+      3: "Marca",
+      4: "Kwietnia",
+      5: "Maja",
+      6: "Czerwca",
+      7: "Lipca",
+      8: "Sierpnia",
+      9: "Września",
+      10: "Października",
+      11: "Listopada",
+      12: "Grudnia",
     };
 
     return '${dayData[date.weekday]}, ${date.day} ${monthData[date.month]} ${date.year}';
   }
 
   Map<DateTime, List<Event>> getWotdStatistics() {
-    final Map<String, List<bool>> stats = _hiveStatistics.getWotdModeStats();
+    final Map<String, List<bool>> stats = _hiveWordsOfTheDay.getWotdModeStats();
     final Map<DateTime, List<Event>> formattedStats = {};
     stats.forEach(
       (date, statsList) {
@@ -141,9 +144,9 @@ class StatsProvider with ChangeNotifier {
 
   Future<void> addWotdStatistics({required bool isWin}) async {
     final String currentDay = DateTime.now().toString().substring(0, 10);
-    final Map<String, List<bool>> stats = _hiveStatistics.getWotdModeStats();
+    final Map<String, List<bool>> stats = _hiveWordsOfTheDay.getWotdModeStats();
     if (!stats.containsKey(currentDay)) {
-      await _hiveStatistics.addWotdModeStats(
+      await _hiveWordsOfTheDay.addWotdModeStats(
         date: currentDay,
         dayStats: [isWin],
       );
@@ -152,7 +155,7 @@ class StatsProvider with ChangeNotifier {
         (date, statsList) async {
           if (date == currentDay) {
             statsList.add(isWin);
-            await _hiveStatistics.addWotdModeStats(
+            await _hiveWordsOfTheDay.addWotdModeStats(
               date: currentDay,
               dayStats: statsList,
             );
@@ -162,20 +165,50 @@ class StatsProvider with ChangeNotifier {
     }
   }
 
-  List<bool> getSingleDayStats() {
-    return _hiveStatistics.getWotdModeStatsForGivenDay(
-        date: _selectedDay.toString().substring(0, 10));
+  List<String> getSingleDayStats() {
+    final List<String> singleDayStats = [];
+    final List<bool> statsForGivenDay =
+        _hiveWordsOfTheDay.getWotdModeStatsForGivenDay(
+            date: _selectedDay.toString().substring(0, 10));
+
+    statsForGivenDay.map((isWin) {
+      isWin ? singleDayStats.add('win') : singleDayStats.add('lose');
+    }).toList();
+
+    for (int i = singleDayStats.length; i < 3; i++) {
+      singleDayStats.add('no_data');
+    }
+    return singleDayStats;
   }
 
-  // Future<void> addStatsForDay(
-  //     {required List<bool> isWin, required String day}) async {
-  //   final String currentDay = day;
+  String getDayPerformance() {
+    final List<String> givenDayStats = getSingleDayStats();
+    if (givenDayStats[0] == 'win' &&
+        givenDayStats[1] == 'win' &&
+        givenDayStats[2] == 'win') {
+      return 'perfect';
+    } else if (givenDayStats[0] == 'no_data' &&
+        givenDayStats[1] == 'no_data' &&
+        givenDayStats[2] == 'no_data') {
+      return 'unstarted';
+    } else if (givenDayStats.contains('no_data')) {
+      return 'unfinished';
+    } else {
+      return 'not-perfect';
+    }
+  }
 
-  //   await _hiveStatistics.addWotdModeStats(
-  //     date: currentDay,
-  //     dayStats: isWin,
-  //   );
-  // } //TODO testing
+  Future<void> addStatsForMissingDay(
+      {required bool isWin, required String date}) async {
+    final List<bool> statsForMissingDay =
+        _hiveWordsOfTheDay.getWotdModeStatsForGivenDay(date: date);
+
+    statsForMissingDay.add(isWin);
+    await _hiveWordsOfTheDay.addWotdModeStats(
+      date: date,
+      dayStats: statsForMissingDay,
+    );
+  }
 
   // Game Calendar
 

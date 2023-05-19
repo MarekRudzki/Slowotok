@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:slowotok/src/services/providers/stats_provider.dart';
 
 import '/src/services/providers/words_provider.dart';
 
@@ -51,15 +52,21 @@ class ExitAlertDialog extends StatelessWidget {
       contentPadding: const EdgeInsets.fromLTRB(24, 15, 24, 0),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
           child: const Text(
             'Nie',
             style: TextStyle(
               color: Colors.red,
             ),
           ),
+          onPressed: () => Navigator.of(context).pop(false),
         ),
         TextButton(
+          child: const Text(
+            'Tak',
+            style: TextStyle(
+              color: Colors.green,
+            ),
+          ),
           onPressed: () async {
             if (wordSolveAttempt) {
               await provider.markGameAsLost();
@@ -70,6 +77,10 @@ class ExitAlertDialog extends StatelessWidget {
                   gameLevel: gameLevel,
                   isWinner: false,
                 );
+                if (context.mounted) {
+                  Provider.of<StatsProvider>(context, listen: false)
+                      .setDisplayedStatsType(statsType: 'wotd');
+                }
               }
             }
             if (context.mounted) {
@@ -77,12 +88,6 @@ class ExitAlertDialog extends StatelessWidget {
               Provider.of<WordsProvider>(context, listen: false).restartWord();
             }
           },
-          child: const Text(
-            'Tak',
-            style: TextStyle(
-              color: Colors.green,
-            ),
-          ),
         ),
       ],
     );

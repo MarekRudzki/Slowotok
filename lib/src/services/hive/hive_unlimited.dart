@@ -1,10 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-class HiveStatistics {
+class HiveUnlimited {
   // Initialize box
   final statsBox = Hive.box('statsBox');
-
-  /// Unlimited Game Mode Statistics
 
   // Check if user already have statistics in local memory
   // If not set initial values
@@ -110,59 +108,5 @@ class HiveStatistics {
       final int newWinValue = currentWinValue + 1;
       await statsBox.put('${wordLength}_${totalTries}_won', newWinValue);
     }
-  }
-
-  /// Words Of The Day Game Mode Statistics
-
-  bool checkForWotdStatistics() {
-    final bool statsExists = statsBox.containsKey('days_stats');
-    return statsExists;
-  }
-
-  Future<void> addWotdModeStats({
-    required String date,
-    required List<bool> dayStats,
-  }) async {
-    final Map<String, List<bool>> statsToAdd = {date: dayStats};
-    final Map<String, List<bool>> existingStats = getWotdModeStats();
-
-    if (existingStats.isEmpty) {
-      await statsBox.put('days_stats', statsToAdd);
-    } else {
-      existingStats.addAll({date: dayStats});
-      await statsBox.put('days_stats', existingStats);
-    }
-  }
-
-  Map<String, List<bool>> getWotdModeStats() {
-    if (!statsBox.containsKey('days_stats')) {
-      return {};
-    } else {
-      final stats = statsBox.get('days_stats') as Map;
-
-      final Map<String, List<bool>> convertedStatistics = {};
-      stats.forEach(
-        (date, dayStats) {
-          convertedStatistics.addAll({date.toString(): dayStats as List<bool>});
-        },
-      );
-
-      return convertedStatistics;
-    }
-  }
-
-  List<bool> getWotdModeStatsForGivenDay({required String date}) {
-    final List<bool> singleDayStats = [];
-    final stats = statsBox.get('days_stats') as Map;
-
-    stats.forEach(
-      (date, dayStats) {
-        if (date.toString() == date) {
-          singleDayStats.addAll(dayStats as List<bool>);
-        }
-      },
-    );
-
-    return singleDayStats;
   }
 }

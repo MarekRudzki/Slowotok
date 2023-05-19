@@ -22,11 +22,7 @@ class KeyboardButton extends StatelessWidget {
       provider.setGameEndStatus(isGameWon: isWinner);
 
       if (provider.gameMode == 'wordsoftheday') {
-        final int gameLevel = await provider.getCurrentGameLevel();
-        await provider.setGameStatus(
-          gameLevel: gameLevel,
-          isWinner: isWinner,
-        );
+        await provider.saveGame(isWinner: isWinner);
       }
 
       await Future.delayed(

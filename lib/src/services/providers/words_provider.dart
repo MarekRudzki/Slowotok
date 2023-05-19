@@ -4,13 +4,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:slowotok/src/services/providers/stats_provider.dart';
 
 import '/src/services/hive/hive_words_of_the_day.dart';
-import '/src/services/hive/hive_statistics.dart';
+import '/src/services/hive/hive_unlimited.dart';
+import '/src/services/providers/stats_provider.dart';
 
 class WordsProvider with ChangeNotifier {
-  final HiveStatistics _hiveStatistics = HiveStatistics();
+  final HiveUnlimited _hiveUnlimited = HiveUnlimited();
   final HiveWordsOfTheDay _hiveWordsOfTheDay = HiveWordsOfTheDay();
   final StatsProvider _statsProvider = StatsProvider();
 
@@ -21,6 +21,8 @@ class WordsProvider with ChangeNotifier {
   bool unlimitedDialogError = false;
   String gameMode = 'unlimited';
   int wotdDialogPageIndex = 0; // wotd - WordsOfTheDay mode
+  DateTime selectedDay = DateTime.now();
+  bool isPlayingMissedDay = false;
   String correctWord = '';
   int selectedTotalTries = 0;
   int selectedWordLength = 0;
@@ -85,13 +87,17 @@ class WordsProvider with ChangeNotifier {
 
   Future<void> markGameAsLost() async {
     if (gameMode == 'unlimited') {
-      await _hiveStatistics.addUnlimitedGameStatistics(
+      await _hiveUnlimited.addUnlimitedGameStatistics(
         isWinner: false,
         wordLength: selectedWordLength,
         totalTries: selectedTotalTries,
       );
     } else {
-      await _statsProvider.addWotdStatistics(isWin: false);
+      if (isPlayingMissedDay) {
+        await saveGame(isWinner: false);
+      } else {
+        await _statsProvider.addWotdStatistics(isWin: false);
+      }
     }
   }
 
@@ -212,12 +218,12 @@ class WordsProvider with ChangeNotifier {
       status[index] = true;
       if (guesses[index] == correctWord) {
         if (gameMode == 'unlimited') {
-          await _hiveStatistics.addUnlimitedGameStatistics(
+          await _hiveUnlimited.addUnlimitedGameStatistics(
             isWinner: true,
             wordLength: selectedWordLength,
             totalTries: selectedTotalTries,
           );
-        } else {
+        } else if (!isPlayingMissedDay) {
           await _statsProvider.addWotdStatistics(isWin: true);
         }
 
@@ -229,12 +235,12 @@ class WordsProvider with ChangeNotifier {
 
       if (index == selectedTotalTries - 1) {
         if (gameMode == 'unlimited') {
-          await _hiveStatistics.addUnlimitedGameStatistics(
+          await _hiveUnlimited.addUnlimitedGameStatistics(
             isWinner: false,
             wordLength: selectedWordLength,
             totalTries: selectedTotalTries,
           );
-        } else {
+        } else if (!isPlayingMissedDay) {
           await _statsProvider.addWotdStatistics(isWin: false);
         }
 
@@ -300,28 +306,69 @@ class WordsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Words of the day mode
+  // Words Of The Day mode
+
+  Future<void> saveGame({required bool isWinner}) async {
+    if (isPlayingMissedDay) {
+      await _statsProvider.addStatsForMissingDay(
+          isWin: isWinner, date: selectedDay.toString().substring(0, 10));
+    } else {
+      final int gameLevel = await getCurrentGameLevel();
+      await setGameStatus(
+        gameLevel: gameLevel,
+        isWinner: isWinner,
+      );
+    }
+  }
+
+  void playWotdMode({required DateTime date}) {
+    selectedTotalTries = 6;
+    selectedWordLength = 5;
+    selectedDay = date;
+    gameMode = 'wordsoftheday';
+    notifyListeners();
+  }
+
   void changeGameMode({required String newGameMode}) {
     gameMode = newGameMode;
     notifyListeners();
   }
 
-  Future<void> gamePlayChecker() async {
-    final String month = (DateTime.now().month).toString();
-    final String day = (DateTime.now().day).toString();
-    final String currentDate = '$day$month';
+  void changeMissedDayStatus({required bool playingMissedDay}) {
+    isPlayingMissedDay = playingMissedDay;
+    notifyListeners();
+  }
 
-    final bool gamePlayedToday = await _hiveWordsOfTheDay
-        .checkIfModePlayedToday(currentDate: currentDate);
+  Future<void> gamePlayChecker() async {
+    final String date = selectedDay.toString().substring(0, 10);
+    final bool gamePlayedToday =
+        await _hiveWordsOfTheDay.checkIfModePlayedGivenDay(date: date);
 
     if (!gamePlayedToday) {
-      await _hiveWordsOfTheDay.setInitialValues(currentDate: currentDate);
+      await _hiveWordsOfTheDay.setInitialValues(currentDate: date);
     }
   }
 
   Future<List<int>> getGameStatus() async {
-    await gamePlayChecker();
-    final List<int> statusList = await _hiveWordsOfTheDay.getGamesStatus();
+    final List<int> statusList = [];
+
+    if (isPlayingMissedDay) {
+      final List<bool> statsForGivenDay =
+          _hiveWordsOfTheDay.getWotdModeStatsForGivenDay(
+              date: selectedDay.toString().substring(0, 10));
+
+      statsForGivenDay.map((isWin) {
+        isWin ? statusList.add(1) : statusList.add(2);
+      }).toList();
+
+      for (int i = statusList.length; i < 3; i++) {
+        statusList.add(0);
+      }
+    } else {
+      await gamePlayChecker();
+      final List<int> gameStatus = await _hiveWordsOfTheDay.getGamesStatus();
+      statusList.addAll(gameStatus);
+    }
     return statusList;
   }
 

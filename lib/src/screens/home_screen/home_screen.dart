@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 import '/src/common_widgets/game_instructions.dart';
 import '/src/common_widgets/options_button.dart';
 import '/src/screens/game_screen/widgets/words_of_the_day_summary_dialog.dart';
+import '/src/screens/home_screen/widgets/unlimited_game_mode.dart';
 import '/src/screens/home_screen/widgets/theme_switcher.dart';
+import '/src/services/providers/stats_provider.dart';
 import '/src/services/providers/words_provider.dart';
-import '/src/services/hive/hive_statistics.dart';
-import 'widgets/unlimited_game_mode.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HiveStatistics hiveStatistics = HiveStatistics();
+    final StatsProvider statsProvider = StatsProvider();
 
     return WillPopScope(
       onWillPop: () => _onWillPop(context),
@@ -74,7 +74,7 @@ class HomeScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
           body: FutureBuilder(
-            future: hiveStatistics.checkUnlimitedStatistics(),
+            future: statsProvider.checkForStatistics(),
             builder: (context, snapshot) {
               return Consumer<WordsProvider>(
                 builder: (context, wordsProvider, _) {
@@ -113,6 +113,8 @@ class HomeScreen extends StatelessWidget {
                                   OptionsButton(
                                     text: 'Słówka dnia',
                                     onPressed: () async {
+                                      wordsProvider.changeMissedDayStatus(
+                                          playingMissedDay: false);
                                       final bool modeAvailable =
                                           await wordsProvider
                                               .gameModeAvailable();
@@ -130,11 +132,9 @@ class HomeScreen extends StatelessWidget {
                                           );
                                         return;
                                       }
-                                      wordsProvider.setTotalTries(6);
-                                      wordsProvider.setWordLength(5);
-
-                                      wordsProvider.changeGameMode(
-                                          newGameMode: 'wordsoftheday');
+                                      wordsProvider.playWotdMode(
+                                        date: DateTime.now(),
+                                      );
 
                                       if (context.mounted)
                                         await wordsProvider

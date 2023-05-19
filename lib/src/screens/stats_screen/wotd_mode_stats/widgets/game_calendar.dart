@@ -30,8 +30,8 @@ class GameCalendar extends StatelessWidget {
     return Container(
       color: const Color.fromARGB(67, 163, 162, 162),
       child: TableCalendar(
-        focusedDay: statsProvider.getFocusedDay(),
-        firstDay: statsProvider.getFirstDay(),
+        focusedDay: statsProvider.getSelectedDay(),
+        firstDay: statsProvider.getFirstDayOfStats(),
         lastDay: DateTime.now(),
         locale: 'pl_PL',
         weekendDays: [
@@ -41,9 +41,12 @@ class GameCalendar extends StatelessWidget {
         eventLoader: (day) {
           return kEvents[day] ?? [];
         },
+        selectedDayPredicate: (day) {
+          return isSameDay(day, statsProvider.getSelectedDay());
+        },
         calendarStyle: CalendarStyle(
-          selectedDecoration: const BoxDecoration(
-            color: Colors.red,
+          selectedDecoration: BoxDecoration(
+            color: Colors.green.shade200,
           ),
           defaultTextStyle: TextStyle(
             color: Theme.of(context).colorScheme.primary,
@@ -56,7 +59,10 @@ class GameCalendar extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           todayDecoration: BoxDecoration(
-            color: Colors.green.shade200,
+            border: Border.all(
+              color: Colors.green,
+              width: 2,
+            ),
             borderRadius: BorderRadius.circular(12),
           ),
           weekendTextStyle: const TextStyle(

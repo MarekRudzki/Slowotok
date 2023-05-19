@@ -128,8 +128,8 @@ class EndGameDialog extends StatelessWidget {
                                           (_) => Navigator.of(context).pop(),
                                         );
                                 },
-                              )
-                            else
+                              ),
+                            if (!gameAvailable && !provider.isPlayingMissedDay)
                               OptionsButton(
                                 text: 'Podsumowanie',
                                 onPressed: () async {

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -25,19 +23,10 @@ class UnlimitedModeStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get remaining height of screen
-    // (Entire height - notification bar height - AppBar height)
-    final double remainingHeight = MediaQuery.of(context).size.height -
-        MediaQueryData.fromWindow(window).padding.top -
-        AppBar().preferredSize.height;
-
     return Column(
       children: [
         if (statsProvider.getNumberOfGames() == 0)
-          Container(
-            height: remainingHeight,
-            child: const NoStatistics(),
-          )
+          const NoStatistics()
         else
           Column(
             children: [
