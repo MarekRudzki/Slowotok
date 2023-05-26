@@ -18,7 +18,7 @@ class WordLengthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String selectedWordLength =
-        context.watch<WordsProvider>().selectedWordLength.toString();
+        context.watch<WordsProvider>().getSelectedWordLength().toString();
 
     return InkWell(
       onTap: onPressed,

@@ -18,7 +18,7 @@ class WordTotalTriesButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String selectedWordLength =
-        context.watch<WordsProvider>().selectedTotalTries.toString();
+        context.watch<WordsProvider>().getSelectedTries().toString();
 
     return InkWell(
       onTap: onPressed,

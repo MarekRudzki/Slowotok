@@ -5,8 +5,8 @@ import 'package:confetti/confetti.dart';
 
 import '/src/common_widgets/game_instructions.dart';
 import '/src/services/providers/words_provider.dart';
-import 'widgets/exit_alert_dialog.dart';
 import 'widgets/game_status_indicator.dart';
+import 'widgets/exit_alert_dialog.dart';
 import 'widgets/letters_grid.dart';
 import 'widgets/keyboard.dart';
 
@@ -34,10 +34,10 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<WordsProvider>();
-    final gameWord = provider.correctWord;
+    final gameWord = provider.getCorrectWord();
     final bool wordSolveAttempt = provider.isGameLostAtExit();
 
-    if (provider.gameWon) {
+    if (provider.isGameWon()) {
       confettiController.play();
     }
 
@@ -89,7 +89,7 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                 ),
                 centerTitle: true,
-                title: provider.gameMode == 'wordsoftheday'
+                title: provider.getGameMode() == 'wordsoftheday'
                     ? GameStatusIndicator(provider: provider)
                     : const SizedBox.shrink(),
                 actions: [

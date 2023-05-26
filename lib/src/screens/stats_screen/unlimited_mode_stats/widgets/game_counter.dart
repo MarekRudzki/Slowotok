@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:hive_flutter/hive_flutter.dart';
-
 class GameCounter extends StatelessWidget {
   const GameCounter({
     super.key,
-    required this.statsBox,
+    required this.totalGamesNumber,
   });
 
-  final Box<dynamic> statsBox;
+  final int totalGamesNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +26,7 @@ class GameCounter extends StatelessWidget {
                 ),
               ),
               Text(
-                statsBox.get('game_counter').toString(),
+                totalGamesNumber.toString(),
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

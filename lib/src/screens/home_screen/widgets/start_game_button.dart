@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:slowotok/src/screens/game_screen/game_screen.dart';
 
 import '/src/services/providers/words_provider.dart';
 
@@ -9,9 +10,10 @@ class StartGameButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int wordLength = context.watch<WordsProvider>().selectedWordLength;
+    final int wordLength =
+        context.watch<WordsProvider>().getSelectedWordLength();
     final int wordTotalTries =
-        context.watch<WordsProvider>().selectedTotalTries;
+        context.watch<WordsProvider>().getSelectedTries();
 
     return InkWell(
       child: AnimatedContainer(
@@ -63,9 +65,13 @@ class StartGameButton extends StatelessWidget {
         )
             .then(
           (value) {
-            wordsProvider.changeGameMode(newGameMode: 'unlimited');
+            wordsProvider.setGameMode(newGameMode: 'unlimited');
             Navigator.of(context).pop();
-            Navigator.pushNamed(context, 'game_screen');
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const GameScreen(),
+              ),
+            );
           },
         );
       },

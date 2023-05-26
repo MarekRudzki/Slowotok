@@ -27,7 +27,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   Widget build(BuildContext context) {
     final int currentPage = context.select(
         (IntroductionScreenProvider introductionScreenProvider) =>
-            introductionScreenProvider.introductionScreenPageIndex);
+            introductionScreenProvider.getPageIndex());
 
     return SafeArea(
       child: Scaffold(
@@ -49,7 +49,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               AnimatedOpacity(
                 opacity: context.select(
                   (IntroductionScreenProvider introductionScreenProvider) =>
-                      introductionScreenProvider.thirdTextOpacity,
+                      introductionScreenProvider.getThirdTextOpacity(),
                 ),
                 duration: const Duration(milliseconds: 2500),
                 child: Container(

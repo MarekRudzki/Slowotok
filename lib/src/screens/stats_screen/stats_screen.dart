@@ -9,11 +9,27 @@ import 'wotd_mode_stats/wotd_mode_stats.dart';
 import 'common_widgets/stats_reset.dart';
 
 class StatsScreen extends StatelessWidget {
-  const StatsScreen({super.key});
+  const StatsScreen({
+    super.key,
+    required this.showUnlimitedFirst,
+  });
 
-  //TODO by switching to stats screen the unlimited mode should show up as first
+  final bool showUnlimitedFirst;
+
   @override
   Widget build(BuildContext context) {
+    if (showUnlimitedFirst) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          final StatsProvider statsProvider =
+              Provider.of<StatsProvider>(context, listen: false);
+          if (statsProvider.getDisplayedStatsType() == 'wotd') {
+            statsProvider.setDisplayedStatsType(statsType: 'unlimited');
+          }
+        },
+      );
+    }
+
     return SafeArea(
       child: Consumer<StatsProvider>(
         builder: (context, statsProvider, _) {
@@ -79,11 +95,11 @@ class StatsScreen extends StatelessWidget {
 
                   return SingleChildScrollView(
                     child: context.select((StatsProvider statsProvider) =>
-                            statsProvider.currentStatsType == 'unlimited')
+                            statsProvider.getDisplayedStatsType() ==
+                            'unlimited')
                         ? UnlimitedModeStats(
                             statsProvider: statsProvider,
                             isDark: isDark,
-                            statsBox: statsProvider.getStatsBox(),
                           )
                         : WotdModeStats(statsProvider: statsProvider),
                   );

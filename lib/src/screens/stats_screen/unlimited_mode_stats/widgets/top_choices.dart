@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slowotok/src/services/providers/stats_provider.dart';
 
 import 'charts/total_tries_bar_chart.dart';
 import 'charts/word_length_bar_chart.dart';
@@ -7,9 +8,11 @@ class TopChoices extends StatelessWidget {
   const TopChoices({
     super.key,
     required this.isDark,
+    required this.statsProvider,
   });
 
   final bool isDark;
+  final StatsProvider statsProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +55,17 @@ class TopChoices extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: WordLengthBarChart(isDark: isDark),
+              child: WordLengthBarChart(
+                isDark: isDark,
+                statsProvider: statsProvider,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TotalTriesBarChart(isDark: isDark),
+              child: TotalTriesBarChart(
+                isDark: isDark,
+                statsProvider: statsProvider,
+              ),
             ),
           ],
         ),

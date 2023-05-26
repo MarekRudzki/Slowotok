@@ -31,7 +31,7 @@ class ThemeSwitcher extends StatelessWidget {
         ),
         child: IconButton(
           onPressed: () async {
-            if (wordsProvider.isDark) {
+            if (wordsProvider.isDark()) {
               AdaptiveTheme.of(context).setLight();
               wordsProvider.setTheme(AdaptiveThemeMode.light);
             } else {
@@ -50,7 +50,7 @@ class ThemeSwitcher extends StatelessWidget {
                   : Tween<double>(begin: 1.5, end: 0).animate(animation),
               child: FadeTransition(opacity: animation, child: child),
             ),
-            child: wordsProvider.isDark
+            child: wordsProvider.isDark()
                 ? Icon(
                     size: 30,
                     color: Colors.blue.shade700,

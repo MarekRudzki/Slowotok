@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'package:charts_flutter_new/flutter.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
-class _WinLoseStats {
-  final String status;
-  final int counter;
-  final Color color;
-  final TextStyleSpec style;
-
-  const _WinLoseStats({
-    required this.status,
-    required this.counter,
-    required this.color,
-    required this.style,
-  });
-}
+import '/src/services/providers/stats_provider.dart';
 
 class WinLosePieChart extends StatefulWidget {
   const WinLosePieChart({
     super.key,
     required this.isDark,
+    required this.statsProvider,
   });
 
   final bool isDark;
+  final StatsProvider statsProvider;
 
   @override
   _WinLosePieChartState createState() => _WinLosePieChartState();
@@ -32,13 +21,12 @@ class WinLosePieChart extends StatefulWidget {
 class _WinLosePieChartState extends State<WinLosePieChart> {
   @override
   Widget build(BuildContext context) {
-    final statsBox = Hive.box('statsBox');
-    final int gamesWon = statsBox.get('game_won') as int;
-    final int allGames = statsBox.get('game_counter') as int;
+    final int gamesWon = widget.statsProvider.getGamesWon();
+    final int allGames = widget.statsProvider.getNumberOfGames();
 
     // Data to render
-    final List<_WinLoseStats> _data = [
-      _WinLoseStats(
+    final List<_WinLoseModel> _data = [
+      _WinLoseModel(
         status: 'Wygrane',
         counter: gamesWon,
         color: const Color(r: 76, g: 175, b: 80),
@@ -47,7 +35,7 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
           color: Color.white,
         ),
       ),
-      _WinLoseStats(
+      _WinLoseModel(
         status: 'Przegrane',
         counter: allGames - gamesWon,
         color: const Color(r: 244, g: 67, b: 54),
@@ -62,15 +50,15 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
       height: 180,
       child: PieChart<String>(
         [
-          Series<_WinLoseStats, String>(
+          Series<_WinLoseModel, String>(
             id: 'Win-lose stats',
-            colorFn: (_WinLoseStats stats, _) => stats.color,
-            domainFn: (_WinLoseStats stats, _) => stats.status,
-            measureFn: (_WinLoseStats stats, _) => stats.counter,
+            colorFn: (_WinLoseModel stats, _) => stats.color,
+            domainFn: (_WinLoseModel stats, _) => stats.status,
+            measureFn: (_WinLoseModel stats, _) => stats.counter,
             data: _data,
-            labelAccessorFn: (_WinLoseStats stats, _) =>
+            labelAccessorFn: (_WinLoseModel stats, _) =>
                 stats.counter.toString(),
-            insideLabelStyleAccessorFn: (_WinLoseStats stats, _) => stats.style,
+            insideLabelStyleAccessorFn: (_WinLoseModel stats, _) => stats.style,
           ),
         ],
         animate: true,
@@ -107,4 +95,18 @@ class _WinLosePieChartState extends State<WinLosePieChart> {
       ),
     );
   }
+}
+
+class _WinLoseModel {
+  final String status;
+  final int counter;
+  final Color color;
+  final TextStyleSpec style;
+
+  const _WinLoseModel({
+    required this.status,
+    required this.counter,
+    required this.color,
+    required this.style,
+  });
 }

@@ -1,121 +1,47 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HiveWordsOfTheDay {
-  // Initialize box
-  final wordsOfTheDayBox = Hive.box('wordsOfTheDay');
+  /// Initialize box
+  final _wordsOfTheDayStatsBox = Hive.box('wordsOfTheDay');
 
+  /// Check if user already have statistics in local memory
+  /// If not set initial values
   Future<void> checkWotdStatistics() async {
-    final bool statsExists = wordsOfTheDayBox.containsKey('days_stats');
+    final bool statsExists = _wordsOfTheDayStatsBox.containsKey('days_stats');
     if (!statsExists) {
       await setFirstDayOfStats();
     }
   }
 
-  bool hasAnyWotdStatistics() {
-    final bool statsExists = wordsOfTheDayBox.containsKey('days_stats');
-    return statsExists;
-  }
-
   Future<void> setFirstDayOfStats() async {
     final String firstDayOfCurrentMonth =
         DateTime.now().toString().substring(0, 8);
-    await wordsOfTheDayBox.put(
+    await _wordsOfTheDayStatsBox.put(
         'first_day_of_stats', '${firstDayOfCurrentMonth}01');
-  }
-
-  String getFirstDayOfStats() {
-    return wordsOfTheDayBox.get('first_day_of_stats') as String;
-  }
-
-  Future<void> addWotdModeStats({
-    required String date,
-    required List<bool> dayStats,
-  }) async {
-    final Map<String, List<bool>> statsToAdd = {date: dayStats};
-    final Map<String, List<bool>> existingStats = getWotdModeStats();
-
-    if (existingStats.isEmpty) {
-      await wordsOfTheDayBox.put('days_stats', statsToAdd);
-    } else {
-      existingStats.addAll({date: dayStats});
-      await wordsOfTheDayBox.put('days_stats', existingStats);
-    }
-  }
-
-  Map<String, List<bool>> getWotdModeStats() {
-    if (!wordsOfTheDayBox.containsKey('days_stats')) {
-      return {};
-    } else {
-      final stats = wordsOfTheDayBox.get('days_stats') as Map;
-
-      final Map<String, List<bool>> convertedStatistics = {};
-      stats.forEach(
-        (date, dayStats) {
-          convertedStatistics.addAll({date.toString(): dayStats as List<bool>});
-        },
-      );
-
-      return convertedStatistics;
-    }
-  }
-
-  List<bool> getWotdModeStatsForGivenDay({required String date}) {
-    final List<bool> singleDayStats = [];
-    final stats = wordsOfTheDayBox.get('days_stats') as Map;
-
-    stats.entries.map((allStats) {
-      if (date == allStats.key as String) {
-        singleDayStats.addAll(allStats.value as List<bool>);
-      }
-    }).toList();
-
-    return singleDayStats;
-  }
-
-  // Game status type:
-  // 0 = initial
-  // 1 = won,
-  // 2 = lost
-
-  Future<bool> checkIfModePlayedGivenDay({required String date}) async {
-    final isDateSaved = wordsOfTheDayBox.containsKey('game_date');
-    if (!isDateSaved) {
-      return false;
-    } else {
-      final String savedDate = (wordsOfTheDayBox.get('game_date')) as String;
-
-      if (savedDate != date) {
-        return false;
-      }
-    }
-    return true;
   }
 
   Future<void> setInitialValues({required String currentDate}) async {
     final List<int> gamesStatus = [0, 0, 0];
 
-    await wordsOfTheDayBox.put('games_status', gamesStatus);
-    await wordsOfTheDayBox.put('game_date', currentDate);
+    await _wordsOfTheDayStatsBox.put('games_status', gamesStatus);
+    await _wordsOfTheDayStatsBox.put('game_date', currentDate);
   }
 
-  Future<List<int>> getGamesStatus() async {
-    return await wordsOfTheDayBox.get('games_status') as List<int>;
-  }
+  /// Add statistics
 
-  Future<void> changeGameStatus({
-    required int gameLevel,
-    required bool isWinner,
+  Future<void> addWotdStats({
+    required String date,
+    required List<bool> dayStats,
   }) async {
-    final gamesStatusList =
-        await wordsOfTheDayBox.get('games_status') as List<int>;
+    final Map<String, List<bool>> statsToAdd = {date: dayStats};
+    final Map<String, List<bool>> existingStats = getWotdStats();
 
-    // Game levels:
-    // 0 = first level
-    // 1 = second level
-    // 2 = third level
-    gamesStatusList[gameLevel] = isWinner ? 1 : 2;
-
-    await wordsOfTheDayBox.put('games_status', gamesStatusList);
+    if (existingStats.isEmpty) {
+      await _wordsOfTheDayStatsBox.put('days_stats', statsToAdd);
+    } else {
+      existingStats.addAll({date: dayStats});
+      await _wordsOfTheDayStatsBox.put('days_stats', existingStats);
+    }
   }
 
   Future<void> addUserWords({
@@ -135,16 +61,104 @@ class HiveWordsOfTheDay {
         newList.add(word);
       }
     }
-    await wordsOfTheDayBox.put('user_words_$gameLevel', newList);
+    await _wordsOfTheDayStatsBox.put('user_words_$gameLevel', newList);
+  }
+
+  Future<void> addCorrectWord({
+    required String correctWord,
+    required int gameLevel,
+  }) async {
+    await _wordsOfTheDayStatsBox.put('correct_word_$gameLevel', correctWord);
+  }
+
+  Future<void> changeGameStatus({
+    required int gameLevel,
+    required bool isWinner,
+  }) async {
+    final gamesStatusList =
+        await _wordsOfTheDayStatsBox.get('games_status') as List<int>;
+
+    // Game levels:
+    // 0 = first level
+    // 1 = second level
+    // 2 = third level
+    gamesStatusList[gameLevel] = isWinner ? 1 : 2;
+
+    await _wordsOfTheDayStatsBox.put('games_status', gamesStatusList);
+  }
+
+  /// Get statistics
+
+  bool hasAnyWotdStatistics() {
+    final bool statsExists = _wordsOfTheDayStatsBox.containsKey('days_stats');
+    return statsExists;
+  }
+
+  String getFirstDayOfStats() {
+    return _wordsOfTheDayStatsBox.get('first_day_of_stats') as String;
+  }
+
+  Map<String, List<bool>> getWotdStats() {
+    if (!_wordsOfTheDayStatsBox.containsKey('days_stats')) {
+      return {};
+    } else {
+      final stats = _wordsOfTheDayStatsBox.get('days_stats') as Map;
+
+      final Map<String, List<bool>> convertedStatistics = {};
+      stats.forEach(
+        (date, dayStats) {
+          convertedStatistics.addAll({date.toString(): dayStats as List<bool>});
+        },
+      );
+
+      return convertedStatistics;
+    }
+  }
+
+  List<bool> getWotdStatsForGivenDay({required String date}) {
+    final List<bool> singleDayStats = [];
+    final stats = _wordsOfTheDayStatsBox.get('days_stats') as Map;
+
+    stats.entries.map((allStats) {
+      if (date == allStats.key as String) {
+        singleDayStats.addAll(allStats.value as List<bool>);
+      }
+    }).toList();
+
+    return singleDayStats;
+  }
+
+  // Game status type:
+  // 0 = initial
+  // 1 = won,
+  // 2 = lost
+
+  Future<bool> checkIfWotdPlayedGivenDay({required String date}) async {
+    final isDateSaved = _wordsOfTheDayStatsBox.containsKey('game_date');
+    if (!isDateSaved) {
+      return false;
+    } else {
+      final String savedDate =
+          (_wordsOfTheDayStatsBox.get('game_date')) as String;
+
+      if (savedDate != date) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  Future<List<int>> getGamesStatus() async {
+    return await _wordsOfTheDayStatsBox.get('games_status') as List<int>;
   }
 
   Future<List<List<String>>> getAllUserWords() async {
     final List<String> firstLevelWords =
-        await wordsOfTheDayBox.get('user_words_0') as List<String>;
+        await _wordsOfTheDayStatsBox.get('user_words_0') as List<String>;
     final List<String> secondLevelWords =
-        await wordsOfTheDayBox.get('user_words_1') as List<String>;
+        await _wordsOfTheDayStatsBox.get('user_words_1') as List<String>;
     final List<String> thirdLevelWords =
-        await wordsOfTheDayBox.get('user_words_2') as List<String>;
+        await _wordsOfTheDayStatsBox.get('user_words_2') as List<String>;
 
     final List<List<String>> allUserWords = [
       firstLevelWords,
@@ -155,33 +169,26 @@ class HiveWordsOfTheDay {
     return allUserWords;
   }
 
-  Future<void> addCorrectWord({
-    required String correctWord,
-    required int gameLevel,
-  }) async {
-    await wordsOfTheDayBox.put('correct_word_$gameLevel', correctWord);
-  }
-
   Future<List<String>> getCorrectWords() async {
-    if (!wordsOfTheDayBox.containsKey('correct_word_0')) {
+    if (!_wordsOfTheDayStatsBox.containsKey('correct_word_0')) {
       return [];
-    } else if (!wordsOfTheDayBox.containsKey('correct_word_1')) {
+    } else if (!_wordsOfTheDayStatsBox.containsKey('correct_word_1')) {
       final String firstCorrectWord =
-          await wordsOfTheDayBox.get('correct_word_0') as String;
+          await _wordsOfTheDayStatsBox.get('correct_word_0') as String;
       return [firstCorrectWord];
-    } else if (!wordsOfTheDayBox.containsKey('correct_word_2')) {
+    } else if (!_wordsOfTheDayStatsBox.containsKey('correct_word_2')) {
       final String firstCorrectWord =
-          await wordsOfTheDayBox.get('correct_word_0') as String;
+          await _wordsOfTheDayStatsBox.get('correct_word_0') as String;
       final String secondCorrectWord =
-          await wordsOfTheDayBox.get('correct_word_1') as String;
+          await _wordsOfTheDayStatsBox.get('correct_word_1') as String;
       return [firstCorrectWord, secondCorrectWord];
     } else {
       final String firstCorrectWord =
-          await wordsOfTheDayBox.get('correct_word_0') as String;
+          await _wordsOfTheDayStatsBox.get('correct_word_0') as String;
       final String secondCorrectWord =
-          await wordsOfTheDayBox.get('correct_word_1') as String;
+          await _wordsOfTheDayStatsBox.get('correct_word_1') as String;
       final String thirdCorrectWord =
-          await wordsOfTheDayBox.get('correct_word_2') as String;
+          await _wordsOfTheDayStatsBox.get('correct_word_2') as String;
 
       return [
         firstCorrectWord,
@@ -191,8 +198,19 @@ class HiveWordsOfTheDay {
     }
   }
 
+  /// Statistics reset
+
   Future<void> resetStatsForGivenDay({required String date}) async {
-    final stats = wordsOfTheDayBox.get('days_stats') as Map;
+    final stats = _wordsOfTheDayStatsBox.get('days_stats') as Map;
     stats.removeWhere((key, value) => key as String == date);
+    await _wordsOfTheDayStatsBox.put('games_status', stats);
+
+    await _wordsOfTheDayStatsBox.delete('correct_word_0');
+    await _wordsOfTheDayStatsBox.delete('correct_word_1');
+    await _wordsOfTheDayStatsBox.delete('correct_word_2');
+    await _wordsOfTheDayStatsBox.delete('user_words_0');
+    await _wordsOfTheDayStatsBox.delete('user_words_1');
+    await _wordsOfTheDayStatsBox.delete('user_words_2');
+    await _wordsOfTheDayStatsBox.delete('game_date');
   }
 }

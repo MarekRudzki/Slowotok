@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:hive_flutter/hive_flutter.dart';
-
 import '/src/screens/stats_screen/common_widgets/no_statistics.dart';
 import '/src/services/providers/stats_provider.dart';
 import 'widgets/charts/games_won_pie_chart.dart';
@@ -14,12 +12,10 @@ class UnlimitedModeStats extends StatelessWidget {
     super.key,
     required this.statsProvider,
     required this.isDark,
-    required this.statsBox,
   });
 
   final StatsProvider statsProvider;
   final bool isDark;
-  final Box<dynamic> statsBox;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +26,21 @@ class UnlimitedModeStats extends StatelessWidget {
         else
           Column(
             children: [
-              GameCounter(statsBox: statsBox),
-              WinLosePieChart(isDark: isDark),
-              TopChoices(isDark: isDark),
-              WinPercentage(isDark: isDark)
+              GameCounter(
+                totalGamesNumber: statsProvider.getNumberOfGames(),
+              ),
+              WinLosePieChart(
+                isDark: isDark,
+                statsProvider: statsProvider,
+              ),
+              TopChoices(
+                isDark: isDark,
+                statsProvider: statsProvider,
+              ),
+              WinPercentage(
+                isDark: isDark,
+                statsProvider: statsProvider,
+              )
             ],
           ),
       ],

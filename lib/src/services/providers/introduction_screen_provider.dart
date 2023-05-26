@@ -6,40 +6,60 @@ class IntroductionScreenProvider with ChangeNotifier {
   final HiveIntroductionScreen _hiveIntroductionScreen =
       HiveIntroductionScreen();
 
-  int introductionScreenPageIndex = 0;
-  double iconOpacity = 0.0;
-  double firstTextOpacity = 0.0;
-  double secondTextOpacity = 0.0;
-  double thirdTextOpacity = 0.0;
+  int _introductionScreenPageIndex = 0;
+  double _iconOpacity = 0.0;
+  double _firstTextOpacity = 0.0;
+  double _secondTextOpacity = 0.0;
+  double _thirdTextOpacity = 0.0;
 
   Future<void> manageOpacity() async {
     await Future.delayed(
       const Duration(milliseconds: 500),
     );
-    iconOpacity = 1.0;
+    _iconOpacity = 1.0;
     notifyListeners();
 
     await Future.delayed(
       const Duration(seconds: 1),
     );
-    firstTextOpacity = 1.0;
+    _firstTextOpacity = 1.0;
     notifyListeners();
 
     await Future.delayed(
       const Duration(milliseconds: 1200),
     );
-    secondTextOpacity = 1.0;
+    _secondTextOpacity = 1.0;
     notifyListeners();
 
     await Future.delayed(
       const Duration(seconds: 2),
     );
-    thirdTextOpacity = 1.0;
+    _thirdTextOpacity = 1.0;
     notifyListeners();
   }
 
+  int getPageIndex() {
+    return _introductionScreenPageIndex;
+  }
+
+  double getIconOpacity() {
+    return _iconOpacity;
+  }
+
+  double getFirstTextOpacity() {
+    return _firstTextOpacity;
+  }
+
+  double getSecondTextOpacity() {
+    return _secondTextOpacity;
+  }
+
+  double getThirdTextOpacity() {
+    return _thirdTextOpacity;
+  }
+
   void changeIntroductionScreen({required int pageIndex}) {
-    introductionScreenPageIndex = pageIndex;
+    _introductionScreenPageIndex = pageIndex;
     notifyListeners();
   }
 

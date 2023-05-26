@@ -25,7 +25,7 @@ class GameGuide1 extends StatelessWidget {
         AnimatedOpacity(
           opacity: context.select(
             (IntroductionScreenProvider introductionScreenProvider) =>
-                introductionScreenProvider.iconOpacity,
+                introductionScreenProvider.getIconOpacity(),
           ),
           duration: const Duration(milliseconds: 1500),
           child: Padding(
@@ -49,7 +49,7 @@ class GameGuide1 extends StatelessWidget {
               AnimatedOpacity(
                 opacity: context.select(
                   (IntroductionScreenProvider introductionScreenProvider) =>
-                      introductionScreenProvider.firstTextOpacity,
+                      introductionScreenProvider.getFirstTextOpacity(),
                 ),
                 duration: const Duration(milliseconds: 2500),
                 child: const Text(
@@ -65,7 +65,7 @@ class GameGuide1 extends StatelessWidget {
                 child: AnimatedOpacity(
                   opacity: context.select(
                     (IntroductionScreenProvider introductionScreenProvider) =>
-                        introductionScreenProvider.secondTextOpacity,
+                        introductionScreenProvider.getSecondTextOpacity(),
                   ),
                   duration: const Duration(milliseconds: 2500),
                   child: const Text(
@@ -81,7 +81,7 @@ class GameGuide1 extends StatelessWidget {
               AnimatedOpacity(
                 opacity: context.select(
                   (IntroductionScreenProvider introductionScreenProvider) =>
-                      introductionScreenProvider.thirdTextOpacity,
+                      introductionScreenProvider.getThirdTextOpacity(),
                 ),
                 duration: const Duration(milliseconds: 2500),
                 child: const Text(

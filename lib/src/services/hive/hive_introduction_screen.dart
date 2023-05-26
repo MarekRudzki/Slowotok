@@ -1,10 +1,10 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HiveIntroductionScreen {
-  final introductionScreenHive = Hive.box('introduction_screen');
+  final _introductionScreenHive = Hive.box('introduction_screen');
 
   bool getIntroductionScreenStatus() {
-    if (introductionScreenHive.containsKey('introduction_screen_status')) {
+    if (_introductionScreenHive.containsKey('introduction_screen_status')) {
       return false;
     } else {
       return true;
@@ -12,6 +12,6 @@ class HiveIntroductionScreen {
   }
 
   Future<void> deactivateIntroductionScreen() async {
-    await introductionScreenHive.put('introduction_screen_status', false);
+    await _introductionScreenHive.put('introduction_screen_status', false);
   }
 }

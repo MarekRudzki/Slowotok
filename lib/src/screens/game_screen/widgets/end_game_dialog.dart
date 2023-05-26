@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:slowotok/src/screens/home_screen/home_screen.dart';
 
 import '/src/common_widgets/options_button.dart';
+import '/src/screens/stats_screen/stats_screen.dart';
+import '/src/screens/home_screen/home_screen.dart';
 import '/src/services/providers/words_provider.dart';
 import '/src/services/constants.dart';
 import 'words_of_the_day_summary_dialog.dart';
@@ -48,7 +49,7 @@ class EndGameDialog extends StatelessWidget {
                 Transform.scale(
                   scale: 0.85,
                   child: LettersGrid(
-                    wordLength: provider.selectedWordLength,
+                    wordLength: provider.getSelectedWordLength(),
                   ),
                 ),
                 Text(
@@ -74,7 +75,8 @@ class EndGameDialog extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: provider.correctWord
+                          children: provider
+                              .getCorrectWord()
                               .split('')
                               .map(
                                 (letter) => LetterTile(
@@ -87,7 +89,7 @@ class EndGameDialog extends StatelessWidget {
                       ),
                     ],
                   ),
-                if (provider.gameMode == 'unlimited')
+                if (provider.getGameMode() == 'unlimited')
                   OptionsButton(
                     text: 'Kolejne hasło',
                     onPressed: () async {
@@ -129,17 +131,20 @@ class EndGameDialog extends StatelessWidget {
                                         );
                                 },
                               ),
-                            if (!gameAvailable && !provider.isPlayingMissedDay)
+                            if (!gameAvailable &&
+                                !provider.isPlayingMissedDay())
                               OptionsButton(
                                 text: 'Podsumowanie',
                                 onPressed: () async {
                                   await provider.restartWord();
                                   if (context.mounted) {
                                     Navigator.of(context).pop();
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => const HomeScreen(),
-                                    ));
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomeScreen(),
+                                      ),
+                                    );
                                     if (context.mounted)
                                       showDialog(
                                         context: context,
@@ -166,7 +171,14 @@ class EndGameDialog extends StatelessWidget {
                     await provider.restartWord();
                     if (context.mounted) {
                       Navigator.of(context).pop();
-                      Navigator.pushReplacementNamed(context, 'stats_screen');
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const StatsScreen(
+                            showUnlimitedFirst: false,
+                          ),
+                        ),
+                      );
                     }
                   },
                 ),

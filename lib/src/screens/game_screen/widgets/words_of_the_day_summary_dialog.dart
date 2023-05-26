@@ -34,11 +34,16 @@ class _WordsOfTheDaySummaryDialogState
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
         (_) => widget.provider.checkDialogHeight(pageIndex: 0));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final int pageIndex = context.select(
-        (WordsProvider wordsProvider) => wordsProvider.wotdDialogPageIndex);
+        (WordsProvider wordsProvider) => wordsProvider.getDialogPageIndex());
 
     int calculateTime() {
       final int currentHour = DateTime.now().hour;
@@ -88,7 +93,7 @@ class _WordsOfTheDaySummaryDialogState
                             controller: pageController,
                             onPageChanged: (index) async {
                               widget.provider
-                                  .changeWotdDialogPage(indexPage: index);
+                                  .setWotdDialogPage(indexPage: index);
                               await widget.provider
                                   .checkDialogHeight(pageIndex: index);
                             },
@@ -200,7 +205,7 @@ class _WordsOfTheDaySummaryDialogState
                                 secondChild: const SizedBox.shrink(),
                                 crossFadeState: context.select(
                                         (WordsProvider wordsProvider) =>
-                                            wordsProvider.isWotdDialogWide)
+                                            wordsProvider.isDialogWide())
                                     ? CrossFadeState.showFirst
                                     : CrossFadeState.showSecond,
                               );
@@ -259,8 +264,7 @@ class _WordsOfTheDaySummaryDialogState
               alignment: Alignment.centerLeft,
               child: IconButton(
                 onPressed: () {
-                  widget.provider
-                      .changeWotdDialogPage(indexPage: pageIndex - 1);
+                  widget.provider.setWotdDialogPage(indexPage: pageIndex - 1);
                   pageController.previousPage(
                     duration: const Duration(milliseconds: 450),
                     curve: Curves.easeIn,
@@ -293,8 +297,7 @@ class _WordsOfTheDaySummaryDialogState
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () {
-                  widget.provider
-                      .changeWotdDialogPage(indexPage: pageIndex + 1);
+                  widget.provider.setWotdDialogPage(indexPage: pageIndex + 1);
                   pageController.nextPage(
                     duration: const Duration(milliseconds: 450),
                     curve: Curves.easeIn,

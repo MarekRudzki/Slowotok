@@ -16,7 +16,7 @@ class LettersGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int totalTries =
-        Provider.of<WordsProvider>(context, listen: false).selectedTotalTries;
+        Provider.of<WordsProvider>(context, listen: false).getSelectedTries();
 
     return Column(
       children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:slowotok/src/screens/game_screen/game_screen.dart';
 
 import '/src/services/providers/stats_provider.dart';
 import '/src/services/providers/words_provider.dart';
@@ -113,10 +114,10 @@ class SingleDayStats extends StatelessWidget {
                                       .toString()
                                       .substring(0, 10) ==
                                   DateTime.now().toString().substring(0, 10)) {
-                                wordsProvider.changeMissedDayStatus(
+                                wordsProvider.setMissedDayStatus(
                                     playingMissedDay: false);
                               } else {
-                                wordsProvider.changeMissedDayStatus(
+                                wordsProvider.setMissedDayStatus(
                                     playingMissedDay: true);
                               }
 
@@ -134,7 +135,12 @@ class SingleDayStats extends StatelessWidget {
                                 )
                                     .then(
                                   (value) {
-                                    Navigator.pushNamed(context, 'game_screen');
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const GameScreen(),
+                                      ),
+                                    );
                                   },
                                 );
                             },
@@ -150,10 +156,10 @@ class SingleDayStats extends StatelessWidget {
                                       .toString()
                                       .substring(0, 10) ==
                                   DateTime.now().toString().substring(0, 10)) {
-                                wordsProvider.changeMissedDayStatus(
+                                wordsProvider.setMissedDayStatus(
                                     playingMissedDay: false);
                               } else {
-                                wordsProvider.changeMissedDayStatus(
+                                wordsProvider.setMissedDayStatus(
                                     playingMissedDay: true);
                               }
 
@@ -169,7 +175,12 @@ class SingleDayStats extends StatelessWidget {
                                 )
                                     .then(
                                   (value) {
-                                    Navigator.pushNamed(context, 'game_screen');
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const GameScreen(),
+                                      ),
+                                    );
                                   },
                                 );
                             },

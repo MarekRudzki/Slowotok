@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '/src/services/providers/stats_provider.dart';
+
 import 'charts/win_percentage_bar_chart.dart';
 
 class WinPercentage extends StatelessWidget {
   const WinPercentage({
     super.key,
     required this.isDark,
+    required this.statsProvider,
   });
 
   final bool isDark;
+  final StatsProvider statsProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,10 @@ class WinPercentage extends StatelessWidget {
             ),
           ),
         ),
-        WinPercentageBarChart(isDark: isDark),
+        WinPercentageBarChart(
+          isDark: isDark,
+          statsProvider: statsProvider,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

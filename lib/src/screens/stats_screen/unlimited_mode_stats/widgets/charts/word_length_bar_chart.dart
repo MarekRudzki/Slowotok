@@ -2,59 +2,52 @@ import 'package:charts_flutter_new/flutter.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:hive_flutter/hive_flutter.dart';
-
-class _WordLengthStats {
-  final String length;
-  final int count;
-  final Color color;
-
-  _WordLengthStats({
-    required this.length,
-    required this.count,
-    required this.color,
-  });
-}
+import '/src/services/providers/stats_provider.dart';
 
 class WordLengthBarChart extends StatelessWidget {
   const WordLengthBarChart({
     required this.isDark,
+    required this.statsProvider,
   });
 
   final bool isDark;
+  final StatsProvider statsProvider;
 
   @override
   Widget build(BuildContext context) {
-    final statsBox = Hive.box('statsBox');
+    int getCount({required int wordLength}) {
+      return statsProvider.getGamesNumberForGivenLength(wordLength: wordLength);
+    }
+
     final data = [
-      _WordLengthStats(
+      _WordLengthStatsModel(
         length: '4',
-        count: statsBox.get('4_letter_game') as int,
+        count: getCount(wordLength: 4),
         color: const Color(r: 76, g: 175, b: 80),
       ),
-      _WordLengthStats(
+      _WordLengthStatsModel(
         length: '5',
-        count: statsBox.get('5_letter_game') as int,
+        count: getCount(wordLength: 5),
         color: const Color(r: 76, g: 175, b: 80),
       ),
-      _WordLengthStats(
+      _WordLengthStatsModel(
         length: '6',
-        count: statsBox.get('6_letter_game') as int,
+        count: getCount(wordLength: 6),
         color: const Color(r: 76, g: 175, b: 80),
       ),
-      _WordLengthStats(
+      _WordLengthStatsModel(
         length: '7',
-        count: statsBox.get('7_letter_game') as int,
+        count: getCount(wordLength: 7),
         color: const Color(r: 76, g: 175, b: 80),
       ),
     ];
 
     List<TickSpec<int>> getStaticTicks() {
       final List<int> counter = [
-        statsBox.get('4_letter_game') as int,
-        statsBox.get('5_letter_game') as int,
-        statsBox.get('6_letter_game') as int,
-        statsBox.get('7_letter_game') as int
+        getCount(wordLength: 4),
+        getCount(wordLength: 5),
+        getCount(wordLength: 6),
+        getCount(wordLength: 7),
       ];
       counter.sort();
       final int maxLength = counter.last;
@@ -72,13 +65,13 @@ class WordLengthBarChart extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.455,
       child: BarChart(
         [
-          Series<_WordLengthStats, String>(
+          Series<_WordLengthStatsModel, String>(
             id: 'word length stats',
             data: data,
-            domainFn: (_WordLengthStats stats, _) => stats.length,
-            measureFn: (_WordLengthStats stats, _) => stats.count,
-            colorFn: (_WordLengthStats stats, _) => stats.color,
-            labelAccessorFn: (_WordLengthStats stats, _) =>
+            domainFn: (_WordLengthStatsModel stats, _) => stats.length,
+            measureFn: (_WordLengthStatsModel stats, _) => stats.count,
+            colorFn: (_WordLengthStatsModel stats, _) => stats.color,
+            labelAccessorFn: (_WordLengthStatsModel stats, _) =>
                 stats.count.toString(),
           ),
         ],
@@ -116,4 +109,16 @@ class WordLengthBarChart extends StatelessWidget {
       ),
     );
   }
+}
+
+class _WordLengthStatsModel {
+  final String length;
+  final int count;
+  final Color color;
+
+  _WordLengthStatsModel({
+    required this.length,
+    required this.count,
+    required this.color,
+  });
 }

@@ -14,23 +14,19 @@ class WordsProvider with ChangeNotifier {
   final HiveWordsOfTheDay _hiveWordsOfTheDay = HiveWordsOfTheDay();
   final StatsProvider _statsProvider = StatsProvider();
 
-  //Initial values
-  bool completed = false;
-  bool gameWon = false;
-  bool isDark = false;
-  bool unlimitedDialogError = false;
-  String gameMode = 'unlimited';
-  int wotdDialogPageIndex = 0; // wotd - WordsOfTheDay mode
-  bool isWotdDialogWide = false;
-  DateTime selectedDay = DateTime.now();
-  bool isPlayingMissedDay = false;
-  String correctWord = '';
-  int selectedTotalTries = 0;
-  int selectedWordLength = 0;
-  int index = 0;
-  List<bool> status = [false, false, false, false, false, false];
-  List<String> guesses = ["", "", "", "", "", ""];
-  Map<String, int> letters = {
+  /// Initial values ////
+
+  bool _isPlayingMissedDay = false;
+  String _gameMode = 'unlimited';
+  int _selectedTotalTries = 0;
+  int _selectedWordLength = 0;
+  String _correctWord = '';
+  bool _completed = false;
+  bool _gameWon = false;
+  int _index = 0;
+  List<bool> _status = [false, false, false, false, false, false];
+  List<String> _guesses = ["", "", "", "", "", ""];
+  Map<String, int> _letters = {
     "Q": 0,
     "W": 0,
     "E": 0,
@@ -68,33 +64,55 @@ class WordsProvider with ChangeNotifier {
     "Ł": 0,
   };
 
-  bool isGameLostAtExit() {
-    if (status[0] == true) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // Wotd - WordsOfTheDay
+  int _wotdDialogPageIndex = 0;
+  bool _isWotdDialogWide = false;
+  DateTime _selectedDay = DateTime.now();
 
-  void changeWotdDialogPage({required int indexPage}) {
-    wotdDialogPageIndex = indexPage;
+  // Theme
+  bool _isDark = false;
+
+  /// Setters ///
+
+  void setMissedDayStatus({required bool playingMissedDay}) {
+    _isPlayingMissedDay = playingMissedDay;
     notifyListeners();
   }
 
+  void setGameMode({required String newGameMode}) {
+    _gameMode = newGameMode;
+    notifyListeners();
+  }
+
+  void setTotalTries(int tries) {
+    _selectedTotalTries = tries;
+    notifyListeners();
+  }
+
+  void setWordLength(int length) {
+    _selectedWordLength = length;
+    notifyListeners();
+  }
+
+  void resetWordLengthAndTries() {
+    _selectedTotalTries = 0;
+    _selectedWordLength = 0;
+  }
+
   void setGameEndStatus({required bool isGameWon}) {
-    gameWon = isGameWon;
+    _gameWon = isGameWon;
     notifyListeners();
   }
 
   Future<void> markGameAsLost() async {
-    if (gameMode == 'unlimited') {
-      await _hiveUnlimited.addUnlimitedGameStatistics(
+    if (_gameMode == 'unlimited') {
+      await _hiveUnlimited.addUnlimitedGameStats(
         isWinner: false,
-        wordLength: selectedWordLength,
-        totalTries: selectedTotalTries,
+        wordLength: _selectedWordLength,
+        totalTries: _selectedTotalTries,
       );
     } else {
-      if (isPlayingMissedDay) {
+      if (_isPlayingMissedDay) {
         await saveGame(isWinner: false);
       } else {
         await _statsProvider.addWotdStatistics(isWin: false);
@@ -102,26 +120,11 @@ class WordsProvider with ChangeNotifier {
     }
   }
 
-  void setWordLength(int length) {
-    selectedWordLength = length;
-    notifyListeners();
-  }
-
-  void setTotalTries(int tries) {
-    selectedTotalTries = tries;
-    notifyListeners();
-  }
-
-  void resetWordLengthAndTries() {
-    selectedTotalTries = 0;
-    selectedWordLength = 0;
-  }
-
   Future<void> setRandomWord({
     required BuildContext context,
   }) async {
     final lettersList = await DefaultAssetBundle.of(context)
-        .loadString('assets/${selectedWordLength}_letter_words.txt');
+        .loadString('assets/${_selectedWordLength}_letter_words.txt');
 
     final LineSplitter ls = const LineSplitter();
     final List<String> convertedList = ls.convert(lettersList);
@@ -129,7 +132,7 @@ class WordsProvider with ChangeNotifier {
     final random = Random();
     final randomWord = convertedList[random.nextInt(convertedList.length)];
 
-    if (gameMode == 'wordsoftheday') {
+    if (_gameMode == 'wordsoftheday') {
       final List<String> usedWords = await _hiveWordsOfTheDay.getCorrectWords();
 
       if (usedWords.contains(randomWord.toUpperCase())) {
@@ -137,12 +140,180 @@ class WordsProvider with ChangeNotifier {
 
         final newRandomWord =
             convertedList[random.nextInt(convertedList.length - 1)];
-        correctWord = newRandomWord.toUpperCase();
+        _correctWord = newRandomWord.toUpperCase();
 
         return;
       }
     }
-    correctWord = randomWord.toUpperCase();
+    _correctWord = randomWord.toUpperCase();
+  }
+
+  // Wotd mode
+
+  void playWotdMode({required DateTime date}) {
+    _selectedTotalTries = 6;
+    _selectedWordLength = 5;
+    _selectedDay = date;
+    _gameMode = 'wordsoftheday';
+    notifyListeners();
+  }
+
+  void setSelectedDay({required DateTime date}) {
+    _selectedDay = date;
+    notifyListeners();
+  }
+
+  void setWotdDialogPage({required int indexPage}) {
+    _wotdDialogPageIndex = indexPage;
+    notifyListeners();
+  }
+
+  Future<void> checkDialogHeight({required int pageIndex}) async {
+    final List<int> gameStatus = await getGameStatus();
+    if (gameStatus[pageIndex] == 1) {
+      _isWotdDialogWide = false;
+    } else {
+      _isWotdDialogWide = true;
+    }
+    notifyListeners();
+  }
+
+  Future<void> setGameStatus({
+    required int gameLevel,
+    required bool isWinner,
+  }) async {
+    await _hiveWordsOfTheDay.changeGameStatus(
+      gameLevel: gameLevel,
+      isWinner: isWinner,
+    );
+
+    await _hiveWordsOfTheDay.addUserWords(
+      words: _guesses,
+      gameLevel: gameLevel,
+    );
+
+    await _hiveWordsOfTheDay.addCorrectWord(
+      correctWord: _correctWord,
+      gameLevel: gameLevel,
+    );
+  }
+
+  /// Getters ///
+
+  bool isPlayingMissedDay() {
+    return _isPlayingMissedDay;
+  }
+
+  String getGameMode() {
+    return _gameMode;
+  }
+
+  int getSelectedTries() {
+    return _selectedTotalTries;
+  }
+
+  int getSelectedWordLength() {
+    return _selectedWordLength;
+  }
+
+  String getCorrectWord() {
+    return _correctWord;
+  }
+
+  bool isGameWon() {
+    return _gameWon;
+  }
+
+  List<bool> getStatusList() {
+    return _status;
+  }
+
+  List<String> getGuessesList() {
+    return _guesses;
+  }
+
+  Map<String, int> getLetters() {
+    return _letters;
+  }
+
+  int getDialogPageIndex() {
+    return _wotdDialogPageIndex;
+  }
+
+  bool isDialogWide() {
+    return _isWotdDialogWide;
+  }
+
+  bool isDark() {
+    return _isDark;
+  }
+
+  bool isGameLostAtExit() {
+    if (_status[0] == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  String getLetter(int index, int letterIndex) {
+    return _guesses[index].length <= letterIndex
+        ? ""
+        : _guesses[index][letterIndex];
+  }
+
+  Future<List<int>> getGameStatus() async {
+    final List<int> statusList = [];
+    if (_isPlayingMissedDay) {
+      final List<bool> statsForGivenDay =
+          _hiveWordsOfTheDay.getWotdStatsForGivenDay(
+              date: _selectedDay.toString().substring(0, 10));
+
+      statsForGivenDay.map((isWin) {
+        isWin ? statusList.add(1) : statusList.add(2);
+      }).toList();
+
+      for (int i = statusList.length; i < 3; i++) {
+        statusList.add(0);
+      }
+    } else {
+      await gamePlayChecker();
+      final List<int> gameStatus = await _hiveWordsOfTheDay.getGamesStatus();
+      statusList.addAll(gameStatus);
+    }
+    return statusList;
+  }
+
+  Future<int> getCurrentGameLevel() async {
+    final List<int> gameStatus = await _hiveWordsOfTheDay.getGamesStatus();
+
+    if (gameStatus[0] == 0) {
+      return 0;
+    } else if (gameStatus[1] == 0) {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
+
+  Future<List<List<String>>> getUserWords() async {
+    final List<List<String>> wordsList =
+        await _hiveWordsOfTheDay.getAllUserWords();
+    return wordsList;
+  }
+
+  Future<List<String>> getCorrectWords() async {
+    final List<String> wordsList = await _hiveWordsOfTheDay.getCorrectWords();
+    return wordsList;
+  }
+
+  Future<bool> gameModeAvailable() async {
+    final List<int> gameStatus = await getGameStatus();
+    if (!gameStatus.contains(0)) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   Future<bool> checkIfWordExists({
@@ -161,35 +332,32 @@ class WordsProvider with ChangeNotifier {
     }
   }
 
-  String getLetter(int index, int letterIndex) {
-    return guesses[index].length <= letterIndex
-        ? ""
-        : guesses[index][letterIndex];
-  }
+  /// Words management
 
   void addLetter(String letter) {
-    if (guesses[index].length < selectedWordLength && completed == false) {
-      guesses[index] += letter;
+    if (_guesses[_index].length < _selectedWordLength && _completed == false) {
+      _guesses[_index] += letter;
     }
     notifyListeners();
   }
 
   void deleteLetter() {
-    if (guesses[index].isNotEmpty && completed == false) {
-      guesses[index] = guesses[index].substring(0, guesses[index].length - 1);
+    if (_guesses[_index].isNotEmpty && _completed == false) {
+      _guesses[_index] =
+          _guesses[_index].substring(0, _guesses[_index].length - 1);
     }
     notifyListeners();
   }
 
   void letterController() {
-    for (int i = 0; i < selectedWordLength; i++) {
-      if (guesses[index][i] == correctWord[i]) {
-        letters[guesses[index][i]] = 3;
-      } else if (correctWord.contains(guesses[index][i]) &&
-          letters[guesses[index][i]] != 3) {
-        letters[guesses[index][i]] = 2;
-      } else if (correctWord.contains(guesses[index][i]) == false) {
-        letters[guesses[index][i]] = 1;
+    for (int i = 0; i < _selectedWordLength; i++) {
+      if (_guesses[_index][i] == _correctWord[i]) {
+        _letters[_guesses[_index][i]] = 3;
+      } else if (_correctWord.contains(_guesses[_index][i]) &&
+          _letters[_guesses[_index][i]] != 3) {
+        _letters[_guesses[_index][i]] = 2;
+      } else if (_correctWord.contains(_guesses[_index][i]) == false) {
+        _letters[_guesses[_index][i]] = 1;
       }
     }
 
@@ -202,12 +370,12 @@ class WordsProvider with ChangeNotifier {
     // game won = status 3
     // game lost = status 4
 
-    if (guesses[index].length < correctWord.length) {
+    if (_guesses[_index].length < _correctWord.length) {
       return 1;
     }
 
     final bool isWordCorrect = await checkIfWordExists(
-      word: guesses[index],
+      word: _guesses[_index],
       context: context,
     );
 
@@ -215,44 +383,44 @@ class WordsProvider with ChangeNotifier {
       return 2;
     }
 
-    if (guesses[index].length == selectedWordLength) {
-      status[index] = true;
-      if (guesses[index] == correctWord) {
-        if (gameMode == 'unlimited') {
-          await _hiveUnlimited.addUnlimitedGameStatistics(
+    if (_guesses[_index].length == _selectedWordLength) {
+      _status[_index] = true;
+      if (_guesses[_index] == _correctWord) {
+        if (_gameMode == 'unlimited') {
+          await _hiveUnlimited.addUnlimitedGameStats(
             isWinner: true,
-            wordLength: selectedWordLength,
-            totalTries: selectedTotalTries,
+            wordLength: _selectedWordLength,
+            totalTries: _selectedTotalTries,
           );
-        } else if (!isPlayingMissedDay) {
+        } else if (!_isPlayingMissedDay) {
           await _statsProvider.addWotdStatistics(isWin: true);
         }
 
-        completed = true;
+        _completed = true;
         letterController();
         notifyListeners();
         return 3;
       }
 
-      if (index == selectedTotalTries - 1) {
-        if (gameMode == 'unlimited') {
-          await _hiveUnlimited.addUnlimitedGameStatistics(
+      if (_index == _selectedTotalTries - 1) {
+        if (_gameMode == 'unlimited') {
+          await _hiveUnlimited.addUnlimitedGameStats(
             isWinner: false,
-            wordLength: selectedWordLength,
-            totalTries: selectedTotalTries,
+            wordLength: _selectedWordLength,
+            totalTries: _selectedTotalTries,
           );
-        } else if (!isPlayingMissedDay) {
+        } else if (!_isPlayingMissedDay) {
           await _statsProvider.addWotdStatistics(isWin: false);
         }
 
         letterController();
-        completed = true;
+        _completed = true;
         notifyListeners();
 
         return 4;
       }
       letterController();
-      index++;
+      _index++;
 
       notifyListeners();
       return 0;
@@ -262,12 +430,12 @@ class WordsProvider with ChangeNotifier {
   }
 
   Future<void> restartWord() async {
-    gameWon = false;
-    completed = false;
-    index = 0;
-    status = [false, false, false, false, false, false];
-    guesses = ["", "", "", "", "", ""];
-    letters = {
+    _gameWon = false;
+    _completed = false;
+    _index = 0;
+    _status = [false, false, false, false, false, false];
+    _guesses = ["", "", "", "", "", ""];
+    _letters = {
       "Q": 0,
       "W": 0,
       "E": 0,
@@ -307,12 +475,10 @@ class WordsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Words Of The Day mode
-
   Future<void> saveGame({required bool isWinner}) async {
-    if (isPlayingMissedDay) {
+    if (_isPlayingMissedDay) {
       await _statsProvider.addStatsForMissingDay(
-          isWin: isWinner, date: selectedDay.toString().substring(0, 10));
+          isWin: isWinner, date: _selectedDay.toString().substring(0, 10));
     } else {
       final int gameLevel = await getCurrentGameLevel();
       await setGameStatus(
@@ -322,126 +488,17 @@ class WordsProvider with ChangeNotifier {
     }
   }
 
-  void playWotdMode({required DateTime date}) {
-    selectedTotalTries = 6;
-    selectedWordLength = 5;
-    selectedDay = date;
-    gameMode = 'wordsoftheday';
-    notifyListeners();
-  }
-
-  void changeSelectedDay({required DateTime date}) {
-    selectedDay = date;
-    notifyListeners();
-  }
-
-  void changeGameMode({required String newGameMode}) {
-    gameMode = newGameMode;
-    notifyListeners();
-  }
-
-  void changeMissedDayStatus({required bool playingMissedDay}) {
-    isPlayingMissedDay = playingMissedDay;
-    notifyListeners();
-  }
-
   Future<void> gamePlayChecker() async {
-    final String date = selectedDay.toString().substring(0, 10);
+    final String date = _selectedDay.toString().substring(0, 10);
     final bool gamePlayedToday =
-        await _hiveWordsOfTheDay.checkIfModePlayedGivenDay(date: date);
+        await _hiveWordsOfTheDay.checkIfWotdPlayedGivenDay(date: date);
 
     if (!gamePlayedToday) {
       await _hiveWordsOfTheDay.setInitialValues(currentDate: date);
     }
   }
 
-  Future<List<int>> getGameStatus() async {
-    final List<int> statusList = [];
-    if (isPlayingMissedDay) {
-      final List<bool> statsForGivenDay =
-          _hiveWordsOfTheDay.getWotdModeStatsForGivenDay(
-              date: selectedDay.toString().substring(0, 10));
-
-      statsForGivenDay.map((isWin) {
-        isWin ? statusList.add(1) : statusList.add(2);
-      }).toList();
-
-      for (int i = statusList.length; i < 3; i++) {
-        statusList.add(0);
-      }
-    } else {
-      await gamePlayChecker();
-      final List<int> gameStatus = await _hiveWordsOfTheDay.getGamesStatus();
-      statusList.addAll(gameStatus);
-    }
-    return statusList;
-  }
-
-  Future<void> setGameStatus({
-    required int gameLevel,
-    required bool isWinner,
-  }) async {
-    await _hiveWordsOfTheDay.changeGameStatus(
-      gameLevel: gameLevel,
-      isWinner: isWinner,
-    );
-
-    await _hiveWordsOfTheDay.addUserWords(
-      words: guesses,
-      gameLevel: gameLevel,
-    );
-
-    await _hiveWordsOfTheDay.addCorrectWord(
-      correctWord: correctWord,
-      gameLevel: gameLevel,
-    );
-  }
-
-  Future<int> getCurrentGameLevel() async {
-    final List<int> gameStatus = await _hiveWordsOfTheDay.getGamesStatus();
-
-    if (gameStatus[0] == 0) {
-      return 0;
-    } else if (gameStatus[1] == 0) {
-      return 1;
-    } else {
-      return 2;
-    }
-  }
-
-  Future<List<List<String>>> getUserWords() async {
-    final List<List<String>> wordsList =
-        await _hiveWordsOfTheDay.getAllUserWords();
-    return wordsList;
-  }
-
-  Future<List<String>> getCorrectWords() async {
-    final List<String> wordsList = await _hiveWordsOfTheDay.getCorrectWords();
-    return wordsList;
-  }
-
-  Future<bool> gameModeAvailable() async {
-    final List<int> gameStatus = await getGameStatus();
-    if (!gameStatus.contains(0)) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  Future<void> checkDialogHeight({required int pageIndex}) async {
-    final List<int> gameStatus = await getGameStatus();
-    if (gameStatus[pageIndex] == 1) {
-      isWotdDialogWide = false;
-      notifyListeners();
-    } else {
-      isWotdDialogWide = true;
-      notifyListeners();
-    }
-  }
-
-  // Theme
   void setTheme(AdaptiveThemeMode theme) {
-    theme == AdaptiveThemeMode.dark ? isDark = true : isDark = false;
+    theme == AdaptiveThemeMode.dark ? _isDark = true : _isDark = false;
   }
 }

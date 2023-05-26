@@ -2,23 +2,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'src/screens/introduction_screen/introduction_screen.dart';
-import 'src/screens/stats_screen/stats_screen.dart';
 import 'src/screens/home_screen/home_screen.dart';
-import 'src/screens/game_screen/game_screen.dart';
 import 'src/services/providers/introduction_screen_provider.dart';
-import '/src/services/providers/stats_provider.dart';
+import 'src/services/providers/stats_provider.dart';
 import 'src/services/providers/words_provider.dart';
 import 'src/services/custom_theme.dart';
 
 void main() async {
   await Hive.initFlutter();
-  await Hive.openBox('statsBox');
-  await Hive.openBox('wordsoftheday');
+  await Hive.openBox('unlimitedStatsBox');
+  await Hive.openBox('wordsOfTheDay');
   await Hive.openBox('introduction_screen');
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +30,8 @@ void main() async {
   ]).then(
     (_) {
       //TODO app tests
+      // Introduction screen dostosowac
+      // dostosowac dark mode
       initializeDateFormatting().then(
         (_) => runApp(
           MultiProvider(
@@ -54,15 +54,10 @@ void main() async {
                 theme: theme,
                 darkTheme: darkTheme,
                 title: 'Słowotok',
-                routes: {
-                  '/': (context) => showIntroductionScreen
-                      ? const IntroductionScreen()
-                      : const HomeScreen(),
-                  'stats_screen': (context) => const StatsScreen(),
-                  'game_screen': (context) => const GameScreen(),
-                },
+                home: showIntroductionScreen
+                    ? const IntroductionScreen()
+                    : const HomeScreen(),
                 debugShowCheckedModeBanner: false,
-                initialRoute: '/',
               ),
             ),
           ),

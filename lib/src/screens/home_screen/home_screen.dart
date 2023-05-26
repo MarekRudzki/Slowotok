@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:slowotok/src/screens/game_screen/game_screen.dart';
+import 'package:slowotok/src/screens/stats_screen/stats_screen.dart';
 
 import '/src/common_widgets/game_instructions.dart';
 import '/src/common_widgets/options_button.dart';
@@ -99,7 +101,7 @@ class HomeScreen extends StatelessWidget {
                                   child: Center(
                                     child: Image.asset(
                                       gaplessPlayback: true,
-                                      !wordsProvider.isDark
+                                      !wordsProvider.isDark()
                                           ? 'assets/icon.png'
                                           : 'assets/icon2.png',
                                     ),
@@ -113,15 +115,15 @@ class HomeScreen extends StatelessWidget {
                                   OptionsButton(
                                     text: 'Słówka dnia',
                                     onPressed: () async {
-                                      wordsProvider.changeSelectedDay(
+                                      wordsProvider.setSelectedDay(
                                           date: DateTime.now());
-                                      wordsProvider.changeMissedDayStatus(
+                                      wordsProvider.setMissedDayStatus(
                                           playingMissedDay: false);
                                       final bool modeAvailable =
                                           await wordsProvider
                                               .gameModeAvailable();
                                       if (!modeAvailable) {
-                                        wordsProvider.changeWotdDialogPage(
+                                        wordsProvider.setWotdDialogPage(
                                             indexPage: 0);
                                         if (context.mounted)
                                           showDialog(
@@ -145,8 +147,12 @@ class HomeScreen extends StatelessWidget {
                                         )
                                             .then(
                                           (value) {
-                                            Navigator.pushNamed(
-                                                context, 'game_screen');
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const GameScreen(),
+                                              ),
+                                            );
                                           },
                                         );
                                     },
@@ -180,7 +186,13 @@ class HomeScreen extends StatelessWidget {
                               OptionsButton(
                                 text: 'Statystyki',
                                 onPressed: () {
-                                  Navigator.pushNamed(context, 'stats_screen');
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const StatsScreen(
+                                        showUnlimitedFirst: true,
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
                               const SizedBox(height: 25),

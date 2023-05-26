@@ -21,7 +21,7 @@ class KeyboardButton extends StatelessWidget {
     Future<void> showEndDialogWithDelay({required bool isWinner}) async {
       provider.setGameEndStatus(isGameWon: isWinner);
 
-      if (provider.gameMode == 'wordsoftheday') {
+      if (provider.getGameMode() == 'wordsoftheday') {
         await provider.saveGame(isWinner: isWinner);
       }
 
@@ -52,18 +52,21 @@ class KeyboardButton extends StatelessWidget {
             ? const Color.fromARGB(255, 138, 137, 137)
             : buttonText == 'ENTER'
                 ? Constants.correctLetterColor
-                : context.watch<WordsProvider>().letters[buttonText] == 0
+                : context.watch<WordsProvider>().getLetters()[buttonText] == 0
                     ? Constants.initialColor
-                    : context.watch<WordsProvider>().letters[buttonText] == 1
+                    : context.watch<WordsProvider>().getLetters()[buttonText] ==
+                            1
                         ? Constants.noLetterInWordColor
-                        : context.watch<WordsProvider>().letters[buttonText] ==
+                        : context
+                                    .watch<WordsProvider>()
+                                    .getLetters()[buttonText] ==
                                 2
                             ? Constants.wrongLetterColor
                             : Constants.correctLetterColor,
       ),
       child: InkWell(
         onTap: () async {
-          if (buttonText == "ENTER" && !provider.gameWon) {
+          if (buttonText == "ENTER" && !provider.isGameWon()) {
             final int status = await provider.saveWord(context: context);
             if (status == 3) {
               await showEndDialogWithDelay(isWinner: true);
@@ -130,7 +133,7 @@ class KeyboardButton extends StatelessWidget {
                       style: TextStyle(
                         color: context
                                     .watch<WordsProvider>()
-                                    .letters[buttonText] ==
+                                    .getLetters()[buttonText] ==
                                 0
                             ? Colors.black
                             : Colors.white,

@@ -1,39 +1,31 @@
 import 'package:flutter/material.dart';
 
 import 'package:charts_flutter_new/flutter.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
+import '/src/services/providers/stats_provider.dart';
 import '/src/services/constants.dart';
-
-class _WinPercentage {
-  _WinPercentage({
-    required this.wordLength,
-    required this.percentage,
-    required this.color,
-  });
-
-  final String wordLength;
-  final int percentage;
-  final Color color;
-}
 
 class WinPercentageBarChart extends StatelessWidget {
   const WinPercentageBarChart({
     super.key,
     required this.isDark,
+    required this.statsProvider,
   });
 
   final bool isDark;
+  final StatsProvider statsProvider;
 
   @override
   Widget build(BuildContext context) {
-    final statsBox = Hive.box('statsBox');
-
-    int getStats({required int wordLength, required int totalTries}) {
-      final int totalGames =
-          statsBox.get('${wordLength}_${totalTries}_game') as int;
-      final int gamesWon =
-          statsBox.get('${wordLength}_${totalTries}_won') as int;
+    int getCount({required int wordLength, required int totalTries}) {
+      final int totalGames = statsProvider.getGamesForGivenLengthAndTries(
+        wordLength: wordLength,
+        totalTries: totalTries,
+      );
+      final int gamesWon = statsProvider.getWonGamesForGivenLengthAndTries(
+        wordLength: wordLength,
+        totalTries: totalTries,
+      );
 
       if (totalGames == 0) {
         return 0;
@@ -43,68 +35,68 @@ class WinPercentageBarChart extends StatelessWidget {
     }
 
     final fourTries = [
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '4',
-          percentage: getStats(totalTries: 4, wordLength: 4),
+          percentage: getCount(totalTries: 4, wordLength: 4),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.fourGuessesColor))),
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '5',
-          percentage: getStats(totalTries: 4, wordLength: 5),
+          percentage: getCount(totalTries: 4, wordLength: 5),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.fourGuessesColor))),
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '6',
-          percentage: getStats(totalTries: 4, wordLength: 6),
+          percentage: getCount(totalTries: 4, wordLength: 6),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.fourGuessesColor))),
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '7',
-          percentage: getStats(totalTries: 4, wordLength: 7),
+          percentage: getCount(totalTries: 4, wordLength: 7),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.fourGuessesColor))),
     ];
     final fiveTries = [
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '4',
-          percentage: getStats(totalTries: 5, wordLength: 4),
+          percentage: getCount(totalTries: 5, wordLength: 4),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.fiveGuessesColor))),
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '5',
-          percentage: getStats(totalTries: 5, wordLength: 5),
+          percentage: getCount(totalTries: 5, wordLength: 5),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.fiveGuessesColor))),
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '6',
-          percentage: getStats(totalTries: 5, wordLength: 6),
+          percentage: getCount(totalTries: 5, wordLength: 6),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.fiveGuessesColor))),
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '7',
-          percentage: getStats(totalTries: 5, wordLength: 7),
+          percentage: getCount(totalTries: 5, wordLength: 7),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.fiveGuessesColor))),
     ];
     final sixTries = [
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '4',
-          percentage: getStats(totalTries: 6, wordLength: 4),
+          percentage: getCount(totalTries: 6, wordLength: 4),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.sixGuessesColor))),
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '5',
-          percentage: getStats(totalTries: 6, wordLength: 5),
+          percentage: getCount(totalTries: 6, wordLength: 5),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.sixGuessesColor))),
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '6',
-          percentage: getStats(totalTries: 6, wordLength: 6),
+          percentage: getCount(totalTries: 6, wordLength: 6),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.sixGuessesColor))),
-      _WinPercentage(
+      _WinPercentageModel(
           wordLength: '7',
-          percentage: getStats(totalTries: 6, wordLength: 7),
+          percentage: getCount(totalTries: 6, wordLength: 7),
           color: Color.fromOther(
               color: Color.fromHex(code: Constants.sixGuessesColor))),
     ];
@@ -149,30 +141,42 @@ class WinPercentageBarChart extends StatelessWidget {
             ),
           ),
           [
-            Series<_WinPercentage, String>(
+            Series<_WinPercentageModel, String>(
               id: 'Cztery próby',
               data: fourTries,
-              domainFn: (_WinPercentage wins, _) => wins.wordLength,
-              measureFn: (_WinPercentage wins, _) => wins.percentage,
-              colorFn: (_WinPercentage wins, _) => wins.color,
+              domainFn: (_WinPercentageModel wins, _) => wins.wordLength,
+              measureFn: (_WinPercentageModel wins, _) => wins.percentage,
+              colorFn: (_WinPercentageModel wins, _) => wins.color,
             ),
-            Series<_WinPercentage, String>(
+            Series<_WinPercentageModel, String>(
               id: 'Pięć prób',
               data: fiveTries,
-              domainFn: (_WinPercentage wins, _) => wins.wordLength,
-              measureFn: (_WinPercentage wins, _) => wins.percentage,
-              colorFn: (_WinPercentage wins, _) => wins.color,
+              domainFn: (_WinPercentageModel wins, _) => wins.wordLength,
+              measureFn: (_WinPercentageModel wins, _) => wins.percentage,
+              colorFn: (_WinPercentageModel wins, _) => wins.color,
             ),
-            Series<_WinPercentage, String>(
+            Series<_WinPercentageModel, String>(
               id: 'Sześć prób',
               data: sixTries,
-              domainFn: (_WinPercentage wins, _) => wins.wordLength,
-              measureFn: (_WinPercentage wins, _) => wins.percentage,
-              colorFn: (_WinPercentage wins, _) => wins.color,
+              domainFn: (_WinPercentageModel wins, _) => wins.wordLength,
+              measureFn: (_WinPercentageModel wins, _) => wins.percentage,
+              colorFn: (_WinPercentageModel wins, _) => wins.color,
             ),
           ],
         ),
       ),
     );
   }
+}
+
+class _WinPercentageModel {
+  _WinPercentageModel({
+    required this.wordLength,
+    required this.percentage,
+    required this.color,
+  });
+
+  final String wordLength;
+  final int percentage;
+  final Color color;
 }
