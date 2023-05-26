@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 
 import '/src/services/hive/hive_words_of_the_day.dart';
-import '/src/services/hive/hive_unlimited.dart';
 import '/src/services/providers/stats_provider.dart';
+import '/src/services/hive/hive_unlimited.dart';
 
 class WordsProvider with ChangeNotifier {
   final HiveUnlimited _hiveUnlimited = HiveUnlimited();
@@ -21,6 +21,7 @@ class WordsProvider with ChangeNotifier {
   bool unlimitedDialogError = false;
   String gameMode = 'unlimited';
   int wotdDialogPageIndex = 0; // wotd - WordsOfTheDay mode
+  bool isWotdDialogWide = false;
   DateTime selectedDay = DateTime.now();
   bool isPlayingMissedDay = false;
   String correctWord = '';
@@ -329,6 +330,11 @@ class WordsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void changeSelectedDay({required DateTime date}) {
+    selectedDay = date;
+    notifyListeners();
+  }
+
   void changeGameMode({required String newGameMode}) {
     gameMode = newGameMode;
     notifyListeners();
@@ -351,7 +357,6 @@ class WordsProvider with ChangeNotifier {
 
   Future<List<int>> getGameStatus() async {
     final List<int> statusList = [];
-
     if (isPlayingMissedDay) {
       final List<bool> statsForGivenDay =
           _hiveWordsOfTheDay.getWotdModeStatsForGivenDay(
@@ -421,6 +426,17 @@ class WordsProvider with ChangeNotifier {
       return false;
     } else {
       return true;
+    }
+  }
+
+  Future<void> checkDialogHeight({required int pageIndex}) async {
+    final List<int> gameStatus = await getGameStatus();
+    if (gameStatus[pageIndex] == 1) {
+      isWotdDialogWide = false;
+      notifyListeners();
+    } else {
+      isWotdDialogWide = true;
+      notifyListeners();
     }
   }
 

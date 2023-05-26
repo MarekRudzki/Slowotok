@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:slowotok/src/services/hive/hive_words_of_the_day.dart';
 
-import '../../screens/stats_screen/wotd_mode_stats/widgets/event_model.dart';
-import '../hive/hive_unlimited.dart';
+import '/src/screens/stats_screen/wotd_mode_stats/widgets/event_model.dart';
+import '/src/services/hive/hive_words_of_the_day.dart';
+import '/src/services/hive/hive_unlimited.dart';
 
 class StatsProvider with ChangeNotifier {
   final HiveUnlimited _hiveUnlimited = HiveUnlimited();
@@ -183,19 +183,34 @@ class StatsProvider with ChangeNotifier {
 
   String getDayPerformance() {
     final List<String> givenDayStats = getSingleDayStats();
-    if (givenDayStats[0] == 'win' &&
-        givenDayStats[1] == 'win' &&
-        givenDayStats[2] == 'win') {
+    int winNumber = 0;
+    int loseNumber = 0;
+    for (int i = 0; i < givenDayStats.length; i++) {
+      if (givenDayStats[i] == 'win') {
+        winNumber++;
+      } else if (givenDayStats[i] == 'lose') {
+        loseNumber++;
+      }
+    }
+
+    if (winNumber == 3) {
       return 'perfect';
-    } else if (givenDayStats[0] == 'no_data' &&
-        givenDayStats[1] == 'no_data' &&
-        givenDayStats[2] == 'no_data') {
+    } else if (winNumber == 0 && loseNumber == 0) {
       return 'unstarted';
     } else if (givenDayStats.contains('no_data')) {
       return 'unfinished';
+    } else if (winNumber == 1) {
+      return 'not-bad';
+    } else if (loseNumber == 3) {
+      return 'try-again';
     } else {
-      return 'not-perfect';
+      return 'almost-perfect';
     }
+  }
+
+  Future<void> resetDayStats() async {
+    await _hiveWordsOfTheDay.resetStatsForGivenDay(
+        date: _selectedDay.toString().substring(0, 10));
   }
 
   Future<void> addStatsForMissingDay(

@@ -35,6 +35,8 @@ class _WordsOfTheDaySummaryDialogState
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => widget.provider.checkDialogHeight(pageIndex: 0));
     final int pageIndex = context.select(
         (WordsProvider wordsProvider) => wordsProvider.wotdDialogPageIndex);
 
@@ -68,7 +70,6 @@ class _WordsOfTheDaySummaryDialogState
                   if (snapshot.hasData) {
                     final List<String> correctWords = snapshot.data!;
                     return Column(
-                      //TODO add animation on widget height change
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Padding(
@@ -85,9 +86,11 @@ class _WordsOfTheDaySummaryDialogState
                           height: 300,
                           child: PageView(
                             controller: pageController,
-                            onPageChanged: (index) {
+                            onPageChanged: (index) async {
                               widget.provider
                                   .changeWotdDialogPage(indexPage: index);
+                              await widget.provider
+                                  .checkDialogHeight(pageIndex: index);
                             },
                             children: [
                               WordsOfTheDayGamesSummary(
@@ -156,35 +159,50 @@ class _WordsOfTheDaySummaryDialogState
                         FutureBuilder(
                           future: widget.provider.getGameStatus(),
                           builder: (context, snapshot) {
-                            if (snapshot.hasData &&
-                                snapshot.data![pageIndex] == 2) {
-                              return Column(
-                                children: [
-                                  Text(
-                                    'Poprawne hasło to:',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: correctWords[pageIndex]
-                                          .split('')
-                                          .map(
-                                            (letter) => LetterTile(
-                                                letter: letter,
-                                                color: Constants
-                                                    .correctLetterColor),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ),
-                                ],
+                            if (snapshot.hasData) {
+                              return AnimatedCrossFade(
+                                duration: const Duration(
+                                  seconds: 1,
+                                ),
+                                firstCurve: Curves.easeInOut,
+                                secondCurve: Curves.easeInOut,
+                                firstChild: snapshot.data![pageIndex] == 2
+                                    ? Column(
+                                        children: [
+                                          Text(
+                                            'Poprawne hasło to:',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(12),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: correctWords[pageIndex]
+                                                  .split('')
+                                                  .map(
+                                                    (letter) => LetterTile(
+                                                        letter: letter,
+                                                        color: Constants
+                                                            .correctLetterColor),
+                                                  )
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : const SizedBox.shrink(),
+                                secondChild: const SizedBox.shrink(),
+                                crossFadeState: context.select(
+                                        (WordsProvider wordsProvider) =>
+                                            wordsProvider.isWotdDialogWide)
+                                    ? CrossFadeState.showFirst
+                                    : CrossFadeState.showSecond,
                               );
                             }
                             return const SizedBox.shrink();

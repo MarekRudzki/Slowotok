@@ -113,6 +113,8 @@ class HomeScreen extends StatelessWidget {
                                   OptionsButton(
                                     text: 'Słówka dnia',
                                     onPressed: () async {
+                                      wordsProvider.changeSelectedDay(
+                                          date: DateTime.now());
                                       wordsProvider.changeMissedDayStatus(
                                           playingMissedDay: false);
                                       final bool modeAvailable =

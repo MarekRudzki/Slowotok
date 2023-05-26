@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 
-import 'event_model.dart';
 import '/src/services/providers/stats_provider.dart';
+import 'event_model.dart';
 
 class GameCalendar extends StatelessWidget {
   const GameCalendar({

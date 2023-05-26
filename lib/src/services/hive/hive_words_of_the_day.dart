@@ -190,4 +190,9 @@ class HiveWordsOfTheDay {
       ];
     }
   }
+
+  Future<void> resetStatsForGivenDay({required String date}) async {
+    final stats = wordsOfTheDayBox.get('days_stats') as Map;
+    stats.removeWhere((key, value) => key as String == date);
+  }
 }

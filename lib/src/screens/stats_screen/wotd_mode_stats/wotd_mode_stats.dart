@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:slowotok/src/screens/stats_screen/wotd_mode_stats/widgets/single_day_stats.dart';
 
+import '/src/screens/stats_screen/wotd_mode_stats/widgets/single_day_stats.dart';
 import '/src/screens/stats_screen/wotd_mode_stats/widgets/game_calendar.dart';
 import '/src/screens/stats_screen/common_widgets/no_statistics.dart';
 import '/src/services/providers/stats_provider.dart';
@@ -32,11 +32,6 @@ class WotdModeStats extends StatelessWidget {
               ),
             ],
           ),
-        ElevatedButton(
-          //TODO testing
-          onPressed: () async {},
-          child: const Text('abc'),
-        ),
       ],
     );
   }

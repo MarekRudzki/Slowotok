@@ -48,11 +48,9 @@ class SingleDayStats extends StatelessWidget {
                             height: 11,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: dayStats[0] == 'no_data'
-                                  ? Colors.grey
-                                  : dayStats[0] == 'win'
-                                      ? Colors.green
-                                      : Colors.red,
+                              color: buildGameIndicatorColor(
+                                dayOutput: dayStats[0],
+                              ),
                             ),
                           ),
                           Padding(
@@ -62,11 +60,9 @@ class SingleDayStats extends StatelessWidget {
                               height: 11,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: dayStats[1] == 'no_data'
-                                    ? Colors.grey
-                                    : dayStats[1] == 'win'
-                                        ? Colors.green
-                                        : Colors.red,
+                                color: buildGameIndicatorColor(
+                                  dayOutput: dayStats[1],
+                                ),
                               ),
                             ),
                           ),
@@ -75,11 +71,9 @@ class SingleDayStats extends StatelessWidget {
                             height: 11,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: dayStats[2] == 'no_data'
-                                  ? Colors.grey
-                                  : dayStats[2] == 'win'
-                                      ? Colors.green
-                                      : Colors.red,
+                              color: buildGameIndicatorColor(
+                                dayOutput: dayStats[2],
+                              ),
                             ),
                           ),
                         ],
@@ -109,6 +103,10 @@ class SingleDayStats extends StatelessWidget {
                       children: [
                         if (dayPerformance != 'perfect')
                           ElevatedButton(
+                            child: Text(
+                              buildFirstButtonText(
+                                  dayPerformance: dayPerformance),
+                            ),
                             onPressed: () async {
                               if (statsProvider
                                       .getSelectedDay()
@@ -121,6 +119,11 @@ class SingleDayStats extends StatelessWidget {
                                 wordsProvider.changeMissedDayStatus(
                                     playingMissedDay: true);
                               }
+
+                              if (dayPerformance != 'unfinished') {
+                                await statsProvider.resetDayStats();
+                              }
+
                               wordsProvider.playWotdMode(
                                   date: statsProvider.getSelectedDay());
 
@@ -135,17 +138,41 @@ class SingleDayStats extends StatelessWidget {
                                   },
                                 );
                             },
-                            child: Text(
-                              buildFirstButtonText(
-                                  dayPerformance: dayPerformance),
-                            ),
                           ),
                         if (dayPerformance == 'unfinished')
                           ElevatedButton(
-                            onPressed: () {},
                             child: const Text(
                               'Od nowa',
                             ),
+                            onPressed: () async {
+                              if (statsProvider
+                                      .getSelectedDay()
+                                      .toString()
+                                      .substring(0, 10) ==
+                                  DateTime.now().toString().substring(0, 10)) {
+                                wordsProvider.changeMissedDayStatus(
+                                    playingMissedDay: false);
+                              } else {
+                                wordsProvider.changeMissedDayStatus(
+                                    playingMissedDay: true);
+                              }
+
+                              await statsProvider.resetDayStats();
+
+                              wordsProvider.playWotdMode(
+                                  date: statsProvider.getSelectedDay());
+
+                              if (context.mounted)
+                                await wordsProvider
+                                    .setRandomWord(
+                                  context: context,
+                                )
+                                    .then(
+                                  (value) {
+                                    Navigator.pushNamed(context, 'game_screen');
+                                  },
+                                );
+                            },
                           ),
                       ],
                     ),
@@ -160,6 +187,16 @@ class SingleDayStats extends StatelessWidget {
   }
 }
 
+Color buildGameIndicatorColor({required String dayOutput}) {
+  if (dayOutput == 'no_data') {
+    return Colors.grey;
+  } else if (dayOutput == 'win') {
+    return Colors.green;
+  } else {
+    return Colors.red;
+  }
+}
+
 String buildHeaderText({required String dayPerformance}) {
   if (dayPerformance == 'perfect') {
     return 'Perfekcyjnie!';
@@ -167,8 +204,12 @@ String buildHeaderText({required String dayPerformance}) {
     return 'Brak statystyk';
   } else if (dayPerformance == 'unfinished') {
     return 'Dzień niekompletny';
+  } else if (dayPerformance == 'almost-perfect') {
+    return 'Prawie idealnie!';
+  } else if (dayPerformance == 'not-bad') {
+    return 'Nieźle!';
   } else {
-    return 'Trochę brakuje';
+    return 'Tym razem się nie udało';
   }
 }
 
@@ -178,7 +219,7 @@ String buildBodyText({required String dayPerformance}) {
   } else if (dayPerformance == 'unfinished') {
     return 'Spróbuj dokończyć ten dzień lub zagraj od nowa.';
   } else {
-    return 'Popraw swój wynik!';
+    return 'Spróbujesz jeszcze raz?';
   }
 }
 

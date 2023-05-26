@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:slowotok/src/services/providers/stats_provider.dart';
 
+import '/src/services/providers/stats_provider.dart';
 import '/src/services/providers/words_provider.dart';
 
 class ExitAlertDialog extends StatelessWidget {
@@ -68,6 +68,8 @@ class ExitAlertDialog extends StatelessWidget {
             ),
           ),
           onPressed: () async {
+            Provider.of<StatsProvider>(context, listen: false)
+                .setDisplayedStatsType(statsType: 'wotd');
             if (wordSolveAttempt) {
               await provider.markGameAsLost();
 
@@ -77,10 +79,6 @@ class ExitAlertDialog extends StatelessWidget {
                   gameLevel: gameLevel,
                   isWinner: false,
                 );
-                if (context.mounted) {
-                  Provider.of<StatsProvider>(context, listen: false)
-                      .setDisplayedStatsType(statsType: 'wotd');
-                }
               }
             }
             if (context.mounted) {
