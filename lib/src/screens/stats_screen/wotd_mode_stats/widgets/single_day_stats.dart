@@ -28,6 +28,7 @@ class SingleDayStats extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.bold,
               ),
             ),
             Builder(
@@ -82,9 +83,10 @@ class SingleDayStats extends StatelessWidget {
                     ),
                     Text(
                       buildHeaderText(dayPerformance: dayPerformance),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -94,8 +96,9 @@ class SingleDayStats extends StatelessWidget {
                         child: Text(
                           buildBodyText(dayPerformance: dayPerformance),
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),

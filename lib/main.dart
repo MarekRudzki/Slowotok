@@ -30,8 +30,7 @@ void main() async {
   ]).then(
     (_) {
       //TODO app tests
-      // Introduction screen dostosowac
-      // dostosowac dark mode
+      // Introduction screen adjust
       initializeDateFormatting().then(
         (_) => runApp(
           MultiProvider(

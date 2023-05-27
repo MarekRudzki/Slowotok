@@ -68,11 +68,22 @@ class ExitAlertDialog extends StatelessWidget {
             ),
           ),
           onPressed: () async {
-            Provider.of<StatsProvider>(context, listen: false)
-                .setDisplayedStatsType(statsType: 'wotd');
             if (wordSolveAttempt) {
               await provider.markGameAsLost();
+
+              if (provider.getGameMode() == 'wordsoftheday') {
+                final int gameLevel = await provider.getCurrentGameLevel();
+                await provider.setGameStatus(
+                  gameLevel: gameLevel,
+                  isWinner: false,
+                );
+              }
             }
+            if (context.mounted) {
+              Provider.of<StatsProvider>(context, listen: false)
+                  .setDisplayedStatsType(statsType: 'wotd');
+            }
+
             if (context.mounted) {
               Navigator.of(context).pop(true);
               Provider.of<WordsProvider>(context, listen: false).restartWord();

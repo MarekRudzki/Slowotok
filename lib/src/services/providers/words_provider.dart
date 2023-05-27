@@ -187,15 +187,17 @@ class WordsProvider with ChangeNotifier {
       isWinner: isWinner,
     );
 
-    await _hiveWordsOfTheDay.addUserWords(
-      words: _guesses,
-      gameLevel: gameLevel,
-    );
+    if (!_isPlayingMissedDay) {
+      await _hiveWordsOfTheDay.addUserWords(
+        words: _guesses,
+        gameLevel: gameLevel,
+      );
 
-    await _hiveWordsOfTheDay.addCorrectWord(
-      correctWord: _correctWord,
-      gameLevel: gameLevel,
-    );
+      await _hiveWordsOfTheDay.addCorrectWord(
+        correctWord: _correctWord,
+        gameLevel: gameLevel,
+      );
+    }
   }
 
   /// Getters ///
@@ -291,8 +293,10 @@ class WordsProvider with ChangeNotifier {
       return 0;
     } else if (gameStatus[1] == 0) {
       return 1;
-    } else {
+    } else if (gameStatus[2] == 0) {
       return 2;
+    } else {
+      return 99; // 99 stands for missed day game, should not be saved in current day stats
     }
   }
 
@@ -490,6 +494,7 @@ class WordsProvider with ChangeNotifier {
 
   Future<void> gamePlayChecker() async {
     final String date = _selectedDay.toString().substring(0, 10);
+
     final bool gamePlayedToday =
         await _hiveWordsOfTheDay.checkIfWotdPlayedGivenDay(date: date);
 

@@ -128,7 +128,9 @@ class _WordsOfTheDaySummaryDialogState
                                       height: 25,
                                       width: 38,
                                       color: pageIndex == 0
-                                          ? Colors.grey.withOpacity(0.6)
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onTertiaryContainer
                                           : Colors.transparent,
                                       duration:
                                           const Duration(milliseconds: 450),
@@ -138,7 +140,9 @@ class _WordsOfTheDaySummaryDialogState
                                       height: 25,
                                       width: 38,
                                       color: pageIndex == 1
-                                          ? Colors.grey.withOpacity(0.6)
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onTertiaryContainer
                                           : Colors.transparent,
                                       duration:
                                           const Duration(milliseconds: 450),
@@ -148,7 +152,9 @@ class _WordsOfTheDaySummaryDialogState
                                       height: 25,
                                       width: 38,
                                       color: pageIndex == 2
-                                          ? Colors.grey.withOpacity(0.6)
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onTertiaryContainer
                                           : Colors.transparent,
                                       duration:
                                           const Duration(milliseconds: 450),

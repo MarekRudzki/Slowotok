@@ -203,6 +203,28 @@ class StatsProvider with ChangeNotifier {
     return singleDayStats;
   }
 
+  int getNumberOfPerfectDays() {
+    int perfectDays = 0;
+    final Map<String, List<bool>> existingStats =
+        _hiveWordsOfTheDay.getWotdStats();
+
+    existingStats.forEach(
+      (date, values) {
+        if (values.length == 3) {
+          if (values[0] == true && values[1] == true && values[2] == true) {
+            perfectDays++;
+          }
+        }
+      },
+    );
+
+    return perfectDays;
+  }
+
+  int getNumberOfDaysInMonth() {
+    return DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day;
+  }
+
   String getDayPerformance() {
     final List<String> givenDayStats = getSingleDayStats();
     int winNumber = 0;

@@ -1,9 +1,11 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 
+import '/src/services/providers/words_provider.dart';
 import '/src/services/providers/stats_provider.dart';
 import 'event_model.dart';
 
@@ -17,6 +19,9 @@ class GameCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark =
+        context.select((WordsProvider wordsProvider) => wordsProvider.isDark());
+
     int getHashCode(DateTime key) {
       return key.day * 10000 + key.month * 1000 + key.year;
     }
@@ -46,7 +51,9 @@ class GameCalendar extends StatelessWidget {
         },
         calendarStyle: CalendarStyle(
           selectedDecoration: BoxDecoration(
-            color: Colors.green.shade200,
+            color: isDark
+                ? const Color.fromARGB(123, 158, 158, 158)
+                : Colors.green.shade200,
           ),
           defaultTextStyle: TextStyle(
             color: Theme.of(context).colorScheme.primary,
@@ -54,16 +61,18 @@ class GameCalendar extends StatelessWidget {
           disabledTextStyle: TextStyle(
             color: Theme.of(context).dividerColor,
           ),
-          todayTextStyle: const TextStyle(
-            color: Colors.black,
+          todayTextStyle: TextStyle(
+            color: isDark ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
           ),
           todayDecoration: BoxDecoration(
             border: Border.all(
-              color: Colors.green,
+              color: isDark
+                  ? const Color.fromARGB(255, 207, 244, 177)
+                  : Colors.green,
               width: 2,
             ),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(13),
           ),
           weekendTextStyle: const TextStyle(
             color: Colors.red,

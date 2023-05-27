@@ -82,7 +82,10 @@ class HiveWordsOfTheDay {
     // 0 = first level
     // 1 = second level
     // 2 = third level
-    gamesStatusList[gameLevel] = isWinner ? 1 : 2;
+    // 99 = missed day played
+    if (gameLevel != 99) {
+      gamesStatusList[gameLevel] = isWinner ? 1 : 2;
+    }
 
     await _wordsOfTheDayStatsBox.put('games_status', gamesStatusList);
   }
@@ -201,16 +204,20 @@ class HiveWordsOfTheDay {
   /// Statistics reset
 
   Future<void> resetStatsForGivenDay({required String date}) async {
+    final String today = DateTime.now().toString().substring(0, 10);
+
     final stats = _wordsOfTheDayStatsBox.get('days_stats') as Map;
     stats.removeWhere((key, value) => key as String == date);
-    await _wordsOfTheDayStatsBox.put('games_status', stats);
+    await _wordsOfTheDayStatsBox.put('days_stats', stats);
 
-    await _wordsOfTheDayStatsBox.delete('correct_word_0');
-    await _wordsOfTheDayStatsBox.delete('correct_word_1');
-    await _wordsOfTheDayStatsBox.delete('correct_word_2');
-    await _wordsOfTheDayStatsBox.delete('user_words_0');
-    await _wordsOfTheDayStatsBox.delete('user_words_1');
-    await _wordsOfTheDayStatsBox.delete('user_words_2');
-    await _wordsOfTheDayStatsBox.delete('game_date');
+    if (date == today) {
+      await _wordsOfTheDayStatsBox.delete('correct_word_0');
+      await _wordsOfTheDayStatsBox.delete('correct_word_1');
+      await _wordsOfTheDayStatsBox.delete('correct_word_2');
+      await _wordsOfTheDayStatsBox.delete('user_words_0');
+      await _wordsOfTheDayStatsBox.delete('user_words_1');
+      await _wordsOfTheDayStatsBox.delete('user_words_2');
+      await _wordsOfTheDayStatsBox.delete('game_date');
+    }
   }
 }

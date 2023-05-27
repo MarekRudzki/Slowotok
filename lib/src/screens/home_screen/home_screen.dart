@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:slowotok/src/screens/game_screen/game_screen.dart';
-import 'package:slowotok/src/screens/stats_screen/stats_screen.dart';
 
 import '/src/common_widgets/game_instructions.dart';
 import '/src/common_widgets/options_button.dart';
 import '/src/screens/game_screen/widgets/words_of_the_day_summary_dialog.dart';
 import '/src/screens/home_screen/widgets/unlimited_game_mode.dart';
 import '/src/screens/home_screen/widgets/theme_switcher.dart';
+import '/src/screens/stats_screen/stats_screen.dart';
+import '/src/screens/game_screen/game_screen.dart';
 import '/src/services/providers/stats_provider.dart';
 import '/src/services/providers/words_provider.dart';
 

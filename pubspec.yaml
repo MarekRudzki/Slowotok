@@ -23,6 +23,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   device_preview: ^1.1.0
   table_calendar: ^3.0.8
+  flutter_rounded_progress_bar: ^0.2.0
   
 
 dev_dependencies:
