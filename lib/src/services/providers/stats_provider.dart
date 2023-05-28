@@ -203,14 +203,21 @@ class StatsProvider with ChangeNotifier {
     return singleDayStats;
   }
 
-  int getNumberOfPerfectDays() {
+  int getNumberOfPerfectDaysInMonth() {
     int perfectDays = 0;
     final Map<String, List<bool>> existingStats =
         _hiveWordsOfTheDay.getWotdStats();
 
+    final String monthConverted = _focusedDay.month < 10
+        ? '0${_focusedDay.month}'
+        : '${_focusedDay.month}';
+
+    final String currentMonth =
+        '${DateTime.now().year}-$monthConverted'.substring(0, 7);
+
     existingStats.forEach(
       (date, values) {
-        if (values.length == 3) {
+        if (values.length == 3 && date.substring(0, 7) == currentMonth) {
           if (values[0] == true && values[1] == true && values[2] == true) {
             perfectDays++;
           }
@@ -222,7 +229,7 @@ class StatsProvider with ChangeNotifier {
   }
 
   int getNumberOfDaysInMonth() {
-    return DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day;
+    return DateTime(DateTime.now().year, _focusedDay.month + 1, 0).day;
   }
 
   String getDayPerformance() {

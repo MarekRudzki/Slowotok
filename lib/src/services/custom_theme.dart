@@ -12,7 +12,7 @@ class CustomTheme {
       onError: Colors.yellow,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color.fromARGB(255, 38, 117, 42),
+      backgroundColor: Color.fromARGB(255, 45, 141, 50),
     ),
     splashFactory: NoSplash.splashFactory,
     splashColor: Colors.transparent,
@@ -20,7 +20,7 @@ class CustomTheme {
     dividerColor: const Color.fromARGB(66, 224, 224, 224),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 38, 117, 42),
+        backgroundColor: const Color.fromARGB(255, 45, 141, 50),
       ),
     ),
   );

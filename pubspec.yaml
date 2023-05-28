@@ -24,6 +24,7 @@ dependencies:
   device_preview: ^1.1.0
   table_calendar: ^3.0.8
   flutter_rounded_progress_bar: ^0.2.0
+  expandable_page_view: ^1.0.17
   
 
 dev_dependencies:
@@ -58,5 +59,3 @@ flutter:
     - assets/letter_correct_place.png
     - assets/letter_incorrect_place.png
     - assets/no_letter_in_word.png
-    - assets/game_guide_1.png
-    - assets/game_guide_2.png

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:provider/provider.dart';
 
-import '/src/common_widgets/game_instructions.dart';
+import '/src/common_widgets/game_instructions/game_instructions.dart';
 import '/src/common_widgets/options_button.dart';
 import '/src/screens/game_screen/widgets/words_of_the_day_summary_dialog.dart';
 import '/src/screens/home_screen/widgets/unlimited_game_mode.dart';
@@ -170,7 +170,9 @@ class HomeScreen extends StatelessWidget {
                                         showDialog(
                                           context: context,
                                           builder: (context) =>
-                                              const GameInstructions(),
+                                              GameInstructions(
+                                            wordsProvider: wordsProvider,
+                                          ),
                                         );
                                       },
                                     ),

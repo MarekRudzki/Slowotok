@@ -24,6 +24,7 @@ class WordsProvider with ChangeNotifier {
   bool _completed = false;
   bool _gameWon = false;
   int _index = 0;
+  int _instructionDialogPage = 0;
   List<bool> _status = [false, false, false, false, false, false];
   List<String> _guesses = ["", "", "", "", "", ""];
   Map<String, int> _letters = {
@@ -501,6 +502,15 @@ class WordsProvider with ChangeNotifier {
     if (!gamePlayedToday) {
       await _hiveWordsOfTheDay.setInitialValues(currentDate: date);
     }
+  }
+
+  void setInstructionDialogPage({required int page}) {
+    _instructionDialogPage = page;
+    notifyListeners();
+  }
+
+  int getInstructionDialogPage() {
+    return _instructionDialogPage;
   }
 
   void setTheme(AdaptiveThemeMode theme) {

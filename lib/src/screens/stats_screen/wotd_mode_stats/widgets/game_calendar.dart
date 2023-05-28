@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:table_calendar/table_calendar.dart';
@@ -35,7 +36,7 @@ class GameCalendar extends StatelessWidget {
     return Container(
       color: const Color.fromARGB(67, 163, 162, 162),
       child: TableCalendar(
-        focusedDay: statsProvider.getSelectedDay(),
+        focusedDay: statsProvider.getFocusedDay(),
         firstDay: statsProvider.getFirstDayOfStats(),
         lastDay: DateTime.now(),
         locale: 'pl_PL',
@@ -86,6 +87,14 @@ class GameCalendar extends StatelessWidget {
         },
         startingDayOfWeek: StartingDayOfWeek.monday,
         headerStyle: HeaderStyle(
+          leftChevronIcon: Icon(
+            Icons.chevron_left,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          rightChevronIcon: Icon(
+            Icons.chevron_right,
+            color: Theme.of(context).colorScheme.primary,
+          ),
           leftChevronVisible: statsProvider.isLeftChevronVisible(),
           rightChevronVisible: statsProvider.isRightChevronVisible(),
           titleTextStyle: TextStyle(
@@ -108,7 +117,10 @@ class GameCalendar extends StatelessWidget {
         ),
         calendarBuilders: CalendarBuilders(
           markerBuilder: (BuildContext context, date, events) {
-            if (events.isEmpty) {
+            final bool markerOutOfMonth = date.toString().substring(0, 7) !=
+                statsProvider.getFocusedDay().toString().substring(0, 7);
+
+            if (events.isEmpty || markerOutOfMonth) {
               return const SizedBox();
             } else {
               final myEvents = events as List<Event>;
@@ -144,7 +156,9 @@ EdgeInsets buildHeaderPadding({required StatsProvider statsProvider}) {
   final bool leftVisible = statsProvider.isLeftChevronVisible();
   final bool rightVisible = statsProvider.isRightChevronVisible();
 
-  if (leftVisible && !rightVisible) {
+  if (leftVisible && rightVisible) {
+    return const EdgeInsets.symmetric(vertical: 10);
+  } else if (leftVisible && !rightVisible) {
     return const EdgeInsets.fromLTRB(0, 10, 64, 10);
   } else if (!leftVisible && rightVisible) {
     return const EdgeInsets.fromLTRB(64, 10, 0, 10);

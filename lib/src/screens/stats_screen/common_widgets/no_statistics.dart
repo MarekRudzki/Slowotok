@@ -36,7 +36,7 @@ class NoStatistics extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Zagraj w tym trybie, aby wyświetlić statystyki!',
+            'Zagraj w tym trybie, aby wyświetlić statystyki.',
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontSize: 16,

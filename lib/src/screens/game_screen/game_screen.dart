@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:confetti/confetti.dart';
 
-import '/src/common_widgets/game_instructions.dart';
+import '/src/common_widgets/game_instructions/game_instructions.dart';
 import '/src/services/providers/words_provider.dart';
 import 'widgets/game_status_indicator.dart';
 import 'widgets/exit_alert_dialog.dart';
@@ -98,7 +98,9 @@ class _GameScreenState extends State<GameScreen> {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (context) => const GameInstructions(),
+                        builder: (context) => GameInstructions(
+                          wordsProvider: provider,
+                        ),
                       );
                     },
                     icon: Icon(
