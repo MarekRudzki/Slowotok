@@ -49,115 +49,117 @@ class _GameInstructionsState extends State<GameInstructions> {
           Radius.circular(15),
         ),
       ),
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Padding(
-              padding: const EdgeInsets.all(14),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 200,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 7,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).appBarTheme.backgroundColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Jak grać?',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+      child: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Padding(
+                padding: const EdgeInsets.all(14),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 200,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 7,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).appBarTheme.backgroundColor,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Jak grać?',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  ExpandablePageView(
-                    animationDuration: const Duration(milliseconds: 850),
-                    controller: _pageController,
-                    onPageChanged: (pageIndex) {
-                      widget.wordsProvider
-                          .setInstructionDialogPage(page: pageIndex);
-                    },
-                    children: [
-                      const InstructionPageOne(),
-                      const InstructionPageTwo(),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 200,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
+                    const SizedBox(height: 12),
+                    ExpandablePageView(
+                      animationDuration: const Duration(milliseconds: 850),
+                      controller: _pageController,
+                      onPageChanged: (pageIndex) {
+                        widget.wordsProvider
+                            .setInstructionDialogPage(page: pageIndex);
                       },
-                      child: const Text(
-                        'OK',
+                      children: [
+                        const InstructionPageOne(),
+                        const InstructionPageTwo(),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 200,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          'OK',
+                        ),
                       ),
                     ),
+                  ],
+                ),
+              ),
+            ),
+            if (pageIndex == 0)
+              Align(
+                heightFactor: 10,
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  onPressed: () {
+                    widget.wordsProvider.setInstructionDialogPage(page: 1);
+                    _pageController.nextPage(
+                      duration: const Duration(milliseconds: 450),
+                      curve: Curves.easeIn,
+                    );
+                  },
+                  icon: Icon(
+                    Icons.arrow_forward,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-          if (pageIndex == 0)
-            Align(
-              heightFactor: 10,
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                onPressed: () {
-                  widget.wordsProvider.setInstructionDialogPage(page: 1);
-                  _pageController.nextPage(
-                    duration: const Duration(milliseconds: 450),
-                    curve: Curves.easeIn,
-                  );
-                },
-                icon: Icon(
-                  Icons.arrow_forward,
-                  color: Theme.of(context).colorScheme.primary,
+            if (pageIndex == 1)
+              Align(
+                heightFactor: 9,
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  onPressed: () {
+                    widget.wordsProvider.setInstructionDialogPage(page: 0);
+                    _pageController.previousPage(
+                      duration: const Duration(milliseconds: 450),
+                      curve: Curves.easeIn,
+                    );
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
+            Positioned(
+              right: 0.0,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
             ),
-          if (pageIndex == 1)
-            Align(
-              heightFactor: 9,
-              alignment: Alignment.centerLeft,
-              child: IconButton(
-                onPressed: () {
-                  widget.wordsProvider.setInstructionDialogPage(page: 0);
-                  _pageController.previousPage(
-                    duration: const Duration(milliseconds: 450),
-                    curve: Curves.easeIn,
-                  );
-                },
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ),
-          Positioned(
-            right: 0.0,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -14,10 +14,12 @@ class ThemeSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
         width: double.infinity,
+        height: screenHeight * 0.07,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.onPrimaryContainer,
           borderRadius: BorderRadius.circular(10),
@@ -29,44 +31,46 @@ class ThemeSwitcher extends StatelessWidget {
             )
           ],
         ),
-        child: IconButton(
-          onPressed: () async {
-            if (wordsProvider.isDark()) {
-              AdaptiveTheme.of(context).setLight();
-              wordsProvider.setTheme(AdaptiveThemeMode.light);
-            } else {
-              AdaptiveTheme.of(context).setDark();
-              wordsProvider.setTheme(AdaptiveThemeMode.dark);
-            }
-          },
-          icon: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 850),
-            transitionBuilder: (child, animation) => RotationTransition(
-              turns: child.key ==
-                      const ValueKey(
+        child: Center(
+          child: IconButton(
+            onPressed: () async {
+              if (wordsProvider.isDark()) {
+                AdaptiveTheme.of(context).setLight();
+                wordsProvider.setTheme(AdaptiveThemeMode.light);
+              } else {
+                AdaptiveTheme.of(context).setDark();
+                wordsProvider.setTheme(AdaptiveThemeMode.dark);
+              }
+            },
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 850),
+              transitionBuilder: (child, animation) => RotationTransition(
+                turns: child.key ==
+                        const ValueKey(
+                          'icon1',
+                        )
+                    ? Tween<double>(begin: 0, end: 1.5).animate(animation)
+                    : Tween<double>(begin: 1.5, end: 0).animate(animation),
+                child: FadeTransition(opacity: animation, child: child),
+              ),
+              child: wordsProvider.isDark()
+                  ? Icon(
+                      size: screenHeight * 0.037,
+                      color: Colors.blue.shade700,
+                      Icons.mode_night,
+                      key: const ValueKey(
                         'icon1',
-                      )
-                  ? Tween<double>(begin: 0, end: 1.5).animate(animation)
-                  : Tween<double>(begin: 1.5, end: 0).animate(animation),
-              child: FadeTransition(opacity: animation, child: child),
+                      ),
+                    )
+                  : Icon(
+                      size: screenHeight * 0.037,
+                      color: Colors.amber,
+                      Icons.sunny,
+                      key: const ValueKey(
+                        'icon2',
+                      ),
+                    ),
             ),
-            child: wordsProvider.isDark()
-                ? Icon(
-                    size: 30,
-                    color: Colors.blue.shade700,
-                    Icons.mode_night,
-                    key: const ValueKey(
-                      'icon1',
-                    ),
-                  )
-                : const Icon(
-                    size: 30,
-                    color: Colors.amber,
-                    Icons.sunny,
-                    key: ValueKey(
-                      'icon2',
-                    ),
-                  ),
           ),
         ),
       ),

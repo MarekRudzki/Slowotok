@@ -12,12 +12,13 @@ class OptionsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.all(10),
       child: InkWell(
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          height: screenHeight * 0.07,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -29,13 +30,15 @@ class OptionsButton extends StatelessWidget {
               )
             ],
           ),
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 15,
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
+          child: Center(
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),

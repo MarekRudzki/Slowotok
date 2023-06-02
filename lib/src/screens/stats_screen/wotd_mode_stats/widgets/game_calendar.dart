@@ -50,6 +50,14 @@ class GameCalendar extends StatelessWidget {
         selectedDayPredicate: (day) {
           return isSameDay(day, statsProvider.getSelectedDay());
         },
+        enabledDayPredicate: (day) {
+          bool shouldBeVisible = true;
+          if (day.month != statsProvider.getFocusedDay().month) {
+            shouldBeVisible = false;
+          }
+          return shouldBeVisible;
+        },
+        rowHeight: MediaQuery.of(context).size.height * 0.07,
         calendarStyle: CalendarStyle(
           selectedDecoration: BoxDecoration(
             color: isDark
@@ -66,20 +74,17 @@ class GameCalendar extends StatelessWidget {
             color: isDark ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
           ),
-          todayDecoration: BoxDecoration(
-            border: Border.all(
-              color: isDark
-                  ? const Color.fromARGB(255, 207, 244, 177)
-                  : Colors.green,
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(13),
-          ),
+          isTodayHighlighted: false,
           weekendTextStyle: const TextStyle(
             color: Colors.red,
           ),
         ),
         onPageChanged: (focusedDay) {
+          if (focusedDay.month == DateTime.now().month) {
+            statsProvider.changeSelectedDay(day: DateTime.now());
+          } else {
+            statsProvider.changeSelectedDay(day: focusedDay);
+          }
           statsProvider.changeFocusedDay(day: focusedDay);
         },
         onDaySelected: (selectedDay, focusedDay) {
@@ -157,12 +162,12 @@ EdgeInsets buildHeaderPadding({required StatsProvider statsProvider}) {
   final bool rightVisible = statsProvider.isRightChevronVisible();
 
   if (leftVisible && rightVisible) {
-    return const EdgeInsets.symmetric(vertical: 10);
+    return const EdgeInsets.symmetric(vertical: 8);
   } else if (leftVisible && !rightVisible) {
-    return const EdgeInsets.fromLTRB(0, 10, 64, 10);
+    return const EdgeInsets.fromLTRB(0, 8, 64, 8);
   } else if (!leftVisible && rightVisible) {
-    return const EdgeInsets.fromLTRB(64, 10, 0, 10);
+    return const EdgeInsets.fromLTRB(64, 8, 0, 8);
   } else {
-    return const EdgeInsets.symmetric(vertical: 20);
+    return const EdgeInsets.symmetric(vertical: 16);
   }
 }

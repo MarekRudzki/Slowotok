@@ -119,7 +119,7 @@ class _GameScreenState extends State<GameScreen> {
                     ),
                     const Spacer(),
                     const Keyboard(),
-                    const SizedBox(height: 30)
+                    const SizedBox(height: 15)
                   ],
                 ),
               ),

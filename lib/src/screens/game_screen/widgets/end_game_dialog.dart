@@ -174,8 +174,9 @@ class EndGameDialog extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const StatsScreen(
-                            showUnlimitedFirst: false,
+                          builder: (context) => StatsScreen(
+                            showUnlimitedFirst:
+                                provider.getGameMode() == 'unlimited',
                           ),
                         ),
                       );

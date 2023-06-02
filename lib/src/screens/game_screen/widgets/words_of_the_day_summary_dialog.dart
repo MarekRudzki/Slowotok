@@ -4,6 +4,7 @@ import 'package:slide_countdown/slide_countdown.dart';
 import 'package:provider/provider.dart';
 
 import '/src/common_widgets/options_button.dart';
+import '/src/screens/stats_screen/stats_screen.dart';
 import '/src/services/providers/words_provider.dart';
 import '/src/services/constants.dart';
 import 'game_status_indicator.dart';
@@ -249,6 +250,19 @@ class _WordsOfTheDaySummaryDialogState
                               ),
                             ),
                           ),
+                        ),
+                        OptionsButton(
+                          text: 'Zagraj w poprzednie dni',
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const StatsScreen(
+                                  showUnlimitedFirst: false,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         OptionsButton(
                           text: 'Wróć do menu',

@@ -17,26 +17,30 @@ class SingleLetter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 700),
-        curve: Curves.easeIn,
-        width: 40,
-        height: 50,
-        child: Align(
-          child: Text(
-            context.watch<WordsProvider>().getLetter(index, letterIndex),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 36,
-              fontWeight: FontWeight.w700,
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    return Container(
+      width: screenWidth * 0.12,
+      height: screenHeight * 0.08,
+      child: Padding(
+        padding: const EdgeInsets.all(3.5),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 700),
+          curve: Curves.easeIn,
+          child: Center(
+            child: Text(
+              context.watch<WordsProvider>().getLetter(index, letterIndex),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 36,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: buildBackgroundColor(context),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: buildBackgroundColor(context),
+          ),
         ),
       ),
     );
