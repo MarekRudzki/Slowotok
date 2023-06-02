@@ -42,7 +42,7 @@ class ExitAlertDialog extends StatelessWidget {
                 : 'Gra nie zostanie zaliczona jako przegrana.',
             style: TextStyle(
               color: wordSolveAttempt
-                  ? Theme.of(context).colorScheme.error
+                  ? Colors.red
                   : Theme.of(context).colorScheme.onError,
               fontSize: 15,
             ),

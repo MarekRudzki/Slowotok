@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:slowotok/src/services/hive/hive_unlimited.dart';
+import 'package:slowotok/src/services/hive/hive_words_of_the_day.dart';
 
 import '/src/common_widgets/game_instructions/game_instructions.dart';
 import '/src/common_widgets/options_button.dart';
@@ -68,7 +70,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StatsProvider statsProvider = StatsProvider();
+    final StatsProvider statsProvider = StatsProvider(
+      hiveUnlimited: HiveUnlimited(),
+      hiveWordsOfTheDay: HiveWordsOfTheDay(),
+    );
 
     return WillPopScope(
       onWillPop: () => _onWillPop(context),

@@ -115,9 +115,9 @@ class KeyboardButton extends StatelessWidget {
           padding: buttonText == 'ENTER'
               ? const EdgeInsets.symmetric(
                   vertical: 8,
-                  horizontal: 20,
+                  horizontal: 30,
                 )
-              : const EdgeInsets.all(8.0),
+              : const EdgeInsets.all(10),
           child: buttonText == 'BACKSPACE'
               ? const Icon(
                   Icons.keyboard_backspace_rounded,

@@ -5,16 +5,21 @@ import '/src/services/hive/hive_words_of_the_day.dart';
 import '/src/services/hive/hive_unlimited.dart';
 
 class StatsProvider with ChangeNotifier {
-  final HiveUnlimited _hiveUnlimited = HiveUnlimited();
-  final HiveWordsOfTheDay _hiveWordsOfTheDay = HiveWordsOfTheDay();
+  StatsProvider({
+    required this.hiveUnlimited,
+    required this.hiveWordsOfTheDay,
+  });
+
+  final HiveUnlimited hiveUnlimited;
+  final HiveWordsOfTheDay hiveWordsOfTheDay;
 
   String _currentStatsType = 'unlimited';
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
 
   Future<void> checkForStatistics() async {
-    await _hiveUnlimited.checkUnlimitedStats();
-    await _hiveWordsOfTheDay.checkWotdStatistics();
+    await hiveUnlimited.checkUnlimitedStats();
+    await hiveWordsOfTheDay.checkWotdStatistics();
   }
 
   String getDisplayedStatsType() {
@@ -31,18 +36,18 @@ class StatsProvider with ChangeNotifier {
   // Unlimited Game Mode
 
   int getNumberOfGames() {
-    return _hiveUnlimited.getSingleStat(statType: 'game_counter');
+    return hiveUnlimited.getSingleStat(statType: 'game_counter');
   }
 
   int getGamesWon() {
-    return _hiveUnlimited.getSingleStat(statType: 'game_won');
+    return hiveUnlimited.getSingleStat(statType: 'game_won');
   }
 
   int getGamesForGivenLengthAndTries({
     required int wordLength,
     required int totalTries,
   }) {
-    return _hiveUnlimited.getSingleStat(
+    return hiveUnlimited.getSingleStat(
         statType: '${wordLength}_${totalTries}_game');
   }
 
@@ -50,16 +55,16 @@ class StatsProvider with ChangeNotifier {
     required int wordLength,
     required int totalTries,
   }) {
-    return _hiveUnlimited.getSingleStat(
+    return hiveUnlimited.getSingleStat(
         statType: '${wordLength}_${totalTries}_won');
   }
 
   int getGamesNumberForGivenLength({required int wordLength}) {
-    return _hiveUnlimited.getSingleStat(statType: '${wordLength}_letter_game');
+    return hiveUnlimited.getSingleStat(statType: '${wordLength}_letter_game');
   }
 
   int getGamesNumberForGivenTries({required int totalTries}) {
-    return _hiveUnlimited.getSingleStat(statType: '${totalTries}_letter_game');
+    return hiveUnlimited.getSingleStat(statType: '${totalTries}_letter_game');
   }
 
   bool isResetButtonVisible() {
@@ -71,14 +76,14 @@ class StatsProvider with ChangeNotifier {
   }
 
   Future<void> resetStatistics() async {
-    await _hiveUnlimited.setInitialStats();
+    await hiveUnlimited.setInitialStats();
     notifyListeners();
   }
 
   // Words Of The Day Game Mode
 
   bool hasWotdStatistics() {
-    return _hiveWordsOfTheDay.hasAnyWotdStatistics();
+    return hiveWordsOfTheDay.hasAnyWotdStatistics();
   }
 
   DateTime getFirstDay() {
@@ -93,7 +98,7 @@ class StatsProvider with ChangeNotifier {
   }
 
   DateTime getFirstDayOfStats() {
-    final String firstDayOfStats = _hiveWordsOfTheDay.getFirstDayOfStats();
+    final String firstDayOfStats = hiveWordsOfTheDay.getFirstDayOfStats();
     return DateTime.parse(firstDayOfStats);
   }
 
@@ -145,7 +150,7 @@ class StatsProvider with ChangeNotifier {
   }
 
   Map<DateTime, List<Event>> getWotdStatistics() {
-    final Map<String, List<bool>> stats = _hiveWordsOfTheDay.getWotdStats();
+    final Map<String, List<bool>> stats = hiveWordsOfTheDay.getWotdStats();
     final Map<DateTime, List<Event>> formattedStats = {};
     stats.forEach(
       (date, statsList) {
@@ -166,9 +171,9 @@ class StatsProvider with ChangeNotifier {
 
   Future<void> addWotdStatistics({required bool isWin}) async {
     final String currentDay = DateTime.now().toString().substring(0, 10);
-    final Map<String, List<bool>> stats = _hiveWordsOfTheDay.getWotdStats();
+    final Map<String, List<bool>> stats = hiveWordsOfTheDay.getWotdStats();
     if (!stats.containsKey(currentDay)) {
-      await _hiveWordsOfTheDay.addWotdStats(
+      await hiveWordsOfTheDay.addWotdStats(
         date: currentDay,
         dayStats: [isWin],
       );
@@ -177,7 +182,7 @@ class StatsProvider with ChangeNotifier {
         (date, statsList) async {
           if (date == currentDay) {
             statsList.add(isWin);
-            await _hiveWordsOfTheDay.addWotdStats(
+            await hiveWordsOfTheDay.addWotdStats(
               date: currentDay,
               dayStats: statsList,
             );
@@ -190,7 +195,7 @@ class StatsProvider with ChangeNotifier {
   List<String> getSingleDayStats() {
     final List<String> singleDayStats = [];
     final List<bool> statsForGivenDay =
-        _hiveWordsOfTheDay.getWotdStatsForGivenDay(
+        hiveWordsOfTheDay.getWotdStatsForGivenDay(
             date: _selectedDay.toString().substring(0, 10));
 
     statsForGivenDay.map((isWin) {
@@ -206,7 +211,7 @@ class StatsProvider with ChangeNotifier {
   int getNumberOfPerfectDaysInMonth() {
     int perfectDays = 0;
     final Map<String, List<bool>> existingStats =
-        _hiveWordsOfTheDay.getWotdStats();
+        hiveWordsOfTheDay.getWotdStats();
 
     final String monthConverted = _focusedDay.month < 10
         ? '0${_focusedDay.month}'
@@ -260,17 +265,17 @@ class StatsProvider with ChangeNotifier {
   }
 
   Future<void> resetDayStats() async {
-    await _hiveWordsOfTheDay.resetStatsForGivenDay(
+    await hiveWordsOfTheDay.resetStatsForGivenDay(
         date: _selectedDay.toString().substring(0, 10));
   }
 
   Future<void> addStatsForMissingDay(
       {required bool isWin, required String date}) async {
     final List<bool> statsForMissingDay =
-        _hiveWordsOfTheDay.getWotdStatsForGivenDay(date: date);
+        hiveWordsOfTheDay.getWotdStatsForGivenDay(date: date);
 
     statsForMissingDay.add(isWin);
-    await _hiveWordsOfTheDay.addWotdStats(
+    await hiveWordsOfTheDay.addWotdStats(
       date: date,
       dayStats: statsForMissingDay,
     );

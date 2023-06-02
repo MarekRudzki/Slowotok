@@ -10,11 +10,17 @@ import '/src/services/providers/stats_provider.dart';
 import '/src/services/hive/hive_unlimited.dart';
 
 class WordsProvider with ChangeNotifier {
-  final HiveUnlimited _hiveUnlimited = HiveUnlimited();
-  final HiveWordsOfTheDay _hiveWordsOfTheDay = HiveWordsOfTheDay();
-  final StatsProvider _statsProvider = StatsProvider();
+  WordsProvider({
+    required this.hiveUnlimited,
+    required this.hiveWordsOfTheDay,
+    required this.statsProvider,
+  });
 
-  /// Initial values ////
+  final HiveUnlimited hiveUnlimited;
+  final HiveWordsOfTheDay hiveWordsOfTheDay;
+  final StatsProvider statsProvider;
+
+  /// Initial values ///
 
   bool _isPlayingMissedDay = false;
   String _gameMode = 'unlimited';
@@ -26,7 +32,7 @@ class WordsProvider with ChangeNotifier {
   int _index = 0;
   int _instructionDialogPage = 0;
   List<bool> _status = [false, false, false, false, false, false];
-  List<String> _guesses = ["", "", "", "", "", ""];
+  List<String> _guesses = ['', '', '', '', '', ''];
   Map<String, int> _letters = {
     "Q": 0,
     "W": 0,
@@ -107,7 +113,7 @@ class WordsProvider with ChangeNotifier {
 
   Future<void> markGameAsLost() async {
     if (_gameMode == 'unlimited') {
-      await _hiveUnlimited.addUnlimitedGameStats(
+      await hiveUnlimited.addUnlimitedGameStats(
         isWinner: false,
         wordLength: _selectedWordLength,
         totalTries: _selectedTotalTries,
@@ -116,7 +122,7 @@ class WordsProvider with ChangeNotifier {
       if (_isPlayingMissedDay) {
         await saveGame(isWinner: false);
       } else {
-        await _statsProvider.addWotdStatistics(isWin: false);
+        await statsProvider.addWotdStatistics(isWin: false);
       }
     }
   }
@@ -134,7 +140,7 @@ class WordsProvider with ChangeNotifier {
     final randomWord = convertedList[random.nextInt(convertedList.length)];
 
     if (_gameMode == 'wordsoftheday') {
-      final List<String> usedWords = await _hiveWordsOfTheDay.getCorrectWords();
+      final List<String> usedWords = await hiveWordsOfTheDay.getCorrectWords();
 
       if (usedWords.contains(randomWord.toUpperCase())) {
         convertedList.remove(randomWord);
@@ -183,18 +189,18 @@ class WordsProvider with ChangeNotifier {
     required int gameLevel,
     required bool isWinner,
   }) async {
-    await _hiveWordsOfTheDay.changeGameStatus(
+    await hiveWordsOfTheDay.changeGameStatus(
       gameLevel: gameLevel,
       isWinner: isWinner,
     );
 
     if (!_isPlayingMissedDay) {
-      await _hiveWordsOfTheDay.addUserWords(
+      await hiveWordsOfTheDay.addUserWords(
         words: _guesses,
         gameLevel: gameLevel,
       );
 
-      await _hiveWordsOfTheDay.addCorrectWord(
+      await hiveWordsOfTheDay.addCorrectWord(
         correctWord: _correctWord,
         gameLevel: gameLevel,
       );
@@ -202,6 +208,18 @@ class WordsProvider with ChangeNotifier {
   }
 
   /// Getters ///
+
+  bool isCompleted() {
+    return _completed;
+  }
+
+  int getWordIndex() {
+    return _index;
+  }
+
+  DateTime getSelectedDay() {
+    return _selectedDay;
+  }
 
   bool isPlayingMissedDay() {
     return _isPlayingMissedDay;
@@ -269,7 +287,7 @@ class WordsProvider with ChangeNotifier {
     final List<int> statusList = [];
     if (_isPlayingMissedDay) {
       final List<bool> statsForGivenDay =
-          _hiveWordsOfTheDay.getWotdStatsForGivenDay(
+          hiveWordsOfTheDay.getWotdStatsForGivenDay(
               date: _selectedDay.toString().substring(0, 10));
 
       statsForGivenDay.map((isWin) {
@@ -281,14 +299,14 @@ class WordsProvider with ChangeNotifier {
       }
     } else {
       await gamePlayChecker();
-      final List<int> gameStatus = await _hiveWordsOfTheDay.getGamesStatus();
+      final List<int> gameStatus = await hiveWordsOfTheDay.getGamesStatus();
       statusList.addAll(gameStatus);
     }
     return statusList;
   }
 
   Future<int> getCurrentGameLevel() async {
-    final List<int> gameStatus = await _hiveWordsOfTheDay.getGamesStatus();
+    final List<int> gameStatus = await hiveWordsOfTheDay.getGamesStatus();
 
     if (gameStatus[0] == 0) {
       return 0;
@@ -303,12 +321,12 @@ class WordsProvider with ChangeNotifier {
 
   Future<List<List<String>>> getUserWords() async {
     final List<List<String>> wordsList =
-        await _hiveWordsOfTheDay.getAllUserWords();
+        await hiveWordsOfTheDay.getAllUserWords();
     return wordsList;
   }
 
   Future<List<String>> getCorrectWords() async {
-    final List<String> wordsList = await _hiveWordsOfTheDay.getCorrectWords();
+    final List<String> wordsList = await hiveWordsOfTheDay.getCorrectWords();
     return wordsList;
   }
 
@@ -392,13 +410,13 @@ class WordsProvider with ChangeNotifier {
       _status[_index] = true;
       if (_guesses[_index] == _correctWord) {
         if (_gameMode == 'unlimited') {
-          await _hiveUnlimited.addUnlimitedGameStats(
+          await hiveUnlimited.addUnlimitedGameStats(
             isWinner: true,
             wordLength: _selectedWordLength,
             totalTries: _selectedTotalTries,
           );
         } else if (!_isPlayingMissedDay) {
-          await _statsProvider.addWotdStatistics(isWin: true);
+          await statsProvider.addWotdStatistics(isWin: true);
         }
 
         _completed = true;
@@ -409,13 +427,13 @@ class WordsProvider with ChangeNotifier {
 
       if (_index == _selectedTotalTries - 1) {
         if (_gameMode == 'unlimited') {
-          await _hiveUnlimited.addUnlimitedGameStats(
+          await hiveUnlimited.addUnlimitedGameStats(
             isWinner: false,
             wordLength: _selectedWordLength,
             totalTries: _selectedTotalTries,
           );
         } else if (!_isPlayingMissedDay) {
-          await _statsProvider.addWotdStatistics(isWin: false);
+          await statsProvider.addWotdStatistics(isWin: false);
         }
 
         letterController();
@@ -482,7 +500,7 @@ class WordsProvider with ChangeNotifier {
 
   Future<void> saveGame({required bool isWinner}) async {
     if (_isPlayingMissedDay) {
-      await _statsProvider.addStatsForMissingDay(
+      await statsProvider.addStatsForMissingDay(
           isWin: isWinner, date: _selectedDay.toString().substring(0, 10));
     } else {
       final int gameLevel = await getCurrentGameLevel();
@@ -497,10 +515,10 @@ class WordsProvider with ChangeNotifier {
     final String date = _selectedDay.toString().substring(0, 10);
 
     final bool gamePlayedToday =
-        await _hiveWordsOfTheDay.checkIfWotdPlayedGivenDay(date: date);
+        await hiveWordsOfTheDay.checkIfWotdPlayedGivenDay(date: date);
 
     if (!gamePlayedToday) {
-      await _hiveWordsOfTheDay.setInitialValues(currentDate: date);
+      await hiveWordsOfTheDay.setInitialValues(currentDate: date);
     }
   }
 

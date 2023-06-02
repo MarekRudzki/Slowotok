@@ -5,6 +5,8 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:slowotok/src/services/hive/hive_unlimited.dart';
+import 'package:slowotok/src/services/hive/hive_words_of_the_day.dart';
 
 import 'src/screens/home_screen/home_screen.dart';
 import 'src/services/providers/stats_provider.dart';
@@ -30,10 +32,20 @@ void main() async {
           MultiProvider(
             providers: [
               ChangeNotifierProvider(
-                create: (context) => WordsProvider(),
+                create: (context) => WordsProvider(
+                  hiveUnlimited: HiveUnlimited(),
+                  hiveWordsOfTheDay: HiveWordsOfTheDay(),
+                  statsProvider: StatsProvider(
+                    hiveUnlimited: HiveUnlimited(),
+                    hiveWordsOfTheDay: HiveWordsOfTheDay(),
+                  ),
+                ),
               ),
               ChangeNotifierProvider(
-                create: (context) => StatsProvider(),
+                create: (context) => StatsProvider(
+                  hiveUnlimited: HiveUnlimited(),
+                  hiveWordsOfTheDay: HiveWordsOfTheDay(),
+                ),
               )
             ],
             child: AdaptiveTheme(

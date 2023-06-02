@@ -10,8 +10,8 @@ class Keyboard extends StatelessWidget {
     return Column(
       children: [
         Row(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const KeyboardButton(buttonText: 'Ą'),
             const KeyboardButton(buttonText: 'Ś'),
@@ -26,7 +26,6 @@ class Keyboard extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         Row(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const KeyboardButton(buttonText: 'Q'),
@@ -43,7 +42,6 @@ class Keyboard extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         Row(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const KeyboardButton(buttonText: 'A'),
@@ -60,7 +58,6 @@ class Keyboard extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         Row(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const KeyboardButton(buttonText: 'Z'),
