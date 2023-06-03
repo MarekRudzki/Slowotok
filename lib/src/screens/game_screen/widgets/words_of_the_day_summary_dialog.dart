@@ -212,7 +212,7 @@ class _WordsOfTheDaySummaryDialogState
                                 secondChild: const SizedBox.shrink(),
                                 crossFadeState: context.select(
                                         (WordsProvider wordsProvider) =>
-                                            wordsProvider.isDialogWide())
+                                            wordsProvider.isDialogLong())
                                     ? CrossFadeState.showFirst
                                     : CrossFadeState.showSecond,
                               );

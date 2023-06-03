@@ -73,7 +73,7 @@ class WordsProvider with ChangeNotifier {
 
   // Wotd - WordsOfTheDay
   int _wotdDialogPageIndex = 0;
-  bool _isWotdDialogWide = false;
+  bool _isWotdDialogLong = false;
   DateTime _selectedDay = DateTime.now();
 
   // Theme
@@ -178,9 +178,9 @@ class WordsProvider with ChangeNotifier {
   Future<void> checkDialogHeight({required int pageIndex}) async {
     final List<int> gameStatus = await getGameStatus();
     if (gameStatus[pageIndex] == 1) {
-      _isWotdDialogWide = false;
+      _isWotdDialogLong = false;
     } else {
-      _isWotdDialogWide = true;
+      _isWotdDialogLong = true;
     }
     notifyListeners();
   }
@@ -261,8 +261,8 @@ class WordsProvider with ChangeNotifier {
     return _wotdDialogPageIndex;
   }
 
-  bool isDialogWide() {
-    return _isWotdDialogWide;
+  bool isDialogLong() {
+    return _isWotdDialogLong;
   }
 
   bool isDark() {
@@ -457,7 +457,7 @@ class WordsProvider with ChangeNotifier {
     _completed = false;
     _index = 0;
     _status = [false, false, false, false, false, false];
-    _guesses = ["", "", "", "", "", ""];
+    _guesses = ['', '', '', '', '', ''];
     _letters = {
       "Q": 0,
       "W": 0,
