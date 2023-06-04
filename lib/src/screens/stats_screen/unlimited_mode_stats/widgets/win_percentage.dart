@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '/src/services/providers/stats_provider.dart';
-
 import 'charts/win_percentage_bar_chart.dart';
 
 class WinPercentage extends StatelessWidget {

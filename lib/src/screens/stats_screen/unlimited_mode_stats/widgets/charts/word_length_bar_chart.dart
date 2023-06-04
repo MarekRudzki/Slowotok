@@ -80,6 +80,7 @@ class WordLengthBarChart extends StatelessWidget {
         barRendererDecorator: BarLabelDecorator<String>(
           outsideLabelStyleSpec: TextStyleSpec(
             color: isDark ? MaterialPalette.white : MaterialPalette.black,
+            fontSize: 13,
           ),
         ),
         primaryMeasureAxis: NumericAxisSpec(

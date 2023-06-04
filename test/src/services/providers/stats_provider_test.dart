@@ -290,7 +290,7 @@ void main() {
           .thenAnswer((_) async => null);
 
       sut.changeSelectedDay(day: DateTime(2023, 5, 5));
-      sut.resetDayStats();
+      await sut.resetDayStats();
 
       verify(() => mockHiveWotd.resetStatsForGivenDay(date: '2023-05-05'))
           .called(1);

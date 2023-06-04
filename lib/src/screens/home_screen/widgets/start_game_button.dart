@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:slowotok/src/screens/game_screen/game_screen.dart';
 
+import '/src/screens/game_screen/game_screen.dart';
 import '/src/services/providers/words_provider.dart';
 
 class StartGameButton extends StatelessWidget {
@@ -64,7 +64,7 @@ class StartGameButton extends StatelessWidget {
           context: context,
         )
             .then(
-          (value) {
+          (_) {
             wordsProvider.setGameMode(newGameMode: 'unlimited');
             Navigator.of(context).pop();
             Navigator.of(context).push(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '/src/common_widgets/options_button.dart';
-import '/src/screens/stats_screen/stats_screen.dart';
 import '/src/screens/home_screen/home_screen.dart';
+import '/src/screens/stats_screen/stats_screen.dart';
 import '/src/services/providers/words_provider.dart';
 import '/src/services/constants.dart';
 import 'words_of_the_day_summary_dialog.dart';

@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '/src/common_widgets/game_instructions/widgets/instruction_page_one.dart';
 import '/src/common_widgets/game_instructions/widgets/instruction_page_two.dart';
-
 import '/src/services/providers/words_provider.dart';
 
 class GameInstructions extends StatefulWidget {
@@ -109,7 +108,7 @@ class _GameInstructionsState extends State<GameInstructions> {
             ),
             if (pageIndex == 0)
               Align(
-                heightFactor: 10,
+                heightFactor: 12,
                 alignment: Alignment.centerRight,
                 child: IconButton(
                   onPressed: () {

@@ -140,7 +140,7 @@ class WordsProvider with ChangeNotifier {
     final randomWord = convertedList[random.nextInt(convertedList.length)];
 
     if (_gameMode == 'wordsoftheday') {
-      final List<String> usedWords = await hiveWordsOfTheDay.getCorrectWords();
+      final List<String> usedWords = hiveWordsOfTheDay.getCorrectWords();
 
       if (usedWords.contains(randomWord.toUpperCase())) {
         convertedList.remove(randomWord);
@@ -299,14 +299,14 @@ class WordsProvider with ChangeNotifier {
       }
     } else {
       await gamePlayChecker();
-      final List<int> gameStatus = await hiveWordsOfTheDay.getGamesStatus();
+      final List<int> gameStatus = hiveWordsOfTheDay.getGamesStatus();
       statusList.addAll(gameStatus);
     }
     return statusList;
   }
 
   Future<int> getCurrentGameLevel() async {
-    final List<int> gameStatus = await hiveWordsOfTheDay.getGamesStatus();
+    final List<int> gameStatus = hiveWordsOfTheDay.getGamesStatus();
 
     if (gameStatus[0] == 0) {
       return 0;
@@ -319,19 +319,19 @@ class WordsProvider with ChangeNotifier {
     }
   }
 
-  Future<List<List<String>>> getUserWords() async {
-    final List<List<String>> wordsList =
-        await hiveWordsOfTheDay.getAllUserWords();
+  List<List<String>> getUserWords() {
+    final List<List<String>> wordsList = hiveWordsOfTheDay.getAllUserWords();
     return wordsList;
   }
 
-  Future<List<String>> getCorrectWords() async {
-    final List<String> wordsList = await hiveWordsOfTheDay.getCorrectWords();
+  List<String> getCorrectWords() {
+    final List<String> wordsList = hiveWordsOfTheDay.getCorrectWords();
     return wordsList;
   }
 
   Future<bool> gameModeAvailable() async {
     final List<int> gameStatus = await getGameStatus();
+
     if (!gameStatus.contains(0)) {
       return false;
     } else {
@@ -515,7 +515,7 @@ class WordsProvider with ChangeNotifier {
     final String date = _selectedDay.toString().substring(0, 10);
 
     final bool gamePlayedToday =
-        await hiveWordsOfTheDay.checkIfWotdPlayedGivenDay(date: date);
+        hiveWordsOfTheDay.checkIfWotdPlayedGivenDay(date: date);
 
     if (!gamePlayedToday) {
       await hiveWordsOfTheDay.setInitialValues(currentDate: date);

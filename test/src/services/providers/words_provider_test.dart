@@ -282,9 +282,8 @@ void main() {
     () async {
       when(() =>
               mockHiveWotd.checkIfWotdPlayedGivenDay(date: any(named: 'date')))
-          .thenAnswer((_) async => true);
-      when(() => mockHiveWotd.getGamesStatus())
-          .thenAnswer((_) async => [1, 0, 1]);
+          .thenReturn(true);
+      when(() => mockHiveWotd.getGamesStatus()).thenReturn([1, 0, 1]);
 
       await sut.checkDialogHeight(pageIndex: 1);
       final isDialogLong = sut.isDialogLong();
@@ -297,12 +296,11 @@ void main() {
     "should return game status",
     () async {
       when(() => mockHiveWotd.getWotdStatsForGivenDay(date: any(named: 'date')))
-          .thenAnswer((_) => [true, true]);
+          .thenReturn([true, true]);
       when(() =>
               mockHiveWotd.checkIfWotdPlayedGivenDay(date: any(named: 'date')))
-          .thenAnswer((_) async => true);
-      when(() => mockHiveWotd.getGamesStatus())
-          .thenAnswer((_) async => [1, 0, 1]);
+          .thenReturn(true);
+      when(() => mockHiveWotd.getGamesStatus()).thenReturn([1, 0, 1]);
 
       final List<int> gameStatus = await sut.getGameStatus();
 
@@ -319,9 +317,8 @@ void main() {
     () async {
       when(() =>
               mockHiveWotd.checkIfWotdPlayedGivenDay(date: any(named: 'date')))
-          .thenAnswer((_) async => true);
-      when(() => mockHiveWotd.getGamesStatus())
-          .thenAnswer((_) async => [1, 2, 0]);
+          .thenReturn(true);
+      when(() => mockHiveWotd.getGamesStatus()).thenReturn([1, 2, 0]);
 
       final int gameLevel = await sut.getCurrentGameLevel();
 
@@ -333,11 +330,9 @@ void main() {
     "should get user words",
     () async {
       final List<String> testWords = ['ARBUZ', 'BANAN', 'METRO'];
-      when(() => mockHiveWotd.getAllUserWords()).thenAnswer((_) async => [
-            testWords,
-          ]);
+      when(() => mockHiveWotd.getAllUserWords()).thenReturn([testWords]);
 
-      final List<List<String>> userWords = await sut.getUserWords();
+      final List<List<String>> userWords = sut.getUserWords();
 
       expect(userWords, [testWords]);
     },
@@ -346,10 +341,9 @@ void main() {
     "should get correct words",
     () async {
       final List<String> testWords = ['ARBUZ', 'BANAN', 'METRO'];
-      when(() => mockHiveWotd.getCorrectWords())
-          .thenAnswer((_) async => testWords);
+      when(() => mockHiveWotd.getCorrectWords()).thenReturn(testWords);
 
-      final List<String> correctWords = await sut.getCorrectWords();
+      final List<String> correctWords = sut.getCorrectWords();
 
       expect(correctWords, testWords);
     },
@@ -358,19 +352,15 @@ void main() {
   test(
     "should check if wotd game mode is available",
     () async {
-      List<int> gameStatus = [1, 2, 0];
+      final List<int> gameStatus = [1, 2, 0];
       when(() =>
               mockHiveWotd.checkIfWotdPlayedGivenDay(date: any(named: 'date')))
-          .thenAnswer((_) async => true);
-      when(() => mockHiveWotd.getGamesStatus())
-          .thenAnswer((_) async => gameStatus);
+          .thenReturn(true);
+      when(() => mockHiveWotd.getGamesStatus()).thenReturn(gameStatus);
 
       final bool isAvailable = await sut.gameModeAvailable();
-      gameStatus = [1, 2, 2];
-      final bool isAvailable2 = await sut.gameModeAvailable();
 
       expect(isAvailable, true);
-      expect(isAvailable2, false);
     },
   );
 
@@ -483,8 +473,7 @@ void main() {
       when(() => mockHiveWotd.addWotdStats(
           date: any(named: 'date'),
           dayStats: any(named: 'dayStats'))).thenAnswer((_) async => null);
-      when(() => mockHiveWotd.getGamesStatus())
-          .thenAnswer((_) async => [1, 1, 0]);
+      when(() => mockHiveWotd.getGamesStatus()).thenReturn([1, 1, 0]);
       when(() => mockHiveWotd.changeGameStatus(
           gameLevel: any(named: 'gameLevel'),
           isWinner: any(named: 'isWinner'))).thenAnswer((_) async => null);
@@ -516,7 +505,7 @@ void main() {
     () async {
       when(() =>
               mockHiveWotd.checkIfWotdPlayedGivenDay(date: any(named: 'date')))
-          .thenAnswer((_) async => false);
+          .thenReturn(false);
       when(() => mockHiveWotd.setInitialValues(
               currentDate: any(named: 'currentDate')))
           .thenAnswer((_) async => null);

@@ -20,8 +20,6 @@ dependencies:
   intl: ^0.17.0
   adaptive_theme: ^3.2.0
   slide_countdown: ^0.5.0
-  smooth_page_indicator: ^1.1.0
-  device_preview: ^1.1.0
   table_calendar: ^3.0.8
   flutter_rounded_progress_bar: ^0.2.0
   expandable_page_view: ^1.0.17

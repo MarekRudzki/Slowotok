@@ -18,48 +18,41 @@ class WordsOfTheDayGamesSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: provider.getUserWords(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Column(
-            children: snapshot.data![currentWordLevel].map((word) {
-              if (word == '') {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: ['', '', '', '', '']
-                      .map(
-                        (letter) => LetterTile(
-                          letter: letter,
-                          color: Constants.backgroundColor,
-                        ),
-                      )
-                      .toList(),
-                );
-              }
-
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: word
-                    .split('')
-                    .map(
-                      (letter) => LetterTile(
-                        letter: letter,
-                        color: buildBackgroundColor(
-                          context,
-                          wordGuess: word,
-                          letterGuess: letter,
-                          correctWord: correctWords[currentWordLevel],
-                        ),
-                      ),
-                    )
-                    .toList(),
-              );
-            }).toList(),
+    final List<List<String>> userWords = provider.getUserWords();
+    return Column(
+      children: userWords[currentWordLevel].map((word) {
+        if (word == '') {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: ['', '', '', '', '']
+                .map(
+                  (letter) => LetterTile(
+                    letter: letter,
+                    color: Constants.backgroundColor,
+                  ),
+                )
+                .toList(),
           );
         }
-        return const CircularProgressIndicator();
-      },
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: word
+              .split('')
+              .map(
+                (letter) => LetterTile(
+                  letter: letter,
+                  color: buildBackgroundColor(
+                    context,
+                    wordGuess: word,
+                    letterGuess: letter,
+                    correctWord: correctWords[currentWordLevel],
+                  ),
+                ),
+              )
+              .toList(),
+        );
+      }).toList(),
     );
   }
 

@@ -45,6 +45,7 @@ class _WordsOfTheDaySummaryDialogState
   Widget build(BuildContext context) {
     final int pageIndex = context.select(
         (WordsProvider wordsProvider) => wordsProvider.getDialogPageIndex());
+    final List<String> correctWords = widget.provider.getCorrectWords();
 
     int calculateTime() {
       final int currentHour = DateTime.now().hour;
@@ -70,211 +71,196 @@ class _WordsOfTheDaySummaryDialogState
           Padding(
             padding: const EdgeInsets.all(15),
             child: SingleChildScrollView(
-              child: FutureBuilder(
-                future: widget.provider.getCorrectWords(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final List<String> correctWords = snapshot.data!;
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Text(
+                      'Twoje próby',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 300,
+                    child: PageView(
+                      controller: pageController,
+                      onPageChanged: (index) async {
+                        widget.provider.setWotdDialogPage(indexPage: index);
+                        await widget.provider
+                            .checkDialogHeight(pageIndex: index);
+                      },
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Text(
-                            'Twoje próby',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
+                        WordsOfTheDayGamesSummary(
+                          provider: widget.provider,
+                          correctWords: correctWords,
+                          currentWordLevel: 0,
                         ),
-                        Container(
-                          height: 300,
-                          child: PageView(
-                            controller: pageController,
-                            onPageChanged: (index) async {
-                              widget.provider
-                                  .setWotdDialogPage(indexPage: index);
-                              await widget.provider
-                                  .checkDialogHeight(pageIndex: index);
-                            },
-                            children: [
-                              WordsOfTheDayGamesSummary(
-                                provider: widget.provider,
-                                correctWords: correctWords,
-                                currentWordLevel: 0,
-                              ),
-                              WordsOfTheDayGamesSummary(
-                                provider: widget.provider,
-                                correctWords: correctWords,
-                                currentWordLevel: 1,
-                              ),
-                              WordsOfTheDayGamesSummary(
-                                provider: widget.provider,
-                                correctWords: correctWords,
-                                currentWordLevel: 2,
-                              ),
-                            ],
-                          ),
+                        WordsOfTheDayGamesSummary(
+                          provider: widget.provider,
+                          correctWords: correctWords,
+                          currentWordLevel: 1,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: UnconstrainedBox(
-                            child: Stack(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    AnimatedContainer(
-                                      height: 25,
-                                      width: 38,
-                                      color: pageIndex == 0
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .onTertiaryContainer
-                                          : Colors.transparent,
-                                      duration:
-                                          const Duration(milliseconds: 450),
-                                      curve: Curves.easeIn,
-                                    ),
-                                    AnimatedContainer(
-                                      height: 25,
-                                      width: 38,
-                                      color: pageIndex == 1
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .onTertiaryContainer
-                                          : Colors.transparent,
-                                      duration:
-                                          const Duration(milliseconds: 450),
-                                      curve: Curves.easeIn,
-                                    ),
-                                    AnimatedContainer(
-                                      height: 25,
-                                      width: 38,
-                                      color: pageIndex == 2
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .onTertiaryContainer
-                                          : Colors.transparent,
-                                      duration:
-                                          const Duration(milliseconds: 450),
-                                      curve: Curves.easeIn,
-                                    )
-                                  ],
-                                ),
-                                GameStatusIndicator(provider: widget.provider),
-                              ],
-                            ),
-                          ),
-                        ),
-                        FutureBuilder(
-                          future: widget.provider.getGameStatus(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return AnimatedCrossFade(
-                                duration: const Duration(
-                                  seconds: 1,
-                                ),
-                                firstCurve: Curves.easeInOut,
-                                secondCurve: Curves.easeInOut,
-                                firstChild: snapshot.data![pageIndex] == 2
-                                    ? Column(
-                                        children: [
-                                          Text(
-                                            'Poprawne hasło to:',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(12),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: correctWords[pageIndex]
-                                                  .split('')
-                                                  .map(
-                                                    (letter) => LetterTile(
-                                                        letter: letter,
-                                                        color: Constants
-                                                            .correctLetterColor),
-                                                  )
-                                                  .toList(),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : const SizedBox.shrink(),
-                                secondChild: const SizedBox.shrink(),
-                                crossFadeState: context.select(
-                                        (WordsProvider wordsProvider) =>
-                                            wordsProvider.isDialogLong())
-                                    ? CrossFadeState.showFirst
-                                    : CrossFadeState.showSecond,
-                              );
-                            }
-                            return const SizedBox.shrink();
-                          },
-                        ),
-                        Text(
-                          'Do następnych słówek dnia pozostało:',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: SlideCountdown(
-                            duration: Duration(seconds: calculateTime()),
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                            ),
-                            replacement: Container(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                              padding: const EdgeInsets.all(6),
-                              child: const Text(
-                                textAlign: TextAlign.center,
-                                'Nowe słówka dnia właśnie się pojawiły! Zamknij okno i zagraj',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        OptionsButton(
-                          text: 'Zagraj w poprzednie dni',
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const StatsScreen(
-                                  showUnlimitedFirst: false,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        OptionsButton(
-                          text: 'Wróć do menu',
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
+                        WordsOfTheDayGamesSummary(
+                          provider: widget.provider,
+                          correctWords: correctWords,
+                          currentWordLevel: 2,
                         ),
                       ],
-                    );
-                  }
-                  return const CircularProgressIndicator();
-                },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: UnconstrainedBox(
+                      child: Stack(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AnimatedContainer(
+                                height: 25,
+                                width: 38,
+                                color: pageIndex == 0
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .onTertiaryContainer
+                                    : Colors.transparent,
+                                duration: const Duration(milliseconds: 450),
+                                curve: Curves.easeIn,
+                              ),
+                              AnimatedContainer(
+                                height: 25,
+                                width: 38,
+                                color: pageIndex == 1
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .onTertiaryContainer
+                                    : Colors.transparent,
+                                duration: const Duration(milliseconds: 450),
+                                curve: Curves.easeIn,
+                              ),
+                              AnimatedContainer(
+                                height: 25,
+                                width: 38,
+                                color: pageIndex == 2
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .onTertiaryContainer
+                                    : Colors.transparent,
+                                duration: const Duration(milliseconds: 450),
+                                curve: Curves.easeIn,
+                              )
+                            ],
+                          ),
+                          GameStatusIndicator(provider: widget.provider),
+                        ],
+                      ),
+                    ),
+                  ),
+                  FutureBuilder(
+                    future: widget.provider.getGameStatus(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return AnimatedCrossFade(
+                          duration: const Duration(
+                            seconds: 1,
+                          ),
+                          firstCurve: Curves.easeInOut,
+                          secondCurve: Curves.easeInOut,
+                          firstChild: snapshot.data![pageIndex] == 2
+                              ? Column(
+                                  children: [
+                                    Text(
+                                      'Poprawne hasło to:',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: correctWords[pageIndex]
+                                            .split('')
+                                            .map(
+                                              (letter) => LetterTile(
+                                                  letter: letter,
+                                                  color: Constants
+                                                      .correctLetterColor),
+                                            )
+                                            .toList(),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox.shrink(),
+                          secondChild: const SizedBox.shrink(),
+                          crossFadeState: context.select(
+                                  (WordsProvider wordsProvider) =>
+                                      wordsProvider.isDialogLong())
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                  Text(
+                    'Do następnych słówek dnia pozostało:',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: SlideCountdown(
+                      duration: Duration(seconds: calculateTime()),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                      ),
+                      replacement: Container(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        padding: const EdgeInsets.all(6),
+                        child: const Text(
+                          textAlign: TextAlign.center,
+                          'Nowe słówka dnia właśnie się pojawiły! Zamknij okno i zagraj',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  OptionsButton(
+                    text: 'Zagraj w poprzednie dni',
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const StatsScreen(
+                            showUnlimitedFirst: false,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  OptionsButton(
+                    text: 'Wróć do menu',
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
             ),
           ),

@@ -136,7 +136,7 @@ class HiveWordsOfTheDay {
   // 1 = won,
   // 2 = lost
 
-  Future<bool> checkIfWotdPlayedGivenDay({required String date}) async {
+  bool checkIfWotdPlayedGivenDay({required String date}) {
     final isDateSaved = _wordsOfTheDayStatsBox.containsKey('game_date');
     if (!isDateSaved) {
       return false;
@@ -151,17 +151,17 @@ class HiveWordsOfTheDay {
     return true;
   }
 
-  Future<List<int>> getGamesStatus() async {
-    return await _wordsOfTheDayStatsBox.get('games_status') as List<int>;
+  List<int> getGamesStatus() {
+    return _wordsOfTheDayStatsBox.get('games_status') as List<int>;
   }
 
-  Future<List<List<String>>> getAllUserWords() async {
+  List<List<String>> getAllUserWords() {
     final List<String> firstLevelWords =
-        await _wordsOfTheDayStatsBox.get('user_words_0') as List<String>;
+        _wordsOfTheDayStatsBox.get('user_words_0') as List<String>;
     final List<String> secondLevelWords =
-        await _wordsOfTheDayStatsBox.get('user_words_1') as List<String>;
+        _wordsOfTheDayStatsBox.get('user_words_1') as List<String>;
     final List<String> thirdLevelWords =
-        await _wordsOfTheDayStatsBox.get('user_words_2') as List<String>;
+        _wordsOfTheDayStatsBox.get('user_words_2') as List<String>;
 
     final List<List<String>> allUserWords = [
       firstLevelWords,
@@ -172,26 +172,26 @@ class HiveWordsOfTheDay {
     return allUserWords;
   }
 
-  Future<List<String>> getCorrectWords() async {
+  List<String> getCorrectWords() {
     if (!_wordsOfTheDayStatsBox.containsKey('correct_word_0')) {
       return [];
     } else if (!_wordsOfTheDayStatsBox.containsKey('correct_word_1')) {
       final String firstCorrectWord =
-          await _wordsOfTheDayStatsBox.get('correct_word_0') as String;
+          _wordsOfTheDayStatsBox.get('correct_word_0') as String;
       return [firstCorrectWord];
     } else if (!_wordsOfTheDayStatsBox.containsKey('correct_word_2')) {
       final String firstCorrectWord =
-          await _wordsOfTheDayStatsBox.get('correct_word_0') as String;
+          _wordsOfTheDayStatsBox.get('correct_word_0') as String;
       final String secondCorrectWord =
-          await _wordsOfTheDayStatsBox.get('correct_word_1') as String;
+          _wordsOfTheDayStatsBox.get('correct_word_1') as String;
       return [firstCorrectWord, secondCorrectWord];
     } else {
       final String firstCorrectWord =
-          await _wordsOfTheDayStatsBox.get('correct_word_0') as String;
+          _wordsOfTheDayStatsBox.get('correct_word_0') as String;
       final String secondCorrectWord =
-          await _wordsOfTheDayStatsBox.get('correct_word_1') as String;
+          _wordsOfTheDayStatsBox.get('correct_word_1') as String;
       final String thirdCorrectWord =
-          await _wordsOfTheDayStatsBox.get('correct_word_2') as String;
+          _wordsOfTheDayStatsBox.get('correct_word_2') as String;
 
       return [
         firstCorrectWord,

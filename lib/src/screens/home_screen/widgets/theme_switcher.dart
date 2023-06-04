@@ -15,34 +15,34 @@ class ThemeSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Container(
-        width: double.infinity,
-        height: screenHeight * 0.07,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 2.0,
-              color: Theme.of(context).dividerColor,
-              offset: const Offset(1, 3), // shadow direction: bottom right
-            )
-          ],
-        ),
-        child: Center(
-          child: IconButton(
-            onPressed: () async {
-              if (wordsProvider.isDark()) {
-                AdaptiveTheme.of(context).setLight();
-                wordsProvider.setTheme(AdaptiveThemeMode.light);
-              } else {
-                AdaptiveTheme.of(context).setDark();
-                wordsProvider.setTheme(AdaptiveThemeMode.dark);
-              }
-            },
-            icon: AnimatedSwitcher(
+    return InkWell(
+      onTap: () async {
+        if (wordsProvider.isDark()) {
+          AdaptiveTheme.of(context).setLight();
+          wordsProvider.setTheme(AdaptiveThemeMode.light);
+        } else {
+          AdaptiveTheme.of(context).setDark();
+          wordsProvider.setTheme(AdaptiveThemeMode.dark);
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Container(
+          width: double.infinity,
+          height: screenHeight * 0.07,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 2.0,
+                color: Theme.of(context).dividerColor,
+                offset: const Offset(1, 3), // shadow direction: bottom right
+              )
+            ],
+          ),
+          child: Center(
+            child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 850),
               transitionBuilder: (child, animation) => RotationTransition(
                 turns: child.key ==

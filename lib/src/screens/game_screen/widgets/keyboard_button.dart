@@ -63,23 +63,14 @@ class KeyboardButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: buttonText == 'BACKSPACE'
-              ? const Color.fromARGB(255, 138, 137, 137)
-              : buttonText == 'ENTER'
-                  ? Constants.correctLetterColor
-                  : context.watch<WordsProvider>().getLetters()[buttonText] == 0
-                      ? Constants.initialColor
-                      : context
-                                  .watch<WordsProvider>()
-                                  .getLetters()[buttonText] ==
-                              1
-                          ? Constants.noLetterInWordColor
-                          : context
-                                      .watch<WordsProvider>()
-                                      .getLetters()[buttonText] ==
-                                  2
-                              ? Constants.wrongLetterColor
-                              : Constants.correctLetterColor,
+          color: buildButtonColor(
+            buttonText: buttonText,
+            context: context,
+            correctLetterColor: Constants.correctLetterColor,
+            initialLetterColor: Constants.initialColor,
+            noLetterColor: Constants.noLetterInWordColor,
+            wrongLetterColor: Constants.wrongLetterColor,
+          ),
         ),
       ),
       onTap: () async {
@@ -184,5 +175,28 @@ double buildButtonWidth(
     return (screenWidth - screenWidth * 0.12) * 0.095;
   } else {
     return screenWidth * 0.088;
+  }
+}
+
+Color buildButtonColor({
+  required String buttonText,
+  required BuildContext context,
+  required Color correctLetterColor,
+  required Color initialLetterColor,
+  required Color noLetterColor,
+  required Color wrongLetterColor,
+}) {
+  if (buttonText == 'BACKSPACE') {
+    return const Color.fromARGB(255, 138, 137, 137);
+  } else if (buttonText == 'ENTER') {
+    return correctLetterColor;
+  } else if (context.watch<WordsProvider>().getLetters()[buttonText] == 0) {
+    return initialLetterColor;
+  } else if (context.watch<WordsProvider>().getLetters()[buttonText] == 1) {
+    return noLetterColor;
+  } else if (context.watch<WordsProvider>().getLetters()[buttonText] == 2) {
+    return wrongLetterColor;
+  } else {
+    return correctLetterColor;
   }
 }

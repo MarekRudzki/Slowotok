@@ -51,7 +51,7 @@ class UnlimitedGameMode extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(25),
+                          padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [

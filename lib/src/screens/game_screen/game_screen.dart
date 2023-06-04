@@ -127,7 +127,7 @@ class _GameScreenState extends State<GameScreen> {
             ConfettiWidget(
               confettiController: confettiController,
               blastDirectionality: BlastDirectionality.explosive,
-              numberOfParticles: 35,
+              numberOfParticles: 30,
               emissionFrequency: 0.12,
               maximumSize: const Size(20, 10),
               minimumSize: const Size(15, 7.5),

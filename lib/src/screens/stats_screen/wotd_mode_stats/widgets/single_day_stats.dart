@@ -84,6 +84,7 @@ class SingleDayStats extends StatelessWidget {
                     ),
                     Text(
                       buildHeaderText(dayPerformance: dayPerformance),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -224,7 +225,7 @@ String buildHeaderText({required String dayPerformance}) {
   } else if (dayPerformance == 'not-bad') {
     return 'Nieźle!';
   } else {
-    return 'Tym razem się nie udało';
+    return 'Tym razem się nie udało 😕';
   }
 }
 

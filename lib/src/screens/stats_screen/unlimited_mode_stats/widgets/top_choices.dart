@@ -16,6 +16,7 @@ class TopChoices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
         Divider(
@@ -54,14 +55,14 @@ class TopChoices extends StatelessWidget {
         Row(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(screenWidth * 0.02),
               child: WordLengthBarChart(
                 isDark: isDark,
                 statsProvider: statsProvider,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(screenWidth * 0.02),
               child: TotalTriesBarChart(
                 isDark: isDark,
                 statsProvider: statsProvider,

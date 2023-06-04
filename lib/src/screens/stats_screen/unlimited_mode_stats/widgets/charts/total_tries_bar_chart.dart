@@ -40,12 +40,11 @@ class TotalTriesBarChart extends StatelessWidget {
     List<TickSpec<int>> getStaticTicks() {
       final List<int> counter = [
         getCount(tries: 4),
-        getCount(tries: 6),
+        getCount(tries: 5),
         getCount(tries: 6),
       ];
       counter.sort();
       final int maxTries = counter.last;
-
       return [
         const TickSpec(0),
         TickSpec(int.parse((maxTries / 2).toStringAsFixed(0))),
@@ -81,6 +80,7 @@ class TotalTriesBarChart extends StatelessWidget {
           tickProviderSpec: StaticNumericTickProviderSpec(
             getStaticTicks(),
           ),
+          showAxisLine: false,
           renderSpec: GridlineRendererSpec(
             labelStyle: TextStyleSpec(
               color: isDark ? MaterialPalette.white : MaterialPalette.black,

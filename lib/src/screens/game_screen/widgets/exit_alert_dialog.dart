@@ -22,7 +22,9 @@ class ExitAlertDialog extends StatelessWidget {
       title: Text(
         'Na pewno?',
         style: TextStyle(
-            fontSize: 18, color: Theme.of(context).colorScheme.primary),
+          fontSize: 18,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +88,8 @@ class ExitAlertDialog extends StatelessWidget {
 
             if (context.mounted) {
               Navigator.of(context).pop(true);
-              Provider.of<WordsProvider>(context, listen: false).restartWord();
+              await Provider.of<WordsProvider>(context, listen: false)
+                  .restartWord();
             }
           },
         ),

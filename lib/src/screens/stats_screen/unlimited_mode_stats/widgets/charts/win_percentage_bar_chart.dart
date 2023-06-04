@@ -128,7 +128,7 @@ class WinPercentageBarChart extends StatelessWidget {
               lineStyle: LineStyleSpec(
                 color: isDark
                     ? MaterialPalette.white
-                    : const Color(r: 135, g: 131, b: 131),
+                    : const Color(r: 132, g: 132, b: 132),
               ),
             ),
           ),

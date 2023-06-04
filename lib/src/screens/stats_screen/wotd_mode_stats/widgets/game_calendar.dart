@@ -2,9 +2,8 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-
 import 'package:table_calendar/table_calendar.dart';
+import 'package:provider/provider.dart';
 
 import '/src/services/providers/words_provider.dart';
 import '/src/services/providers/stats_provider.dart';

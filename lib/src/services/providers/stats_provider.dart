@@ -111,13 +111,13 @@ class StatsProvider with ChangeNotifier {
     return _focusedDay;
   }
 
+  DateTime getSelectedDay() {
+    return _selectedDay;
+  }
+
   void changeSelectedDay({required DateTime day}) {
     _selectedDay = day;
     notifyListeners();
-  }
-
-  DateTime getSelectedDay() {
-    return _selectedDay;
   }
 
   String getSelectedDateFormatted(DateTime date) {
@@ -167,29 +167,6 @@ class StatsProvider with ChangeNotifier {
       },
     );
     return formattedStats;
-  }
-
-  Future<void> addWotdStatistics({required bool isWin}) async {
-    final String currentDay = DateTime.now().toString().substring(0, 10);
-    final Map<String, List<bool>> stats = hiveWordsOfTheDay.getWotdStats();
-    if (!stats.containsKey(currentDay)) {
-      await hiveWordsOfTheDay.addWotdStats(
-        date: currentDay,
-        dayStats: [isWin],
-      );
-    } else {
-      stats.forEach(
-        (date, statsList) async {
-          if (date == currentDay) {
-            statsList.add(isWin);
-            await hiveWordsOfTheDay.addWotdStats(
-              date: currentDay,
-              dayStats: statsList,
-            );
-          }
-        },
-      );
-    }
   }
 
   List<String> getSingleDayStats() {
@@ -261,6 +238,29 @@ class StatsProvider with ChangeNotifier {
       return 'try-again';
     } else {
       return 'almost-perfect';
+    }
+  }
+
+  Future<void> addWotdStatistics({required bool isWin}) async {
+    final String currentDay = DateTime.now().toString().substring(0, 10);
+    final Map<String, List<bool>> stats = hiveWordsOfTheDay.getWotdStats();
+    if (!stats.containsKey(currentDay)) {
+      await hiveWordsOfTheDay.addWotdStats(
+        date: currentDay,
+        dayStats: [isWin],
+      );
+    } else {
+      stats.forEach(
+        (date, statsList) async {
+          if (date == currentDay) {
+            statsList.add(isWin);
+            await hiveWordsOfTheDay.addWotdStats(
+              date: currentDay,
+              dayStats: statsList,
+            );
+          }
+        },
+      );
     }
   }
 

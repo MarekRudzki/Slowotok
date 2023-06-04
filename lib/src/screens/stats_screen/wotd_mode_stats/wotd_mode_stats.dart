@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '/src/screens/stats_screen/wotd_mode_stats/widgets/perfect_days_counter.dart';
-import '/src/screens/stats_screen/wotd_mode_stats/widgets/single_day_stats.dart';
-import '/src/screens/stats_screen/wotd_mode_stats/widgets/game_calendar.dart';
 import '/src/screens/stats_screen/common_widgets/no_statistics.dart';
+import '/src/screens/stats_screen/wotd_mode_stats/widgets/game_calendar.dart';
+import '/src/screens/stats_screen/wotd_mode_stats/widgets/single_day_stats.dart';
+import '/src/screens/stats_screen/wotd_mode_stats/widgets/perfect_days_counter.dart';
 import '/src/services/providers/stats_provider.dart';
 
 class WotdModeStats extends StatelessWidget {

@@ -4,8 +4,8 @@ import 'package:flutter_rounded_progress_bar/flutter_rounded_progress_bar.dart';
 import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
 import 'package:provider/provider.dart';
 
-import '/src/services/providers/words_provider.dart';
 import '/src/services/providers/stats_provider.dart';
+import '/src/services/providers/words_provider.dart';
 
 class PerfectDaysCounter extends StatelessWidget {
   const PerfectDaysCounter({

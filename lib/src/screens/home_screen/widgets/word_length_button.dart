@@ -17,6 +17,7 @@ class WordLengthButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     final String selectedWordLength =
         context.watch<WordsProvider>().getSelectedWordLength().toString();
 
@@ -24,7 +25,7 @@ class WordLengthButton extends StatelessWidget {
       onTap: onPressed,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 800),
-        width: 34,
+        width: screenWidth * 0.09,
         height: 44,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
