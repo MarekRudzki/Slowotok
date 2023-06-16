@@ -35,8 +35,8 @@ dev_dependencies:
   mocktail: ^0.3.0
 
 flutter_icons:
-  image_path: assets/logo.png
-  android: "launcher_icon"
+  image_path: "assets/logo.png"
+  android: true
   adaptive_icon_background: "#4bdd4e"
 
 flutter_native_splash:
