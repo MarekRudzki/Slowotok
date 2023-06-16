@@ -1,4 +1,4 @@
-package com.example.slowotok
+package com.rudzkimarek.slowotok
 
 import io.flutter.embedding.android.FlutterActivity
 
