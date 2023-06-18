@@ -12,11 +12,9 @@ Słowotok is a word game where your task is to guess the hidden word in up to 6 
 
 ### :video_game: Two game modes :video_game:
 
-Unlimited mode
-In this mode you can play as much as you want! You can choose the length of the word and the number of attempts in which you will try to guess it. 
+**Unlimited mode** – In this mode you can play as much as you want! You can choose the length of the word and the number of attempts in which you will try to guess it. 
 
-Words of the Day mode
-A daily challenge in which there are three five-letter words to guess. Have you successfully solved all the words of the day? Enter the calendar and play the previous days so that you complete the whole month!
+**Words of the Day mode** – A daily challenge in which there are three five-letter words to guess. Have you successfully solved all the words of the day? Enter the calendar and play the previous days so that you complete the whole month!
 
 This is my first application published in the Google Play Store.
 
@@ -27,6 +25,11 @@ This is my first application published in the Google Play Store.
 - 'How To Play' instructions
 - Detailed statistics for both game modes
 - Light and Dark mode
+
+![1](https://github.com/MarekRudzki/Slowotok/assets/102899533/a2d1dea7-ff95-4f03-98ba-479dfecd9b80)
+![2](https://github.com/MarekRudzki/Slowotok/assets/102899533/f7e9e10f-e071-4352-8d09-0307e4323d6f)
+![3](https://github.com/MarekRudzki/Slowotok/assets/102899533/fe546dfa-f0b0-4839-b88d-3c6fa7d95663)
+![4](https://github.com/MarekRudzki/Slowotok/assets/102899533/0bc0cd94-4129-4663-9e58-3af8921f104b)
 
 ## Technologies
 Project was created with:
