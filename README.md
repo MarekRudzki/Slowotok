@@ -24,10 +24,12 @@ Słowotok is a word game where your task is to guess the hidden word in up to 6 
 - Detailed statistics for both game modes
 - Light and Dark mode
 
-![1](https://github.com/MarekRudzki/Slowotok/assets/102899533/a2d1dea7-ff95-4f03-98ba-479dfecd9b80)
-![2](https://github.com/MarekRudzki/Slowotok/assets/102899533/f7e9e10f-e071-4352-8d09-0307e4323d6f)
-![3](https://github.com/MarekRudzki/Slowotok/assets/102899533/fe546dfa-f0b0-4839-b88d-3c6fa7d95663)
-![4](https://github.com/MarekRudzki/Slowotok/assets/102899533/0bc0cd94-4129-4663-9e58-3af8921f104b)
+<p float="left">
+<img src="https://user-images.githubusercontent.com/102899533/258641560-49c7eb24-53d3-4123-acc0-08ce04a8ab37.jpg" width=40% height=40%>
+<img src="https://user-images.githubusercontent.com/102899533/258641597-ad6109c0-4e48-4e6b-ae74-a7b1480775fa.jpg" width=40% height=40%>
+<img src="https://user-images.githubusercontent.com/102899533/258641599-d6bd447b-6f68-48b5-a168-ef94ede44e52.jpg" width=40% height=40%>
+<img align="top" src="https://user-images.githubusercontent.com/102899533/258641600-467d5266-5a46-4b45-9e57-17b3cdf0da41.jpg" width=40% height=40%>
+</p>
 
 This is my first application published in the Google Play Store.
 
