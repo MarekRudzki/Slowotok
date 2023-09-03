@@ -5,6 +5,7 @@ Will you be able to guess the hidden word?
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
+* [How to run](#how-to-run)
 
 ## General info
 
@@ -37,6 +38,16 @@ This is my first application published in the Google Play Store.
 Project was created with:
 * Flutter version: 3.7.12
 * Dart version: 2.19.6
+
+## How to run
+1. Copy repository link.
+   ```sh
+   git clone https://github.com/MarekRudzki/Slowotok.git
+   ```
+2. Open command prompt and navigate to the path where you want to clone repo.
+3. Paste copied link and hit enter.
+4. Congrats, you have successfully cloned this repository in your computer!.
+5. Open project in IDE of your choice.
 
 ---
 
