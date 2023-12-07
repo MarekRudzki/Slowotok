@@ -11,7 +11,7 @@ Will you be able to guess the hidden word?
 
 Słowotok is a word game where your task is to guess the hidden word in up to 6 attempts. After you type the first word, the color of the letters will change to show you how close you are to guessing the word. If the letter is in the right place, its color will change to green. A letter that is in the password but not in the typed place is displayed in yellow. A letter that is not in the password will be marked in gray.
 
-### :video_game: Two game modes :video_game:
+### 🎮 Two game modes 🎮
 
 **Unlimited mode** – In this mode you can play as much as you want! You can choose the length of the word and the number of attempts in which you will try to guess it. 
 
@@ -56,7 +56,7 @@ Project was created with:
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30px"/>
 </h1>
 
-### <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30"> About Me :
+### <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30"> About Me
 
 
 I am a Flutter enthusiast from Poland.
@@ -64,7 +64,7 @@ I am a Flutter enthusiast from Poland.
 - :book: Learning new Flutter related stuff every day.
 - :computer: In my free time, I love to read books and play video games.
 
-### :hammer_and_wrench: Languages and Tools :
+### :hammer_and_wrench: Languages and Tools
 <div>
   <img src="https://github.com/devicons/devicon/blob/master/icons/flutter/flutter-original.svg" title="Flutter" alt="Flutter" width="40" height="40"/>&nbsp;
   <img src="https://github.com/devicons/devicon/blob/master/icons/dart/dart-original.svg" title="Dart" alt="Dart" width="40" height="40"/>&nbsp;
@@ -72,6 +72,6 @@ I am a Flutter enthusiast from Poland.
   <img src="https://github.com/devicons/devicon/blob/master/icons/firebase/firebase-plain-wordmark.svg" title="Firebase" alt="Firebase" width="40" height="40"/>
 </div>
 
-### :fire: My Stats :
+### :fire: My Stats
 [![GitHub Streak](http://github-readme-streak-stats.herokuapp.com?user=MarekRudzki&theme=dark&background=000000)](https://git.io/streak-stats)
 
