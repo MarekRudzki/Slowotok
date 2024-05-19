@@ -113,7 +113,6 @@ class HiveWordsOfTheDay {
           convertedStatistics.addAll({date.toString(): dayStats as List<bool>});
         },
       );
-
       return convertedStatistics;
     }
   }

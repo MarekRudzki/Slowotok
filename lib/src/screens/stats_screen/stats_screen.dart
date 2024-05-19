@@ -38,6 +38,9 @@ class StatsScreen extends StatelessWidget {
             appBar: AppBar(
               title: const Text(
                 'Statystyki',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
               centerTitle: true,
               leading: IconButton(

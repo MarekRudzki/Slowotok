@@ -112,7 +112,6 @@ class GameCalendar extends StatelessWidget {
         ),
         daysOfWeekStyle: DaysOfWeekStyle(
           weekdayStyle: TextStyle(
-            fontWeight: FontWeight.w500,
             color: Theme.of(context).colorScheme.primary,
           ),
           weekendStyle: const TextStyle(

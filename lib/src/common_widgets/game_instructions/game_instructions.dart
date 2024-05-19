@@ -59,7 +59,6 @@ class _GameInstructionsState extends State<GameInstructions> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: 200,
                       padding: const EdgeInsets.symmetric(
                         vertical: 7,
                       ),
@@ -99,6 +98,9 @@ class _GameInstructionsState extends State<GameInstructions> {
                         },
                         child: const Text(
                           'OK',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -142,21 +144,6 @@ class _GameInstructionsState extends State<GameInstructions> {
                   ),
                 ),
               ),
-            Positioned(
-              right: 0.0,
-              child: Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

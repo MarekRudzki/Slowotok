@@ -50,7 +50,7 @@ void main() async {
             child: AdaptiveTheme(
               light: CustomTheme.lightTheme,
               dark: CustomTheme.darkTheme,
-              initial: savedThemeMode ?? AdaptiveThemeMode.light,
+              initial: savedThemeMode ?? AdaptiveThemeMode.dark,
               builder: (theme, darkTheme) => MaterialApp(
                 theme: theme,
                 darkTheme: darkTheme,

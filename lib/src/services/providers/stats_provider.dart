@@ -194,12 +194,12 @@ class StatsProvider with ChangeNotifier {
         ? '0${_focusedDay.month}'
         : '${_focusedDay.month}';
 
-    final String currentMonth =
-        '${DateTime.now().year}-$monthConverted'.substring(0, 7);
+    final String dateConverted =
+        '${_focusedDay.year}-$monthConverted'.substring(0, 7);
 
     existingStats.forEach(
       (date, values) {
-        if (values.length == 3 && date.substring(0, 7) == currentMonth) {
+        if (values.length == 3 && date.substring(0, 7) == dateConverted) {
           if (values[0] == true && values[1] == true && values[2] == true) {
             perfectDays++;
           }

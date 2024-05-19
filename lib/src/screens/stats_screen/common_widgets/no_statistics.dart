@@ -10,7 +10,7 @@ class NoStatistics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double remainingHeight = MediaQuery.of(context).size.height -
-        MediaQueryData.fromWindow(window).padding.top -
+        MediaQueryData.fromView(window).padding.top -
         AppBar().preferredSize.height;
 
     return SizedBox(

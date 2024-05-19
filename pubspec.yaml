@@ -2,7 +2,7 @@ name: slowotok
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish
-version: 1.0.0+1
+version: 1.0.1+1
 
 environment:
   sdk: '>=2.18.6 <3.0.0'
@@ -23,6 +23,9 @@ dependencies:
   table_calendar: ^3.0.8
   flutter_rounded_progress_bar: ^0.2.0
   expandable_page_view: ^1.0.17
+  flutter_bloc: ^8.1.5
+  flutter_hooks: ^0.20.5
+  equatable: ^2.0.5
   
 
 dev_dependencies:
@@ -58,3 +61,5 @@ flutter:
     - assets/letter_correct_place.png
     - assets/letter_incorrect_place.png
     - assets/no_letter_in_word.png
+    - assets/logo.png
+    - assets/splash.png

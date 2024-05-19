@@ -189,12 +189,12 @@ class WordsProvider with ChangeNotifier {
     required int gameLevel,
     required bool isWinner,
   }) async {
-    await hiveWordsOfTheDay.changeGameStatus(
-      gameLevel: gameLevel,
-      isWinner: isWinner,
-    );
-
     if (!_isPlayingMissedDay) {
+      await hiveWordsOfTheDay.changeGameStatus(
+        gameLevel: gameLevel,
+        isWinner: isWinner,
+      );
+
       await hiveWordsOfTheDay.addUserWords(
         words: _guesses,
         gameLevel: gameLevel,
@@ -289,7 +289,6 @@ class WordsProvider with ChangeNotifier {
       final List<bool> statsForGivenDay =
           hiveWordsOfTheDay.getWotdStatsForGivenDay(
               date: _selectedDay.toString().substring(0, 10));
-
       statsForGivenDay.map((isWin) {
         isWin ? statusList.add(1) : statusList.add(2);
       }).toList();

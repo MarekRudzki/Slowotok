@@ -50,16 +50,16 @@ class UnlimitedGameMode extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const WordLengthPicker(),
-                              const SizedBox(height: 15),
-                              const WordTotalTriesPicker(),
-                              const SizedBox(height: 20),
-                              const StartGameButton(),
+                              WordLengthPicker(),
+                              SizedBox(height: 15),
+                              WordTotalTriesPicker(),
+                              SizedBox(height: 20),
+                              StartGameButton(),
                             ],
                           ),
                         ),
